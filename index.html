@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Trust Toolkit | Neruda Arts</title>
+  <meta name="description" content="A free toolkit made by students for students, young creators and educators about AI, misleading content and creative work.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Loaded early (not deferred) so the reveal animation never flashes. -->
+  <script src="js/animations.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="progress" aria-hidden="true"><span class="progress__bar"></span></div>
+
+  <header class="site-header">
+    <nav class="nav" aria-label="Main">
+      <a class="nav__brand" href="#top">Digital Trust Toolkit</a>
+      <ul class="nav__links">
+        <li><a href="#trust">Fact-checking</a></li>
+        <li><a href="#creativity">Creativity</a></li>
+        <li><a href="#credit">Credit</a></li>
+        <li><a href="#environment">Environment</a></li>
+        <li><a href="#checklist">Checklist</a></li>
+        <li><a href="#activities">Activities</a></li>
+        <li><a class="nav__cta" href="#test">Play the game</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero__inner">
+        <p class="hero__by">Made by students, with Neruda Arts</p>
+        <h1 class="hero__title">Check it, credit it, then share it.</h1>
+        <p class="hero__lede">
+          A free toolkit for students, young creators and educators about AI,
+          misleading content and creative work, so you can make informed choices
+          about what you trust, make and post.
+        </p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#checklist">Before you post</a>
+          <a class="button button--quiet" href="#test">PLAY</a>
+        </div>
+      </div>
+      <!-- Decorative tile grid: one tile is "off". Purely visual. -->
+      <div class="hero__grid" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <span></span><span class="is-odd"></span><span></span>
+        <span></span><span></span><span></span>
+      </div>
+    </section>
+
+    <!--
+      CONTENT SECTIONS
+      Each section follows the same pattern:
+        .section__summary  – short text, always visible
+        <details>          – "Read more" with in-depth content (add later)
+      To add a new topic, copy one <section> block, change its id,
+      and add a link to it in the nav above.
+
+      Text marked DRAFT in a comment is starter wording for the team to
+      review, rewrite in your own voice, or replace.
+    -->
+
+
+    <section class="section reveal" id="purpose">
+      <h2>What this toolkit is for</h2>
+      <div class="section__summary">
+        <p>
+          AI tools can now make images, voices, writing and videos that look and sound real.
+          That makes it harder to know what to trust, and raises new questions about who made
+          something and who deserves credit.
+        </p>
+        <p>
+          This toolkit was planned, written and designed by six student creators, using what
+          students told us in workshops, focus groups and interviews. It is meant to be easy to
+          understand, interesting, and useful in real life.
+        </p>
+      </div>
+      <details class="deep-dive">
+        <summary>How we made it</summary>
+        <div class="deep-dive__body">
+          <!-- ADD IN-DEPTH CONTENT HERE -->
+          <p class="placeholder-note">Details about the workshops, focus groups, interviews and the creative team will be added here.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section section--wide reveal" id="watch">
+      <h2>Videos and infographics</h2>
+      <div class="section__summary">
+        <p>Two short videos and two infographics from the toolkit.</p>
+      </div>
+      <div class="videos">
+        <figure class="video-card">
+          <div class="video" data-provider="youtube" data-id="" data-title="Video one"></div>
+          <figcaption>Video one title</figcaption>
+        </figure>
+        <figure class="video-card">
+          <div class="video" data-provider="vimeo" data-id="" data-title="Video two"></div>
+          <figcaption>Video two title</figcaption>
+        </figure>
+        <figure class="video-card">
+          <div class="infographic-slot">Infographic coming soon</div>
+          <figcaption>Infographic one title</figcaption>
+        </figure>
+        <figure class="video-card">
+          <div class="infographic-slot">Infographic coming soon</div>
+          <figcaption>Infographic two title</figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+
+    <section class="section reveal" id="trust">
+      <h2>Trust and fact-checking</h2>
+      <div class="section__summary">
+        <p>
+          How can we check whether an image, voice, piece of writing or video was made by AI,
+          or is misleading in some other way? No single clue proves it, and the tools improve
+          every year, so the goal is to build good checking habits.
+        </p>
+      </div>
+      <!-- DRAFT: starter tips for the team to review and expand -->
+      <div class="signs signs--four">
+        <div class="signs__col">
+          <h3>Images</h3>
+          <ul>
+            <li>Zoom in on text, hands and backgrounds.</li>
+            <li>Check shadows and reflections against the light.</li>
+            <li>Use a reverse image search to find where it first appeared.</li>
+          </ul>
+        </div>
+        <div class="signs__col">
+          <h3>Voices</h3>
+          <ul>
+            <li>Listen for flat emotion, odd pauses or missing breaths.</li>
+            <li>Ask whether the person would really say this.</li>
+            <li>Look for the original recording from a trusted source.</li>
+          </ul>
+        </div>
+        <div class="signs__col">
+          <h3>Writing</h3>
+          <ul>
+            <li>Check facts, names and quotes somewhere else.</li>
+            <li>Notice smooth but vague writing with no real detail.</li>
+            <li>Find out who wrote it and why.</li>
+          </ul>
+        </div>
+        <div class="signs__col">
+          <h3>Videos</h3>
+          <ul>
+            <li>Watch lips, eyes and edges of faces as people move.</li>
+            <li>Find who posted it first, and when.</li>
+            <li>Be extra careful when a clip makes you angry or shocked.</li>
+          </ul>
+        </div>
+      </div>
+      <details class="deep-dive">
+        <summary>Decision guide and examples</summary>
+        <div class="deep-dive__body">
+          <!-- ADD IN-DEPTH CONTENT HERE -->
+          <p class="placeholder-note">A simple decision guide for checking content, with examples, will be added here.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section reveal" id="creativity">
+      <h2>Creativity and ownership</h2>
+      <div class="section__summary">
+        <p>
+          Every creator learns from others. The question is where learning from someone’s work
+          turns into taking it. These three ideas help draw the line.
+        </p>
+      </div>
+      <!-- DRAFT: starter definitions for the team to review -->
+      <dl class="terms">
+        <div class="terms__item">
+          <dt>Inspiration</dt>
+          <dd>Another work gives you an idea, a feeling or a direction, and you make something new and your own.</dd>
+        </div>
+        <div class="terms__item">
+          <dt>Remixing</dt>
+          <dd>You take parts of an existing work and change, combine or build on them, and you credit where they came from.</dd>
+        </div>
+        <div class="terms__item">
+          <dt>Copying</dt>
+          <dd>You reuse someone’s work, or most of it, and present it as yours without permission or credit.</dd>
+        </div>
+      </dl>
+      <details class="deep-dive">
+        <summary>Examples from different creative fields</summary>
+        <div class="deep-dive__body">
+          <!-- ADD IN-DEPTH CONTENT HERE -->
+          <p class="placeholder-note">Examples from music, visual art, writing, film, design and other fields will be added here.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section reveal" id="credit">
+      <h2>Credit, permission and honesty</h2>
+      <div class="section__summary">
+        <p>
+          When should you credit someone, ask permission first, or say that AI was used?
+          Being open about how something was made helps people trust you and your work.
+        </p>
+      </div>
+      <!-- DRAFT: starter questions and captions for the team to review -->
+      <div class="signs">
+        <div class="signs__col">
+          <h3>Credit people when</h3>
+          <ul>
+            <li>You use or build on their work, idea, photo or music.</li>
+            <li>Someone helped you make it.</li>
+          </ul>
+        </div>
+        <div class="signs__col">
+          <h3>Ask permission when</h3>
+          <ul>
+            <li>You want to share someone else’s work or likeness.</li>
+            <li>A person can be identified in what you post.</li>
+          </ul>
+        </div>
+        <div class="signs__col">
+          <h3>Say AI was used when</h3>
+          <ul>
+            <li>AI made or changed any part of the image, voice, text or video.</li>
+            <li>People could reasonably assume you made it all yourself.</li>
+          </ul>
+        </div>
+      </div>
+      <h3 class="subhead">Sample captions</h3>
+      <div class="captions">
+        <figure class="caption-card">
+          <blockquote>Photo and edit by me. Background generated with an AI image tool.</blockquote>
+          <figcaption>Saying which part AI made</figcaption>
+        </figure>
+        <figure class="caption-card">
+          <blockquote>Remix of “Song title” by Artist Name, used with permission.</blockquote>
+          <figcaption>Crediting a remix</figcaption>
+        </figure>
+        <figure class="caption-card">
+          <blockquote>Inspired by the paintings of Artist Name. All drawing done by hand.</blockquote>
+          <figcaption>Naming an inspiration</figcaption>
+        </figure>
+      </div>
+      <details class="deep-dive">
+        <summary>Decision guide and more captions</summary>
+        <div class="deep-dive__body">
+          <!-- ADD IN-DEPTH CONTENT HERE -->
+          <p class="placeholder-note">A decision guide for crediting, asking permission and disclosing AI use, with more sample captions, will be added here.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section reveal" id="environment">
+      <h2>AI and the environment</h2>
+      <div class="section__summary">
+        <p>
+          Using AI takes energy, and the data centres that run it also use water to stay cool.
+          How can we reduce our AI footprint and use AI more thoughtfully?
+        </p>
+      </div>
+      <details class="deep-dive">
+        <summary>Read more and practical tips</summary>
+        <div class="deep-dive__body">
+          <!-- ADD IN-DEPTH CONTENT HERE -->
+          <p class="placeholder-note">Information on energy and water use, and practical ways to use AI more thoughtfully, will be added here.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- BEFORE YOU POST: the one-page checklist. "Print the checklist" prints only this section. -->
+    <section class="section reveal" id="checklist">
+      <h2>Before you post</h2>
+      <div class="section__summary">
+        <p>A one-page checklist for checking, crediting and sharing responsibly. Tick each box before you hit post.</p>
+      </div>
+      <!-- DRAFT: starter checklist items for the team to review -->
+      <div class="checklist">
+        <fieldset class="checklist__group">
+          <legend>Check</legend>
+          <label><input type="checkbox"> I know where this came from and who made it.</label>
+          <label><input type="checkbox"> I checked any facts, quotes or claims in another source.</label>
+          <label><input type="checkbox"> I looked for signs it might be AI-generated or edited to mislead.</label>
+        </fieldset>
+        <fieldset class="checklist__group">
+          <legend>Credit</legend>
+          <label><input type="checkbox"> I credited the people whose work I used or built on.</label>
+          <label><input type="checkbox"> I have permission to share other people’s work or images.</label>
+          <label><input type="checkbox"> I said clearly if and how AI was used.</label>
+        </fieldset>
+        <fieldset class="checklist__group">
+          <legend>Share</legend>
+          <label><input type="checkbox"> Nobody can be identified without their permission.</label>
+          <label><input type="checkbox"> I would be comfortable if the creator saw how I used their work.</label>
+          <label><input type="checkbox"> I paused before sharing something that made me angry or shocked.</label>
+        </fieldset>
+      </div>
+      <div class="checklist__actions">
+        <button class="button button--quiet" type="button" id="checklist-print">Print the checklist</button>
+        <button class="button button--small" type="button" id="checklist-clear">Clear ticks</button>
+      </div>
+    </section>
+
+    <section class="section reveal" id="activities">
+      <h2>Learning activities</h2>
+      <div class="section__summary">
+        <p>
+          Short examples, discussion questions and exercises that students and teachers
+          can use in class, in a workshop or on their own.
+        </p>
+      </div>
+      <details class="deep-dive">
+        <summary>Discussion questions</summary>
+        <div class="deep-dive__body">
+          <!-- ADD DISCUSSION QUESTIONS HERE -->
+          <p class="placeholder-note">Discussion questions will be added here.</p>
+        </div>
+      </details>
+      <details class="deep-dive">
+        <summary>Exercises and examples</summary>
+        <div class="deep-dive__body">
+          <!-- ADD EXERCISES HERE -->
+          <p class="placeholder-note">Ready-to-use exercises will be added here.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- GAME (one of the learning activities) -->
+    <section class="section section--wide game-section reveal" id="test">
+      <h2>Spot the AI image!</h2>
+      <div class="section__summary">
+        <p>
+          Each round shows a few images. One of them was made by AI.
+          Find it as fast as you can. Your speed and accuracy are compared with the average player.
+        </p>
+      </div>
+
+      <div class="game" id="game">
+        <!-- Start screen -->
+        <div class="game__screen" data-screen="start">
+          <p class="game__meta"><span id="game-round-count">10</span> rounds. Click a tile, or press its number key. Press Esc to quit.</p>
+          <button class="button button--primary" type="button" id="game-start">Start the test</button>
+        </div>
+
+        <!-- Play screen -->
+        <div class="game__screen" data-screen="play" hidden>
+          <div class="game__status">
+            <span id="game-progress">Round 1 of 10</span>
+            <span class="game__status-right">
+              <span id="game-timer" aria-hidden="true">0.0 s</span>
+              <button class="button button--small" type="button" id="game-quit">Quit</button>
+            </span>
+          </div>
+          <div class="game__timebar" aria-hidden="true"><span id="game-timebar"></span></div>
+          <p class="game__prompt" id="game-prompt">Which one was made by AI?</p>
+          <div class="game__tiles" id="game-tiles"></div>
+          <p class="game__feedback" id="game-feedback" aria-live="polite"></p>
+        </div>
+
+        <!-- Results screen -->
+        <div class="game__screen" data-screen="results" hidden>
+          <h3 class="game__results-title" id="results-headline" tabindex="-1">Your results</h3>
+          <div class="compare" id="results-compare"></div>
+          <p class="game__summary" id="results-summary"></p>
+          <p class="game__note" id="results-note"></p>
+          <button class="button button--primary" type="button" id="game-again">Play again</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="voices">
+      <h2>Student voices</h2>
+      <div class="section__summary">
+        <p>
+          What students said in our workshops, focus groups and interviews.
+          Nobody is named unless they gave permission.
+        </p>
+      </div>
+      <!-- ADD STUDENT QUOTES HERE. Copy a <figure> block for each quote.
+           Only include a name if the student has given permission. -->
+      <div class="quotes">
+        <figure class="quote">
+          <blockquote><p class="placeholder-note">A student quote will go here.</p></blockquote>
+          <figcaption>Student, workshop participant</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote><p class="placeholder-note">A student quote will go here.</p></blockquote>
+          <figcaption>Student, focus group</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!--
+      VIDEOS AND INFOGRAPHICS
+      Videos are hosted on YouTube or Vimeo and embedded here.
+      For each video, set:
+        data-provider = "youtube" or "vimeo"
+        data-id       = the video's ID
+                        YouTube: youtube.com/watch?v=THIS_PART
+                        Vimeo:   vimeo.com/THIS_NUMBER
+        data-title    = a short title (used for accessibility)
+      The player only loads when a visitor presses play, which keeps the page fast.
+      Leave data-id empty to show a "coming soon" placeholder.
+
+      Infographics: put the image in assets/images/ and replace the
+      placeholder <div> with an <img> that has a full text description in alt
+      (or a "Text version" <details> below it) so it stays accessible.
+    -->
+    
+
+    <section class="section reveal" id="share">
+      <h2>Download and share</h2>
+      <div class="section__summary">
+        <p>
+          The toolkit is free. You can use it online here or download it as an accessible PDF
+          to share with other students and educators.
+        </p>
+        <!-- When the PDF is ready, put it in assets/ and replace the line below with:
+             <a class="button button--primary" href="assets/digital-trust-toolkit.pdf" download>Download the PDF</a> -->
+        <p class="placeholder-note">The downloadable PDF will be available here.</p>
+      </div>
+      <details class="deep-dive">
+        <summary>Ideas for sharing the toolkit</summary>
+        <div class="deep-dive__body">
+          <!-- ADD SHARING SUGGESTIONS HERE -->
+          <p class="placeholder-note">Suggestions for sharing the toolkit with students and educators will be added here.</p>
+        </div>
+      </details>
+    </section>
+
+    <section class="section reveal" id="about">
+      <h2>About the team</h2>
+      <div class="section__summary">
+        <p>
+          The Digital Trust Toolkit was created by six student creators, with guidance and
+          mentorship from Neruda Arts.
+          <!-- Add team names and roles here (only with each person’s permission). -->
+        </p>
+      </div>
+      <details class="deep-dive">
+        <summary>Sources and credits</summary>
+        <div class="deep-dive__body">
+          <!-- ADD SOURCES AND CREDITS HERE -->
+          <p class="placeholder-note">Sources and credits will be listed here.</p>
+        </div>
+      </details>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>The Digital Trust Toolkit, created by students with <a href="https://nerudaarts.ca">Neruda Arts</a>.</p>
+  </footer>
+
+  <script src="js/video.js" defer></script>
+  <script src="js/checklist.js" defer></script>
+  <script src="js/game-data.js" defer></script>
+  <script src="js/game.js" defer></script>
+</body>
+</html>
