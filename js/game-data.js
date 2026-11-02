@@ -6,7 +6,7 @@
 const GAME_CONFIG = {
   // How many rounds per game. If you have more rounds than this,
   // a random selection is used each time, so replays feel different.
-  roundsPerGame: 10,
+  roundsPerGame: 7,
 
   // Seconds before a round times out (counts as a miss).
   timeLimitSeconds: 15,
