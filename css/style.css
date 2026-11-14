@@ -417,8 +417,22 @@ a:hover { text-decoration-thickness: 2px; }
 /* ---------- Footer ---------- */
 .site-footer {
   border-top: 1px solid var(--line);
-  padding: 2rem var(--gutter); text-align: center;
+  padding: 2.5rem var(--gutter) 3rem; text-align: center;
   color: var(--muted); font-size: 0.95rem;
+  display: grid; justify-items: center; gap: 1.75rem;
+}
+
+.site-footer p { margin: 0; }
+
+/* Canada funding graphic: wide enough that its words stay easy to read */
+.funding { display: block; width: min(100%, 40rem); }
+.funding__graphic { width: 100%; height: auto; }
+
+/* On phones the graphic shrinks, so the same statement also appears as text */
+.funding__text { display: none; color: var(--ink); line-height: 1.5; }
+.funding__text span { display: block; }
+@media (max-width: 44rem) {
+  .funding__text { display: block; }
 }
 
 /* ---------- Scroll reveal (light animation) ----------
@@ -447,13 +461,15 @@ a:hover { text-decoration-thickness: 2px; }
    "Print the checklist": only the checklist, on one page. */
 @media print {
   .site-header, .progress, .skip-link, .hero__grid, .game-section,
-  .site-footer, .checklist__actions, #watch { display: none !important; }
+  .checklist__actions, #watch, .funding__text { display: none !important; }
+  .site-footer { border-top: 0; color: #000; }
   body { background: #fff; color: #000; font-size: 11pt; }
   .js .reveal { opacity: 1; transform: none; }
   .section { border-top: 0; padding: 1rem 0; }
   details.deep-dive > *:not(summary) { display: block; }
 
-  body.print-checklist main > *:not(#checklist) { display: none !important; }
+  body.print-checklist main > *:not(#checklist),
+  body.print-checklist .site-footer__credit { display: none !important; }
   body.print-checklist #checklist { padding: 0; }
   body.print-checklist .checklist label { padding: 0.35rem 0; }
 }

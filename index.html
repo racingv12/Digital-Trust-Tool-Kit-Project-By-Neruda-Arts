@@ -462,7 +462,23 @@
   </main>
 
   <footer class="site-footer">
-    <p>The Digital Trust Toolkit, created by students with <a href="https://nerudaarts.ca">Neruda Arts</a>.</p>
+    <p class="site-footer__credit">The Digital Trust Toolkit, created by students with <a href="https://nerudaarts.ca">Neruda Arts</a>.</p>
+
+    <!-- Government of Canada funding acknowledgement (links to Canada.ca) -->
+    <a class="funding" href="https://www.canada.ca/en.html">
+      <picture>
+        <source srcset="assets/images/funding/canada-funding-colour.png" media="screen and (prefers-color-scheme: dark)">
+        <img class="funding__graphic"
+             src="assets/images/funding/canada-funding-colour.png"
+             width="1470" height="150" loading="lazy"
+            alt="Funded by the Government of Canada. Financé par le gouvernement du Canada. Canada.ca">
+        </picture>
+    </a>
+    <!-- Text version, shown only on phones where the graphic's words get too small -->
+    <p class="funding__text" aria-hidden="true">
+      <span>This project is funded in part by the Government of Canada.</span>
+      <span lang="fr">Ce projet est financé en partie par le gouvernement du Canada.</span>
+    </p>
   </footer>
 
   <script src="js/video.js" defer></script>
