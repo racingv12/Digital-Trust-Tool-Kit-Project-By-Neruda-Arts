@@ -128,8 +128,48 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--mark-ink); background: var(--mark);
   padding: 0.35rem 0.8rem; border-radius: var(--radius); font-weight: 700;
 }
-@media (max-width: 720px) {
+@media (max-width: 1100px) {
   .nav__links li:not(:last-child) { display: none; }
+}
+
+/* Translate menu */
+.translate { position: relative; flex: none; }
+.translate summary {
+  list-style: none; cursor: pointer;
+  font-size: 0.95rem; color: var(--muted);
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+.translate summary::-webkit-details-marker { display: none; }
+.translate summary { display: flex; align-items: center; gap: 0.4rem; }
+.translate__icon { flex: none; }
+/* Narrow phones: globe icon only, so the brand, CTA and Translate fit on one line */
+@media (max-width: 480px) {
+  .nav { gap: 0.6rem; }
+  .nav__brand { font-size: 1rem; }
+  .nav__links .nav__cta { padding: 0.35rem 0.6rem; }
+  .translate summary { padding: 0.35rem 0.5rem; }
+  .translate__label {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+}
+.translate summary:hover, .translate[open] summary { color: var(--ink); border-color: var(--ink); }
+.translate__menu {
+  position: absolute; right: 0; top: calc(100% + 0.5rem); z-index: 70;
+  width: 15rem; padding: 0.5rem;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+}
+.translate__menu ul { list-style: none; margin: 0; padding: 0; }
+.translate__menu a {
+  display: block; padding: 0.45rem 0.6rem; border-radius: 4px;
+  text-decoration: none; color: var(--ink);
+}
+.translate__menu a:hover { background: var(--paper); }
+.translate__note {
+  margin: 0.4rem 0.6rem 0.2rem; font-size: 0.8rem;
+  line-height: 1.4; color: var(--muted);
 }
 
 /* ---------- Buttons ---------- */
