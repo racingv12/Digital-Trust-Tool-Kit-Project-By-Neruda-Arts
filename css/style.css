@@ -146,7 +146,9 @@ a:hover { text-decoration-thickness: 2px; }
 /* Narrow phones: globe icon only, so the brand, CTA and Translate fit on one line */
 @media (max-width: 480px) {
   .nav { gap: 0.6rem; }
-  .nav__brand { font-size: 1rem; }
+  /* Keep "Play the game" whole; the site name wraps to two lines if space runs out */
+  .nav__brand { font-size: 1rem; min-width: 0; white-space: normal; line-height: 1.15; }
+  .nav__links { flex: none; overflow: visible; }
   .nav__links .nav__cta { padding: 0.35rem 0.6rem; }
   .translate summary { padding: 0.35rem 0.5rem; }
   .translate__label {
