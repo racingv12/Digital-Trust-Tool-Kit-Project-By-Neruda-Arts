@@ -1,5 +1,10 @@
 /* =========================================================
-   "The test" – find the AI-generated item as fast as you can.
+   Spot the AI image – find the AI-generated item in each round.
+   Two modes:
+     - Normal: a time limit per round, with your average time in the results.
+     - Practice: no timer, no time limit and no speed result.
+   After each answer the player reads the explanation and moves on with
+   the "Next round" button (no automatic advance, WCAG 2.2.1).
    Content and settings live in game-data.js.
    ========================================================= */
 
@@ -13,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ? config.roundsPerGame
     : Math.min(config.roundsPerGame, GAME_ROUNDS.length);
   const limitMs = config.timeLimitSeconds * 1000;
-  const FEEDBACK_PAUSE_MS = 1100;
 
   // Elements
   const screens = {
@@ -24,16 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const el = {
     roundCount: document.getElementById('game-round-count'),
     start: document.getElementById('game-start'),
+    practice: document.getElementById('game-practice'),
     again: document.getElementById('game-again'),
+    againPractice: document.getElementById('game-again-practice'),
+    next: document.getElementById('game-next'),
     quit: document.getElementById('game-quit'),
     progress: document.getElementById('game-progress'),
     timer: document.getElementById('game-timer'),
     timebar: document.getElementById('game-timebar'),
+    timebarTrack: document.getElementById('game-timebar-track'),
     prompt: document.getElementById('game-prompt'),
     tiles: document.getElementById('game-tiles'),
     feedback: document.getElementById('game-feedback'),
     headline: document.getElementById('results-headline'),
-    compare: document.getElementById('results-compare'),
+    stats: document.getElementById('results-stats'),
     summary: document.getElementById('results-summary'),
     note: document.getElementById('results-note')
   };
@@ -48,19 +56,25 @@ document.addEventListener('DOMContentLoaded', () => {
   let accepting = false;   // true while the player can answer
   let rafId = null;
   let timeoutId = null;     // round time limit
-  let nextRoundId = null;   // pause between rounds
   let gameId = 0;           // increases on start/quit so stale async steps stop
+  let practice = false;     // practice mode: no timer, no speed result
 
-  el.start.addEventListener('click', startGame);
-  el.again.addEventListener('click', startGame);
+  el.start.addEventListener('click', () => startGame(false));
+  el.practice.addEventListener('click', () => startGame(true));
+  el.again.addEventListener('click', () => startGame(false));
+  el.againPractice.addEventListener('click', () => startGame(true));
+  el.next.addEventListener('click', nextRound);
   el.quit.addEventListener('click', quitGame);
   document.addEventListener('keydown', onKey);
 
   /* ---------- Flow ---------- */
 
-  function startGame() {
+  function startGame(isPractice) {
     stopTimers();
     gameId += 1;
+    practice = isPractice;
+    el.timer.hidden = practice;
+    el.timebarTrack.hidden = practice;
     rounds = demoMode ? makeDemoRounds(roundsPerGame) : shuffle([...GAME_ROUNDS]).slice(0, roundsPerGame);
     current = 0;
     results = [];
@@ -73,7 +87,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const round = rounds[current];
     accepting = false;
     el.feedback.textContent = '';
-    el.progress.textContent = `Round ${current + 1} of ${rounds.length}`;
+    el.next.hidden = true;
+    el.progress.textContent = practice
+      ? `Practice round ${current + 1} of ${rounds.length}`
+      : `Round ${current + 1} of ${rounds.length}`;
     el.prompt.textContent = round.prompt ||
       (round.type === 'text' ? 'Which passage was written by AI?' : 'Which image was made by AI?');
     el.timer.textContent = '0.0 s';
@@ -90,8 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     roundStart = performance.now();
     accepting = true;
-    tick();
-    timeoutId = setTimeout(() => answer(-1), limitMs);
+    if (!practice) {
+      tick();
+      timeoutId = setTimeout(() => answer(-1), limitMs);
+    }
   }
 
   function answer(choice) {
@@ -116,18 +135,22 @@ document.addEventListener('DOMContentLoaded', () => {
     let message = timedOut
       ? `Time’s up. The AI one was number ${round.aiIndex + 1}.`
       : correct
-        ? `Correct, in ${seconds} s.`
+        ? (practice ? 'Correct.' : `Correct, in ${seconds} s.`)
         : `Not this one. The AI one was number ${round.aiIndex + 1}.`;
     if (round.explain) message += ' ' + round.explain;
     el.feedback.textContent = message;
 
-    // Longer pause if there's an explanation to read
-    const pause = round.explain ? FEEDBACK_PAUSE_MS + 2200 : FEEDBACK_PAUSE_MS;
-    nextRoundId = setTimeout(() => {
-      current += 1;
-      if (current < rounds.length) playRound();
-      else showResults();
-    }, pause);
+    // The player moves on when ready, so there is time to read the explanation.
+    el.next.textContent = current + 1 < rounds.length ? 'Next round' : 'See your results';
+    el.next.hidden = false;
+    el.next.focus({ preventScroll: true });
+  }
+
+  function nextRound() {
+    if (accepting || screens.play.hidden) return;
+    current += 1;
+    if (current < rounds.length) playRound();
+    else showResults();
   }
 
   /* ---------- Quit ----------
@@ -139,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
     accepting = false;
     el.tiles.replaceChildren();
     el.feedback.textContent = '';
+    el.next.hidden = true;
     show('start');
     el.start.focus();
   }
@@ -146,7 +170,6 @@ document.addEventListener('DOMContentLoaded', () => {
   function stopTimers() {
     cancelAnimationFrame(rafId);
     clearTimeout(timeoutId);
-    clearTimeout(nextRoundId);
   }
 
   function tick() {
@@ -201,92 +224,39 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Results ---------- */
 
   function showResults() {
-    const b = config.baseline;
     const correctCount = results.filter(r => r.correct).length;
     const accuracy = correctCount / results.length;
     const avgTime = results.reduce((sum, r) => sum + r.timeMs, 0) / results.length / 1000;
 
-    // Share of average players you were faster than (assumes a bell-curve spread)
-    const fasterThan = Math.round(
-      (1 - normalCdf((avgTime - b.avgTimeSeconds) / b.timeSpreadSeconds)) * 100
-    );
-
-    // Exposed for playtesting: collect these to calculate a real baseline.
-    window.__lastResults = { accuracy, avgTimeSeconds: avgTime, rounds: results.length };
-
     el.headline.textContent = `You found ${correctCount} of ${results.length}`;
 
-    const maxTime = Math.max(avgTime, b.avgTimeSeconds) * 1.15;
-    el.compare.replaceChildren(
-      compareBlock('Accuracy', [
-        ['You', accuracy, `${Math.round(accuracy * 100)}%`, 'you'],
-        ['Average', b.accuracy, `${Math.round(b.accuracy * 100)}%`, 'avg']
-      ]),
-      compareBlock('Average time per round (shorter is faster)', [
-        ['You', avgTime / maxTime, `${avgTime.toFixed(1)} s`, 'you'],
-        ['Average', b.avgTimeSeconds / maxTime, `${b.avgTimeSeconds.toFixed(1)} s`, 'avg']
-      ])
-    );
-
-    // Animate bars after they're on screen
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      el.compare.querySelectorAll('.compare__fill').forEach(f => {
-        f.style.width = `${Math.round(Number(f.dataset.ratio) * 100)}%`;
-      });
+    // Only the player's own score. Practice mode has no speed result.
+    const stats = [
+      ['Correct answers', `${correctCount} of ${results.length}`],
+      ['Accuracy', `${Math.round(accuracy * 100)}%`]
+    ];
+    if (!practice) stats.push(['Average time per round', `${avgTime.toFixed(1)} s`]);
+    el.stats.replaceChildren(...stats.map(([label, value]) => {
+      const wrap = document.createElement('div');
+      const dt = document.createElement('dt');
+      const dd = document.createElement('dd');
+      dt.textContent = label;
+      dd.textContent = value;
+      wrap.append(dt, dd);
+      return wrap;
     }));
 
-    el.summary.textContent = summaryText(accuracy, avgTime, fasterThan, b);
+    el.summary.textContent = accuracy >= 0.7
+      ? 'Nice work. Keep using the same habits when you scroll: pause, zoom in and check the source.'
+      : 'These are hard to spot, and that’s the point: no single clue proves an image was made by AI. ' +
+        (practice ? 'Read the clue after each round, then try again.' : 'Try practice mode and read the clue after each round.');
 
-    const notes = [];
-    if (b.isPlaceholder) notes.push('The average figures are placeholders until real data is added.');
-    if (demoMode) notes.push('Demo mode: these are practice patterns, not real AI images. Add rounds in game-data.js.');
-    el.note.textContent = notes.join(' ');
+    el.note.textContent = demoMode
+      ? 'Demo mode: these are practice patterns, not real AI images. Add rounds in game-data.js.'
+      : '';
 
     show('results');
     el.headline.focus?.();
-  }
-
-  function compareBlock(label, rows) {
-    const wrap = document.createElement('div');
-    const title = document.createElement('div');
-    title.className = 'compare__label';
-    title.textContent = label;
-    wrap.appendChild(title);
-
-    rows.forEach(([name, ratio, valueText, kind]) => {
-      const row = document.createElement('div');
-      row.className = 'compare__row';
-      row.innerHTML =
-        `<span>${name}</span>` +
-        `<span class="compare__track"><span class="compare__fill compare__fill--${kind}"></span></span>` +
-        `<span class="compare__value">${valueText}</span>`;
-      row.querySelector('.compare__fill').dataset.ratio = Math.max(0, Math.min(1, ratio));
-      wrap.appendChild(row);
-    });
-    return wrap;
-  }
-
-  function summaryText(accuracy, avgTime, fasterThan, b) {
-    const accDiff = Math.round((accuracy - b.accuracy) * 100);
-    const timeDiff = Math.abs(avgTime - b.avgTimeSeconds).toFixed(1);
-
-    const accPart = accDiff > 0
-      ? `${accDiff} points more accurate than average`
-      : accDiff < 0
-        ? `${Math.abs(accDiff)} points less accurate than average`
-        : 'exactly as accurate as average';
-
-    const speedPart = avgTime < b.avgTimeSeconds
-      ? `${timeDiff} s faster per round`
-      : avgTime > b.avgTimeSeconds
-        ? `${timeDiff} s slower per round`
-        : 'right on the average pace';
-
-    let text = `You were ${accPart}, and ${speedPart}. That’s quicker than about ${fasterThan}% of players.`;
-    if (avgTime < b.avgTimeSeconds && accuracy < b.accuracy - 0.15) {
-      text += ' Speed only counts if you’re right, though. Try slowing down and looking for the signs.';
-    }
-    return text;
   }
 
   /* ---------- Helpers ---------- */
@@ -306,14 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return arr;
   }
 
-  // Standard normal cumulative distribution (Abramowitz–Stegun approximation)
-  function normalCdf(z) {
-    const t = 1 / (1 + 0.2316419 * Math.abs(z));
-    const d = 0.3989423 * Math.exp(-z * z / 2);
-    const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
-    return z > 0 ? 1 - p : p;
-  }
-
   /* ---------- Demo rounds (used only while GAME_ROUNDS is empty) ----------
      Each tile is a grid of dots. In the "AI" tile one dot is a ring.
      This lets you test timing and results before real content exists. */
@@ -327,7 +289,13 @@ document.addEventListener('DOMContentLoaded', () => {
       for (let i = 0; i < n; i++) {
         items.push({ src: demoSvg(i === aiIndex), alt: `Pattern ${i + 1}` });
       }
-      list.push({ type: 'image', prompt: 'Demo: find the tile with one ring among the dots.', items, aiIndex });
+      list.push({
+        type: 'image',
+        prompt: 'Demo: find the tile with one ring among the dots.',
+        items,
+        aiIndex,
+        explain: 'Look closely at every dot: in the odd tile, one dot is an empty ring.'
+      });
     }
     return list;
   }

@@ -10,7 +10,7 @@ css/style.css       All styling (colours and fonts are at the top, in :root)
 js/animations.js    Scroll reveal, reading progress bar, active nav link
 js/video.js         YouTube / Vimeo embeds that load on click
 js/checklist.js     Print and clear buttons for the Before-you-post checklist
-js/game-data.js     Game rounds and "average human" figures  ← edit this for the game
+js/game-data.js     Game rounds and settings  ← edit this for the game
 js/game.js          Game logic (normally no need to edit)
 assets/images/      Images used on the page
 assets/game/        Images used in the game
@@ -44,9 +44,33 @@ The player only loads after a visitor presses play, which keeps the page fast an
 
 ## Page sections
 
-The page follows the Digital Trust Toolkit brief: What this toolkit is for, Trust and fact-checking, Creativity and ownership, Credit, permission and honesty (with sample captions), AI and the environment, Before you post (checklist), Learning activities, the spot-the-AI-image game, Student voices, Videos and infographics, Download and share, and About the team.
+One page, in this order (from Anum's website audit, November 2026):
 
-Text marked `<!-- DRAFT -->` in `index.html` is starter wording for the team to review and rewrite. Grey italic lines are placeholders for content still to come.
+1. Intro (hero)
+2. What this toolkit is for (`#purpose`)
+3. Game: Spot the AI image! (`#test`)
+4. Trust and fact-checking (`#trust`)
+5. Creativity and ownership (`#creativity`)
+6. Credit, permission and honesty (`#credit`)
+7. Before you post or upload, with the checklist (`#checklist`)
+8. Feeling overwhelmed? You're not alone (`#voices`)
+9. Learning activities (`#activities`)
+10. Videos and infographics (`#watch`)
+11. AI and the environment, kept short (`#environment`)
+12. Download and share (`#share`)
+13. About the team (`#about`)
+
+The menu links only to the main topics: Fact-checking, Creativity and credit, Before you post, You're not alone, Activities, and the yellow Play the game button. The other sections are reached by scrolling.
+
+Don't leave placeholder text on the page: until content is ready, hide or remove an empty section rather than showing "will be added here".
+
+## Translate menu
+
+The Translate menu links to Google Translate's copy of the **live** site at https://digitaltrust.nerudaarts.ca. Until the toolkit is published at that address, the links show whatever page is there now (for example an "under development" page), not the toolkit. To test earlier, temporarily change the address after `u=` in each link to the beta address.
+
+## Footer
+
+The footer shows the Neruda Arts credit and the Government of Canada funding acknowledgement (`assets/images/funding/`, with a white version for dark mode). The Neruda Arts logo goes next to it, in the `.footer-logos` block in `index.html`, once it is shared: save it in `assets/images/` (not loaded from another website, so `_headers` doesn't need changing).
 
 "Print the checklist" prints only the checklist, on one page. Printing the page normally prints the whole toolkit without the navigation, videos or game.
 
@@ -72,20 +96,13 @@ To add a new topic, copy a full `<section class="section reveal" id="…">` bloc
 Open `js/game-data.js`:
 
 - **Rounds:** add objects to `GAME_ROUNDS` (the file shows the format for image and text rounds). Each round has 2 to 4 items and one AI-generated item, marked by `aiIndex` (counting from 0). While the list is empty, the game runs in demo mode with practice patterns.
+- **Explanations:** give every round an `explain` sentence about the clue (for example "Look at the hands: the fingers merge together."). It is shown after the player answers, and they move on with the Next round button when they're ready, so nothing advances automatically.
+- **Practice mode:** the "Practice (no timer)" button starts a game with no time limit, no timer on screen and no speed result. The normal game has a time limit per round (`timeLimitSeconds`) and shows the player's average time.
+- **Results:** players see only their own score (correct answers, accuracy and, outside practice mode, average time). There is no comparison with other players, since we don't have real data for one.
+- **AI-use note:** the note under the game, and the AI-use line in About › Sources and credits, should name the AI tool used to make the game images.
 - **Images:** put them in `assets/game/`, around 600 × 600 px and under 150 KB each.
 - **Quitting:** players can leave a game at any time with the Quit button or the Esc key. This returns them to the start screen and nothing from the unfinished game is scored.
 - **Rounds per game:** if you add more rounds than `roundsPerGame`, players get a random selection each time.
-
-### The "average human" figures
-
-`GAME_CONFIG.baseline` holds the numbers players are compared against. They are placeholders now. Two ways to replace them:
-
-1. **Use a published study** on how well people detect AI-generated images or text, and cite it in the About section.
-2. **Collect your own:** have 15 or more people play the finished game. After each game, note their accuracy and average time from the results screen (or, in the browser console, run `copy(JSON.stringify(window.__lastResults))` to copy the exact numbers). Average them, and use the spread of their times for `timeSpreadSeconds`.
-
-Then set `isPlaceholder: false` to remove the note on the results screen.
-
-Collecting your own data is usually the better fit, since it measures your actual rounds rather than a different test.
 
 ## Security headers
 

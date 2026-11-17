@@ -9,18 +9,8 @@ const GAME_CONFIG = {
   roundsPerGame: 7,
 
   // Seconds before a round times out (counts as a miss).
-  timeLimitSeconds: 15,
-
-  // The "average human" to compare players against.
-  // Replace these with real figures: either from a published study you cite
-  // in the About section, or by averaging results from people who playtest
-  // the game (see README for how).
-  baseline: {
-    accuracy: 0.62,          // share of rounds answered correctly (0 to 1)
-    avgTimeSeconds: 6.0,     // average seconds per round
-    timeSpreadSeconds: 2.5,  // standard deviation of time (how much people vary)
-    isPlaceholder: true      // set to false once the numbers above are real
-  }
+  // Practice mode has no time limit.
+  timeLimitSeconds: 15
 };
 
 /* ---------------------------------------------------------
@@ -37,7 +27,7 @@ const GAME_CONFIG = {
        { src: 'assets/game/round1-c.jpg', alt: 'A crowded street market' }
      ],
      aiIndex: 2,          // position of the AI item, counting from 0
-     explain: 'Look at the shop signs: the lettering is nonsense.'  // optional
+     explain: 'Look at the shop signs: the lettering is nonsense.'
    }
 
    Text round:
@@ -46,8 +36,12 @@ const GAME_CONFIG = {
      prompt: 'Which passage was written by AI?',
      items: [ 'First passage…', 'Second passage…' ],
      aiIndex: 0,
-     explain: 'Optional explanation shown after answering.'
+     explain: 'One sentence about the clue that gives it away.'
    }
+
+   Every round needs an "explain" sentence: it is shown after the player
+   answers, so they learn the clue (for example "Look at the hands: the
+   fingers merge together."). Audio rounds are not supported yet.
 
    Keep images small (around 600 x 600 px, under 150 KB, JPG or WebP)
    and put them in assets/game/.

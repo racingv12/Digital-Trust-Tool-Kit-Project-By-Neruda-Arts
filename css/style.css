@@ -10,6 +10,7 @@
   --muted:      #5B6478;   /* secondary text */
   --line:       #CDD3DD;   /* borders */
   --mark:       #F2D541;   /* highlighter yellow: the one bold accent */
+  --mark-hover: #E3C430;   /* slightly darker yellow for hover */
   --mark-ink:   #1C2541;   /* text on the highlighter */
   --right:      #2F6F73;
   --wrong:      #B4443C;
@@ -107,7 +108,8 @@ a:hover { text-decoration-thickness: 2px; }
   border-bottom: 1px solid var(--line);
 }
 .nav {
-  max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto;
+  /* A little wider than the text column so the full menu fits at 16px */
+  max-width: calc(var(--wide) + 6rem + 2 * var(--gutter)); margin: 0 auto;
   padding: 0.8rem var(--gutter);
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   font-family: var(--font-display);
@@ -115,20 +117,23 @@ a:hover { text-decoration-thickness: 2px; }
 .nav__brand { font-weight: 800; text-decoration: none; font-size: 1.1rem; white-space: nowrap; }
 .nav__links {
   list-style: none; margin: 0; padding: 0;
-  display: flex; gap: 1.25rem; align-items: center;
-  font-size: 0.95rem;
+  display: flex; gap: 1rem; align-items: center;
+  font-size: 1rem;
   overflow-x: auto; scrollbar-width: none;
 }
 .nav__links::-webkit-scrollbar { display: none; }
 .nav__links a { text-decoration: none; color: var(--muted); white-space: nowrap; }
-.nav__links a:hover, .nav__links a.is-active { color: var(--ink); }
+.nav__links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 0.3em; }
+.nav__links a.is-active { color: var(--ink); }
 .nav__links .nav__cta,
-.nav__links .nav__cta:hover,
 .nav__links .nav__cta.is-active {
   color: var(--mark-ink); background: var(--mark);
   padding: 0.35rem 0.8rem; border-radius: var(--radius); font-weight: 700;
+  transition: background-color 0.15s ease;
 }
-@media (max-width: 1100px) {
+/* Darker yellow on hover, no movement */
+.nav__links .nav__cta:hover { color: var(--mark-ink); background: var(--mark-hover); text-decoration: none; }
+@media (max-width: 1200px) {
   .nav__links li:not(:last-child) { display: none; }
 }
 
@@ -192,9 +197,9 @@ a:hover { text-decoration-thickness: 2px; }
 .hero {
   max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto;
   padding: clamp(3rem, 10vh, 7rem) var(--gutter) clamp(3rem, 8vh, 5rem);
-  display: grid; grid-template-columns: 1.4fr 1fr; gap: clamp(2rem, 5vw, 4rem);
+  display: grid; grid-template-columns: 1fr; gap: clamp(2rem, 5vw, 4rem);
   align-items: center;
-  min-height: min(88vh, 52rem);
+  min-height: min(70vh, 40rem);
 }
 .hero__by { color: var(--muted); font-family: var(--font-display); margin-bottom: 1.5rem; }
 .hero__title {
@@ -208,31 +213,8 @@ a:hover { text-decoration-thickness: 2px; }
 .hero__lede { max-width: 34rem; font-size: 1.15em; color: var(--muted); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
 
-/* The hero's memorable moment: nine tiles, one quietly "wrong". */
-.hero__grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem;
-  aspect-ratio: 1; width: 100%; max-width: 24rem; justify-self: end;
-}
-.hero__grid span {
-  border-radius: var(--radius);
-  background:
-    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--ink) 18%, transparent), transparent 60%),
-    var(--surface);
-  border: 1px solid var(--line);
-}
-.hero__grid .is-odd {
-  background:
-    radial-gradient(circle at 70% 70%, color-mix(in srgb, var(--ink) 18%, transparent), transparent 60%),
-    var(--surface);
-  animation: odd-pulse 4s ease-in-out 1.2s infinite;
-}
-@keyframes odd-pulse {
-  0%, 70%, 100% { box-shadow: 0 0 0 0 transparent; }
-  80%           { box-shadow: 0 0 0 4px var(--mark); }
-}
 @media (max-width: 800px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; }
-  .hero__grid { justify-self: start; max-width: 14rem; }
+  .hero { min-height: auto; }
 }
 
 /* ---------- Content sections ---------- */
@@ -262,6 +244,15 @@ a:hover { text-decoration-thickness: 2px; }
   padding: 0.4rem 0; list-style: none;
 }
 .deep-dive summary::-webkit-details-marker { display: none; }
+.deep-dive summary {
+  padding: 0.4rem 0.6rem 0.4rem 0.3rem; margin-left: -0.3rem;
+  border-radius: var(--radius);
+  transition: background-color 0.15s ease;
+}
+.deep-dive summary:hover {
+  text-decoration: underline; text-underline-offset: 0.25em;
+  background: color-mix(in srgb, var(--mark) 25%, transparent);
+}
 .deep-dive summary::before {
   content: "+"; display: inline-block; width: 1.2em;
   transition: transform 0.2s ease;
@@ -272,6 +263,34 @@ a:hover { text-decoration-thickness: 2px; }
   border-left: 3px solid var(--mark);
 }
 .placeholder-note { color: var(--muted); font-style: italic; }
+.deep-dive__body ul { padding-left: 1.1em; }
+.deep-dive__body li { margin-bottom: 0.5em; }
+.deep-dive__body h3 { margin-top: 1.5rem; font-size: 1.1rem; }
+.deep-dive__body .captions { margin-top: 0.5rem; }
+
+/* Numbered decision guides: big numbers so each step stands out */
+.steps { list-style: none; counter-reset: step; padding: 0; margin: 0 0 1rem; }
+.steps li {
+  counter-increment: step; position: relative;
+  padding: 0.5rem 0 0.5rem 2.75rem; margin: 0;
+  border-bottom: 1px solid var(--line);
+}
+.steps li:last-child { border-bottom: 0; }
+.steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 0.45rem;
+  width: 1.9rem; height: 1.9rem; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--mark); color: var(--mark-ink);
+  font-family: var(--font-display); font-weight: 800; font-size: 0.95rem;
+}
+
+/* Short tip lists shown directly in a section */
+.tips { margin: 1.25rem 0 0; padding-left: 1.1em; }
+.tips li { margin-bottom: 0.5em; }
+.tips li::marker { color: var(--muted); }
+.closing { margin-top: 1.75rem; font-family: var(--font-display); font-weight: 500; }
+.sources li { margin-bottom: 0.6em; }
 
 /* Signs: two columns */
 .signs { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; }
@@ -434,25 +453,25 @@ a:hover { text-decoration-thickness: 2px; }
 .tile.is-wrong   { border-color: var(--wrong); box-shadow: 0 0 0 3px var(--wrong); }
 .tile.is-answer  { border-color: var(--right); }
 
+.game__start-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.game__timebar[hidden], #game-timer[hidden] { display: none; }
+.game__next { margin-top: 0.5rem; }
+.game__ai-note { margin-top: 1.25rem; color: var(--muted); font-size: 0.95rem; max-width: var(--measure); }
 .game__feedback { min-height: 1.65em; margin-top: 1rem; font-family: var(--font-display); font-weight: 500; }
 
 /* Results */
 [tabindex="-1"]:focus { outline: none; }
 .game__results-title { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); font-weight: 800; }
-.compare { display: grid; gap: 1.5rem; margin: 1.5rem 0; max-width: 40rem; }
-.compare__label { font-family: var(--font-display); font-weight: 700; margin-bottom: 0.4rem; }
-.compare__row {
-  display: grid; grid-template-columns: 6.5rem 1fr 5rem; gap: 0.75rem;
-  align-items: center; font-size: 0.95rem; margin-bottom: 0.35rem;
+.stats {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem; margin: 1.5rem 0; max-width: 40rem;
 }
-.compare__track { height: 0.9rem; background: var(--paper); border-radius: 3px; overflow: hidden; }
-.compare__fill {
-  display: block; height: 100%; width: 0;
-  transition: width 0.9s cubic-bezier(.2,.7,.2,1);
+.stats div { background: var(--paper); border-radius: var(--radius); padding: 0.9rem 1rem; }
+.stats dt { color: var(--muted); font-family: var(--font-display); font-size: 0.9rem; }
+.stats dd {
+  margin: 0.15rem 0 0; font-family: var(--font-display); font-weight: 800;
+  font-size: 1.8rem; font-variant-numeric: tabular-nums;
 }
-.compare__fill--you { background: var(--mark); }
-.compare__fill--avg { background: var(--muted); }
-.compare__value { font-variant-numeric: tabular-nums; text-align: right; }
 .game__summary { font-size: 1.15em; max-width: var(--measure); }
 .game__note { color: var(--muted); font-size: 0.9rem; max-width: var(--measure); }
 
@@ -465,6 +484,16 @@ a:hover { text-decoration-thickness: 2px; }
 }
 
 .site-footer p { margin: 0; }
+
+/* Footer logos: Neruda Arts and Government of Canada side by side, stacked on phones */
+.footer-logos {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+  gap: 1.5rem 2.5rem; width: 100%;
+}
+.footer-logos__neruda img { height: 3.5rem; width: auto; }
+@media (max-width: 44rem) {
+  .footer-logos { flex-direction: column; }
+}
 
 /* Canada funding graphic: wide enough that its words stay easy to read */
 .funding { display: block; width: min(100%, 40rem); }
@@ -502,7 +531,7 @@ a:hover { text-decoration-thickness: 2px; }
    Normal print: the whole toolkit, without navigation or the game.
    "Print the checklist": only the checklist, on one page. */
 @media print {
-  .site-header, .progress, .skip-link, .hero__grid, .game-section,
+  .site-header, .progress, .skip-link, .game-section,
   .checklist__actions, #watch, .funding__text { display: none !important; }
   .site-footer { border-top: 0; color: #000; }
   body { background: #fff; color: #000; font-size: 11pt; }
