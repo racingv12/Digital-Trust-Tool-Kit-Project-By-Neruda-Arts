@@ -23,6 +23,11 @@
 
   <header class="site-header">
     <nav class="nav" aria-label="Main">
+      <!-- Phones only: opens the sidebar with every section (js/menu.js) -->
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" hidden>
+        <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span class="visually-hidden">Menu</span>
+      </button>
       <a class="nav__brand" href="#top">Digital Trust Toolkit</a>
       <ul class="nav__links">
         <li><a href="#trust">Fact-checking</a></li>
@@ -30,6 +35,7 @@
         <li><a href="#checklist">Before you post</a></li>
         <li><a href="#voices">You’re not alone</a></li>
         <li><a href="#activities">Activities</a></li>
+        <li><a href="#about">About</a></li>
         <li><a class="nav__cta" href="#test">Play the game</a></li>
       </ul>
       <!--
@@ -59,6 +65,36 @@
       </details>
     </nav>
   </header>
+
+  <!-- Phone sidebar: links to every section. Opened by the menu button (js/menu.js).
+       When you add, remove or rename a section, update this list too. -->
+  <div class="drawer" id="site-menu" hidden>
+    <div class="drawer__backdrop" data-menu-close></div>
+    <nav class="drawer__panel" aria-label="All sections" tabindex="-1">
+      <div class="drawer__head">
+        <span class="drawer__title">Sections</span>
+        <button class="drawer__close" type="button" data-menu-close>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+          <span class="visually-hidden">Close menu</span>
+        </button>
+      </div>
+      <ul class="drawer__links">
+        <li><a href="#top">Home</a></li>
+        <li><a href="#purpose">What this toolkit is for</a></li>
+        <li><a class="drawer__cta" href="#test">Play the game</a></li>
+        <li><a href="#trust">Fact-checking</a></li>
+        <li><a href="#creativity">Creativity and ownership</a></li>
+        <li><a href="#credit">Credit, permission and honesty</a></li>
+        <li><a href="#checklist">Before you post or upload</a></li>
+        <li><a href="#voices">You’re not alone</a></li>
+        <li><a href="#activities">Learning activities</a></li>
+        <li><a href="#watch">Videos and infographics</a></li>
+        <li><a href="#environment">AI and the environment</a></li>
+        <li><a href="#share">Download and share</a></li>
+        <li><a href="#about">About the team</a></li>
+      </ul>
+    </nav>
+  </div>
 
   <main id="main">
 
@@ -381,6 +417,11 @@
 
     <!-- BEFORE YOU POST: the one-page checklist. "Print the checklist" prints only this section. -->
     <section class="section reveal" id="checklist">
+      <!-- Shown only on the printed checklist (hidden on screen) -->
+      <div class="print-header" aria-hidden="true">
+        <img src="assets/images/neruda-arts-logo.png" width="961" height="278" alt="">
+        <span>Digital Trust Toolkit</span>
+      </div>
       <h2>Before you post or upload</h2>
       <div class="section__summary">
         <p>A one-page checklist for checking, crediting and sharing responsibly. Tick each box before you post or upload.</p>
@@ -601,10 +642,15 @@
     <p class="site-footer__credit">The Digital Trust Toolkit, created by students with <a href="https://nerudaarts.ca">Neruda Arts</a>.</p>
 
     <div class="footer-logos">
-      <!-- Neruda Arts logo: once Kim shares it, save it in assets/images/ and add it here, e.g.
-           <a class="footer-logos__neruda" href="https://nerudaarts.ca">
-             <img src="assets/images/neruda-arts-logo.png" width="…" height="…" alt="Neruda Arts">
-           </a> -->
+      <!-- Neruda Arts logo (Google Drive › Neruda Arts – Brand Assets › Neruda PNG:
+           15.png black, 11.png white, trimmed). Like the Canada graphic, the white
+           version uses the same media query as the dark colours in css/style.css. -->
+      <a class="footer-logos__neruda" href="https://nerudaarts.ca">
+        <picture>
+          <source srcset="assets/images/neruda-arts-logo-white.png" media="screen and (prefers-color-scheme: light)">
+          <img src="assets/images/neruda-arts-logo.png" width="961" height="278" loading="lazy" alt="Neruda Arts">
+        </picture>
+      </a>
 
       <!-- Government of Canada funding acknowledgement (links to Canada.ca) -->
       <a class="funding" href="https://www.canada.ca/en.html">
@@ -626,6 +672,7 @@
     </p>
   </footer>
 
+  <script src="js/menu.js" defer></script>
   <script src="js/video.js" defer></script>
   <script src="js/checklist.js" defer></script>
   <script src="js/game-data.js" defer></script>

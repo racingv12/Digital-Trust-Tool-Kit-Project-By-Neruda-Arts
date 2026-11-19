@@ -154,7 +154,7 @@ a:hover { text-decoration-thickness: 2px; }
 .nav__links {
   list-style: none; margin: 0; padding: 0;
   display: flex; gap: 1rem; align-items: center;
-  font-size: 1rem;
+  font-size: 0.85rem;
   overflow-x: auto; scrollbar-width: none;
 }
 .nav__links::-webkit-scrollbar { display: none; }
@@ -171,7 +171,7 @@ a:hover { text-decoration-thickness: 2px; }
 .nav__links .nav__cta:hover { color: var(--mark-ink); background: var(--mark-hover); text-decoration: none; }
 /* Narrow laptops: keep the menu on one row by tightening the gaps and showing
    Translate as its globe icon (screen readers still hear "Translate"). */
-@media (max-width: 1160px) and (min-width: 1101px) {
+@media (max-width: 1220px) and (min-width: 1121px) {
   .nav { gap: 0.75rem; }
   .nav__links { gap: 0.85rem; }
   .translate summary { padding: 0.35rem 0.5rem; }
@@ -182,7 +182,7 @@ a:hover { text-decoration-thickness: 2px; }
 }
 /* Smaller laptops and tablets: when the menu can't fit on one row, the links
    move to a second row and wrap, so they all stay visible. */
-@media (max-width: 1100px) and (min-width: 721px) {
+@media (max-width: 1120px) and (min-width: 721px) {
   html { scroll-padding-top: 7rem; }   /* the header is taller here */
   .nav { flex-wrap: wrap; row-gap: 0.6rem; }
   .nav__links {
@@ -194,6 +194,10 @@ a:hover { text-decoration-thickness: 2px; }
 /* Phones: only the site name, "Play the game" and Translate */
 @media (max-width: 720px) {
   .nav__links li:not(:last-child) { display: none; }
+  /* Keep "Play the game" whole at every phone width: it never shrinks or
+     scrolls; the site name wraps onto more lines instead if space runs out */
+  .nav__links { flex: none; overflow: visible; }
+  .nav__brand { min-width: 0; white-space: normal; line-height: 1.2; }
 }
 
 /* Translate menu */
@@ -210,9 +214,7 @@ a:hover { text-decoration-thickness: 2px; }
 /* Narrow phones: globe icon only, so the brand, CTA and Translate fit on one line */
 @media (max-width: 480px) {
   .nav { gap: 0.6rem; }
-  /* Keep "Play the game" whole; the site name wraps to two lines if space runs out */
-  .nav__brand { font-size: 0.8rem; min-width: 0; white-space: normal; line-height: 1.2; }
-  .nav__links { flex: none; overflow: visible; }
+  .nav__brand { font-size: 0.8rem; }
   .nav__links .nav__cta { padding: 0.35rem 0.6rem; }
   .translate summary { padding: 0.35rem 0.5rem; }
   .translate__label {
@@ -238,6 +240,82 @@ a:hover { text-decoration-thickness: 2px; }
   line-height: 1.4; color: var(--muted);
 }
 
+/* Text for screen readers only */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* ---------- Phone menu: button and sliding sidebar ---------- */
+.menu-toggle {
+  display: none;   /* shown on phones only, and only when JavaScript works */
+  flex: none; align-items: center; justify-content: center;
+  width: 2.5rem; height: 2.5rem; padding: 0;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--radius);
+  cursor: pointer;
+}
+.menu-toggle:hover { border-color: var(--ink); }
+@media (max-width: 720px) {
+  .js .menu-toggle:not([hidden]) { display: inline-flex; }
+  html { scroll-padding-top: 5.5rem; }   /* the phone header is a bit taller */
+}
+
+.drawer { position: fixed; inset: 0; z-index: 80; }
+.drawer[hidden] { display: none; }
+.drawer__backdrop {
+  position: absolute; inset: 0;
+  background: rgb(0 0 0 / 0.45);
+  opacity: 0; transition: opacity 0.25s ease;
+}
+.drawer__panel {
+  position: absolute; top: 0; bottom: 0; left: 0;
+  width: min(20rem, 85vw);
+  display: flex; flex-direction: column;
+  background: var(--paper); color: var(--ink);
+  border-right: 1px solid var(--line);
+  box-shadow: 8px 0 24px rgb(0 0 0 / 0.2);
+  font-family: var(--font-display);
+  transform: translateX(-100%); transition: transform 0.25s ease;
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.drawer__panel:focus { outline: none; }
+.drawer.is-open .drawer__backdrop { opacity: 1; }
+.drawer.is-open .drawer__panel { transform: none; }
+
+.drawer__head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.8rem 1rem 0.8rem 1.25rem; border-bottom: 1px solid var(--line);
+}
+.drawer__title {
+  font-family: var(--font-title); font-weight: 800; text-transform: uppercase;
+  font-size: 0.9rem; color: var(--accent);
+}
+.drawer__close {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.5rem; height: 2.5rem; padding: 0;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer;
+}
+.drawer__close:hover { border-color: var(--ink); }
+
+.drawer__links { list-style: none; margin: 0; padding: 0.5rem 0 1.5rem; }
+.drawer__links a {
+  display: block; padding: 0.7rem 1.25rem;   /* large tap targets */
+  color: var(--ink); text-decoration: none; font-size: 1rem;
+}
+.drawer__links a:hover { background: var(--surface); text-decoration: underline; }
+.drawer__links a.drawer__cta {
+  margin: 0.25rem 1.25rem; padding: 0.6rem 0.9rem; border-radius: var(--radius);
+  background: var(--mark); color: var(--mark-ink); font-weight: 700;
+}
+.drawer__links a.drawer__cta:hover { background: var(--mark-hover); text-decoration: none; }
+
+/* While the sidebar is open, the page behind it doesn't scroll */
+.menu-open, .menu-open body { overflow: hidden; }
+
+@media print { .menu-toggle, .drawer { display: none !important; } }
+
 /* ---------- Buttons ---------- */
 .button {
   display: inline-block;
@@ -260,16 +338,24 @@ a:hover { text-decoration-thickness: 2px; }
   align-items: center;
   min-height: min(70vh, 40rem);
 }
-.hero__by { color: var(--muted); font-family: var(--font-display); margin-bottom: 1.5rem; }
+.hero__by {
+  color: var(--muted); font-family: var(--font-display);
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
+  margin-bottom: 1.5rem;
+}
 .hero__title {
-  font-size: clamp(2rem, 1.2rem + 4vw, 4.4rem);
+  font-size: clamp(2.3rem, 1.3rem + 4.8vw, 5.4rem);
   font-weight: 900;
   line-height: 1.05;
   margin-bottom: 0.45em;
   max-width: 12em;
 }
-.hero__lede { max-width: 34rem; font-size: 1.15em; color: var(--muted); }
-.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.hero__lede {
+  max-width: 42rem; color: var(--muted);
+  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.5rem); line-height: 1.6;
+}
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2.25rem; }
+.hero__actions .button { font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem); padding: 0.95rem 1.7rem; }
 
 @media (max-width: 800px) {
   .hero { min-height: auto; }
@@ -548,7 +634,11 @@ a:hover { text-decoration-thickness: 2px; }
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
   gap: 1.5rem 2.5rem; width: 100%;
 }
+.footer-logos__neruda { display: block; flex: none; }
 .footer-logos__neruda img { height: 3.5rem; width: auto; }
+
+/* Logo heading on the printed checklist only */
+.print-header { display: none; }
 @media (max-width: 44rem) {
   .footer-logos { flex-direction: column; }
 }
@@ -597,8 +687,25 @@ a:hover { text-decoration-thickness: 2px; }
   .section { border-top: 0; padding: 1rem 0; }
   details.deep-dive > *:not(summary) { display: block; }
 
+  /* Paper is white, so use dark brand colours whatever the screen theme */
+  h1, h2, h3, legend, .terms dt { color: #221B4B !important; }
+  .footer-logos { gap: 1rem 2rem; }
+  .footer-logos__neruda img { height: 2.75rem; }
+  .funding { width: min(100%, 26rem); }
+
   body.print-checklist main > *:not(#checklist),
   body.print-checklist .site-footer__credit { display: none !important; }
   body.print-checklist #checklist { padding: 0; }
   body.print-checklist .checklist label { padding: 0.35rem 0; }
+  body.print-checklist .site-footer { padding: 1rem 0 0; }
+  body.print-checklist .print-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 0.6rem; margin-bottom: 1rem;
+    border-bottom: 1px solid #C8D1D9;
+  }
+  .print-header img { height: 0.55in; width: auto; }
+  .print-header span {
+    font-family: var(--font-title); font-weight: 800; text-transform: uppercase;
+    font-size: 10pt; color: #221B4B;
+  }
 }

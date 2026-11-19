@@ -8,6 +8,7 @@ Static site (HTML, CSS, JavaScript, no build step) for https://digitaltrust.neru
 index.html          Page content and structure
 css/style.css       All styling (colours and fonts are at the top, in :root)
 js/animations.js    Scroll reveal, reading progress bar, active nav link
+js/menu.js          Phone menu: the ☰ button opens a sidebar with every section
 js/video.js         YouTube / Vimeo embeds that load on click
 js/checklist.js     Print and clear buttons for the Before-you-post checklist
 js/game-data.js     Game rounds and settings  ← edit this for the game
@@ -68,13 +69,19 @@ Don't leave placeholder text on the page: until content is ready, hide or remove
 
 Colours and fonts follow the team's brand palette ("Tech Tones", in Google Drive › Social Media › Brand Pallette) and are set at the top of `css/style.css`. All fonts load from Google Fonts. The body text uses the brand's Poppins. The brand's title and subtitle fonts, PHATT and Zing Rust Base, aren't on Google Fonts, so similar-looking free fonts stand in for them: Orbitron for titles and Barlow Condensed (bold italic) for subtitles.
 
+## Phone menu
+
+On phones (720px wide or less) the top menu only has room for "Play the game", so a ☰ button opens a sidebar with links to every section. The list is in the `<div class="drawer" id="site-menu">` block near the top of `index.html`: when you add, remove or rename a section, update it there too. The sidebar closes when a link is tapped, with the ✕ button, by tapping outside it or with Esc.
+
 ## Translate menu
 
 The Translate menu links to Google Translate's copy of the **live** site at https://digitaltrust.nerudaarts.ca. Until the toolkit is published at that address, the links show whatever page is there now (for example an "under development" page), not the toolkit. To test earlier, temporarily change the address after `u=` in each link to the beta address.
 
 ## Footer
 
-The footer shows the Neruda Arts credit and the Government of Canada funding acknowledgement (`assets/images/funding/`, with a white version for dark mode). The Neruda Arts logo goes next to it, in the `.footer-logos` block in `index.html`, once it is shared: save it in `assets/images/` (not loaded from another website, so `_headers` doesn't need changing).
+The footer shows the Neruda Arts credit, the Neruda Arts logo and the Government of Canada funding acknowledgement, each with a white version for the dark theme. The Neruda Arts logo files are `assets/images/neruda-arts-logo.png` (black) and `neruda-arts-logo-white.png`, from Google Drive › Neruda Arts – Brand Assets › Neruda PNG (15.png and 11.png, with the empty margins trimmed).
+
+The printed checklist ("Print the checklist") has the Neruda Arts logo and the toolkit name at the top, and the footer logos at the bottom.
 
 "Print the checklist" prints only the checklist, on one page. Printing the page normally prints the whole toolkit without the navigation, videos or game.
 
