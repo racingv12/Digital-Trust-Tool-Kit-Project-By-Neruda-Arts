@@ -1,22 +1,40 @@
 /* =========================================================
    Digital Trust – stylesheet
    Change colours and fonts in :root to restyle the whole site.
+
+   Colours: the team's brand palette "Tech Tones"
+   (Google Drive › Social Media › Brand Pallette › 1.png):
+     greys    #c8d1d9  #747474  #343236  #000000
+     blues    #b0f0ff  #7dc8f2  #0393bf  #0e6d8b
+     purples  #8c52ff  #9562ae  #551a74  #221b4b
+   --paper and the dark-theme --surface/--line are tints of these.
+   --wrong stays red, because "wrong answer" needs to read as red.
    ========================================================= */
 
 :root {
-  --paper:      #EEF1F4;   /* page background */
+  --paper:      #F1F4F6;   /* page background (light tint of #c8d1d9) */
   --surface:    #FFFFFF;   /* tiles, video cards */
-  --ink:        #41321c;   /* main text */
-  --muted:      #5B6478;   /* secondary text */
-  --line:       #CDD3DD;   /* borders */
-  --mark:       #F2D541;   /* highlighter yellow: the one bold accent */
-  --mark-hover: #E3C430;   /* slightly darker yellow for hover */
-  --mark-ink:   #1C2541;   /* text on the highlighter */
-  --right:      #2F6F73;
+  --ink:        #221B4B;   /* main text: deep navy-purple */
+  --muted:      #343236;   /* secondary text: charcoal */
+  --line:       #C8D1D9;   /* borders: brand grey */
+  --accent:     #551A74;   /* headings: brand purple */
+  --mark:       #B0F0FF;   /* bright cyan: the one bold accent (Play the game, highlights) */
+  --mark-hover: #7DC8F2;   /* sky blue for hover */
+  --mark-ink:   #221B4B;   /* text on the accent */
+  --focus:      #8C52FF;   /* keyboard focus outline: violet */
+  --right:      #0E6D8B;   /* correct answer: deep teal */
   --wrong:      #B4443C;
 
-  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --font-body:    "Source Serif 4", Georgia, "Times New Roman", serif;
+  /* Brand fonts (Brand Pallette › 1.png), all from Google Fonts (index.html).
+     The brand's PHATT and Zing Rust Base aren't on Google Fonts, so these
+     free fonts with a similar look stand in for them:
+       titles    Orbitron                         for PHATT: wide, heavy, square, capitals
+       subtitles Barlow Condensed, bold italic    for Zing Rust Base: condensed, slanted, capitals
+       body      Poppins                          the brand's own body font */
+  --font-title:    "Orbitron", "Poppins", system-ui, sans-serif;
+  --font-subtitle: "Barlow Condensed", "Poppins", system-ui, sans-serif;
+  --font-body:     "Poppins", "Segoe UI", system-ui, sans-serif;
+  --font-display:  var(--font-body);   /* menu, buttons, labels and captions */
 
   --measure: 60rem;        /* reading column width */
   --wide: 68rem;
@@ -28,12 +46,14 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --paper:   #141A26;
-    --surface: #1E2635;
-    --ink:     #E6E9EF;
-    --muted:   #9AA3B5;
-    --line:    #323C50;
-    --right:   #5FB3B8;
+    --paper:   #221B4B;   /* brand navy-purple */
+    --surface: #2D2560;
+    --ink:     #F1F4F6;
+    --muted:   #C8D1D9;   /* brand grey */
+    --line:    #4A4380;
+    --accent:  #B0F0FF;   /* headings: brand cyan */
+    --focus:   #B0F0FF;
+    --right:   #7DC8F2;
     --wrong:   #E07A72;
     color-scheme: dark;
   }
@@ -52,21 +72,34 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: clamp(1.05rem, 0.98rem + 0.3vw, 1.2rem);
-  line-height: 1.65;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);   /* Poppins runs wide, so a little smaller */
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
 }
 
 img { max-width: 100%; height: auto; display: block; }
 
 h1, h2, h3 {
-  font-family: var(--font-display);
-  line-height: 1.1;
-  letter-spacing: -0.015em;
+  line-height: 1.15;
   margin: 0 0 0.6em;
 }
-h2 { font-size: clamp(1.9rem, 1.4rem + 2vw, 2.8rem); font-weight: 800; }
-h3 { font-size: 1.25rem; font-weight: 700; }
+/* Titles: wide capitals, like PHATT. Smaller sizes than before, since
+   Orbitron capitals take much more room. */
+h1, h2 {
+  font-family: var(--font-title);
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+h2 { font-size: clamp(1.45rem, 1.1rem + 1.6vw, 2.2rem); font-weight: 800; }
+/* Subtitles: condensed, slanted capitals, like Zing Rust Base */
+h3, .checklist__group legend, .terms dt, .game__prompt {
+  font-family: var(--font-subtitle);
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+h3 { font-size: 1.4rem; font-weight: 700; }
 
 p { margin: 0 0 1em; }
 
@@ -74,7 +107,7 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em
 a:hover { text-decoration-thickness: 2px; }
 
 :focus-visible {
-  outline: 3px solid var(--mark);
+  outline: 3px solid var(--focus);
   outline-offset: 3px;
   border-radius: 2px;
 }
@@ -114,7 +147,10 @@ a:hover { text-decoration-thickness: 2px; }
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   font-family: var(--font-display);
 }
-.nav__brand { font-weight: 800; text-decoration: none; font-size: 1.1rem; white-space: nowrap; }
+.nav__brand {
+  font-family: var(--font-title); font-weight: 800; text-transform: uppercase;
+  text-decoration: none; font-size: 0.85rem; white-space: nowrap;
+}
 .nav__links {
   list-style: none; margin: 0; padding: 0;
   display: flex; gap: 1rem; align-items: center;
@@ -133,7 +169,30 @@ a:hover { text-decoration-thickness: 2px; }
 }
 /* Darker yellow on hover, no movement */
 .nav__links .nav__cta:hover { color: var(--mark-ink); background: var(--mark-hover); text-decoration: none; }
-@media (max-width: 1200px) {
+/* Narrow laptops: keep the menu on one row by tightening the gaps and showing
+   Translate as its globe icon (screen readers still hear "Translate"). */
+@media (max-width: 1160px) and (min-width: 1101px) {
+  .nav { gap: 0.75rem; }
+  .nav__links { gap: 0.85rem; }
+  .translate summary { padding: 0.35rem 0.5rem; }
+  .translate__label {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+}
+/* Smaller laptops and tablets: when the menu can't fit on one row, the links
+   move to a second row and wrap, so they all stay visible. */
+@media (max-width: 1100px) and (min-width: 721px) {
+  html { scroll-padding-top: 7rem; }   /* the header is taller here */
+  .nav { flex-wrap: wrap; row-gap: 0.6rem; }
+  .nav__links {
+    order: 3; width: 100%;
+    flex-wrap: wrap; row-gap: 0.4rem; column-gap: 1.25rem;
+    overflow: visible;
+  }
+}
+/* Phones: only the site name, "Play the game" and Translate */
+@media (max-width: 720px) {
   .nav__links li:not(:last-child) { display: none; }
 }
 
@@ -152,7 +211,7 @@ a:hover { text-decoration-thickness: 2px; }
 @media (max-width: 480px) {
   .nav { gap: 0.6rem; }
   /* Keep "Play the game" whole; the site name wraps to two lines if space runs out */
-  .nav__brand { font-size: 1rem; min-width: 0; white-space: normal; line-height: 1.15; }
+  .nav__brand { font-size: 0.8rem; min-width: 0; white-space: normal; line-height: 1.2; }
   .nav__links { flex: none; overflow: visible; }
   .nav__links .nav__cta { padding: 0.35rem 0.6rem; }
   .translate summary { padding: 0.35rem 0.5rem; }
@@ -203,12 +262,11 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .hero__by { color: var(--muted); font-family: var(--font-display); margin-bottom: 1.5rem; }
 .hero__title {
-  font-size: clamp(2.6rem, 1.6rem + 5vw, 5.4rem);
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 0.98;
+  font-size: clamp(2rem, 1.2rem + 4vw, 4.4rem);
+  font-weight: 900;
+  line-height: 1.05;
   margin-bottom: 0.45em;
-  max-width: 14ch;
+  max-width: 12em;
 }
 .hero__lede { max-width: 34rem; font-size: 1.15em; color: var(--muted); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
@@ -307,7 +365,7 @@ a:hover { text-decoration-thickness: 2px; }
 .terms { margin: 1.5rem 0 0; display: grid; gap: 1.25rem; }
 .terms__item { padding-left: 1rem; border-left: 3px solid var(--line); }
 .terms__item:last-child { border-left-color: var(--wrong); }
-.terms dt { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; }
+.terms dt { font-family: var(--font-subtitle); font-weight: 700; font-size: 1.35rem; }
 .terms dd { margin: 0.2rem 0 0; }
 
 /* Sample captions: styled like a post caption */
@@ -325,7 +383,7 @@ a:hover { text-decoration-thickness: 2px; }
 .checklist { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
 .checklist__group { border: 0; margin: 0; padding: 0; }
 .checklist__group legend {
-  font-family: var(--font-display); font-weight: 800; font-size: 1.3rem;
+  font-family: var(--font-subtitle); font-weight: 800; font-size: 1.5rem;
   margin-bottom: 0.5rem; padding: 0;
 }
 .checklist label {
@@ -388,7 +446,7 @@ a:hover { text-decoration-thickness: 2px; }
   color: var(--paper); font-family: var(--font-display); opacity: 0.8;
 }
 @media (prefers-color-scheme: dark) {
-  .video { background: #0A0E16; }
+  .video { background: #000000; }
   .video__soon, .video__play { color: var(--ink); }
 }
 
@@ -425,7 +483,7 @@ a:hover { text-decoration-thickness: 2px; }
   display: block; height: 100%; width: 100%;
   background: var(--ink); transform-origin: 0 50%; transform: scaleX(0);
 }
-.game__prompt { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; }
+.game__prompt { font-family: var(--font-subtitle); font-weight: 700; font-size: 1.5rem; }
 
 .game__tiles {
   display: grid; gap: 1rem;

@@ -309,10 +309,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const y = Math.floor(c / size) * step + step / 2;
       const rad = 4.5 + Math.random() * 1.5;
       shapes += (isOdd && c === oddCell)
-        ? `<circle cx="${x}" cy="${y}" r="${rad}" fill="none" stroke="#1C2541" stroke-width="2"/>`
-        : `<circle cx="${x}" cy="${y}" r="${rad}" fill="#1C2541"/>`;
+        ? `<circle cx="${x}" cy="${y}" r="${rad}" fill="none" stroke="#221B4B" stroke-width="2"/>`
+        : `<circle cx="${x}" cy="${y}" r="${rad}" fill="#221B4B"/>`;
     }
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#DDE3EA"/>${shapes}</svg>`;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#C8D1D9"/>${shapes}</svg>`;
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   }
 });

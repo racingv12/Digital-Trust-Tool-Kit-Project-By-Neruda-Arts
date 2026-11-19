@@ -64,6 +64,10 @@ The menu links only to the main topics: Fact-checking, Creativity and credit, Be
 
 Don't leave placeholder text on the page: until content is ready, hide or remove an empty section rather than showing "will be added here".
 
+## Brand colours and fonts
+
+Colours and fonts follow the team's brand palette ("Tech Tones", in Google Drive › Social Media › Brand Pallette) and are set at the top of `css/style.css`. All fonts load from Google Fonts. The body text uses the brand's Poppins. The brand's title and subtitle fonts, PHATT and Zing Rust Base, aren't on Google Fonts, so similar-looking free fonts stand in for them: Orbitron for titles and Barlow Condensed (bold italic) for subtitles.
+
 ## Translate menu
 
 The Translate menu links to Google Translate's copy of the **live** site at https://digitaltrust.nerudaarts.ca. Until the toolkit is published at that address, the links show whatever page is there now (for example an "under development" page), not the toolkit. To test earlier, temporarily change the address after `u=` in each link to the beta address.
