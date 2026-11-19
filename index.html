@@ -166,7 +166,7 @@
       <div class="game" id="game">
         <!-- Start screen -->
         <div class="game__screen" data-screen="start">
-          <p class="game__meta"><span id="game-round-count">7</span> rounds. Click a tile, or press its number key. Press Esc to quit. Practice mode has no timer.</p>
+          <p class="game__meta"><span id="game-round-count">6</span> rounds, each with a few photos of the same kind of thing. Tap the one made by AI, or press its number key. Use the magnifying glass to see a photo larger. Press Esc to quit. Practice mode has no timer.</p>
           <div class="game__start-actions">
             <button class="button button--primary" type="button" id="game-start">Start playing</button>
             <button class="button button--quiet" type="button" id="game-practice">Practice (no timer)</button>
@@ -204,6 +204,19 @@
 
       <!-- AI-use note (D2). Add the name of the AI tool once the team confirms it,
            e.g. "…were made with [tool name] on purpose…" -->
+      <!-- Full-size view of one photo, opened with a tile's magnifying-glass button -->
+      <dialog class="zoom" id="game-zoom" aria-labelledby="game-zoom-title">
+        <div class="zoom__bar">
+          <span class="zoom__title" id="game-zoom-title">Image</span>
+          <button class="zoom__close" type="button" id="game-zoom-close">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+            <span class="visually-hidden">Close</span>
+          </button>
+        </div>
+        <img class="zoom__img" id="game-zoom-img" src="data:," alt="">
+        <button class="button button--primary zoom__choose" type="button" id="game-zoom-choose">This one is AI</button>
+      </dialog>
+
       <p class="game__ai-note">
         Some images in this game were made with AI on purpose, to help you practice spotting it.
         The other images were made by our team.

@@ -538,7 +538,8 @@ a:hover { text-decoration-thickness: 2px; }
 
 /* ---------- Game ---------- */
 .game {
-  scroll-margin-top: 5rem;
+  scroll-margin-top: 0;   /* game.js scrolls the game to just below the header */
+  overflow-anchor: none;  /* don't let the browser shift the page when the photos load */
   margin-top: 2rem;
   background: var(--surface);
   border: 1px solid var(--line);
@@ -569,39 +570,104 @@ a:hover { text-decoration-thickness: 2px; }
   display: block; height: 100%; width: 100%;
   background: var(--ink); transform-origin: 0 50%; transform: scaleX(0);
 }
-.game__prompt { font-family: var(--font-subtitle); font-weight: 700; font-size: 1.5rem; }
+.game__prompt {
+  font-family: var(--font-subtitle); font-weight: 700;
+  font-size: clamp(1.2rem, 1rem + 1vw, 1.5rem); margin-bottom: 0.75rem;
+}
 
+/* Tiles: game.js sets --tile-size so every option fits on screen
+   (3 in a row on wide screens, 2 + 1 on narrow phones). */
 .game__tiles {
-  display: grid; gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  --tile-size: 15rem;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem;
 }
 .tile {
-  position: relative;
+  position: relative; flex: none;
+  width: var(--tile-size); height: var(--tile-size);
   background: var(--paper); color: var(--ink);
   border: 2px solid var(--line); border-radius: var(--radius);
-  padding: 0; cursor: pointer; text-align: left;
-  font: inherit; overflow: hidden;
-  transition: border-color 0.15s ease, transform 0.15s ease;
+  overflow: hidden;
+  transition: border-color 0.15s ease;
 }
-.tile:hover:not(:disabled) { border-color: var(--ink); transform: translateY(-2px); }
-.tile:disabled { cursor: default; }
-.tile img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.tile--text { height: auto; }
+.tile:hover:not(.is-done) { border-color: var(--ink); }
+.tile__pick {
+  display: block; width: 100%; height: 100%;
+  margin: 0; padding: 0; border: 0; background: none;
+  color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.tile__pick:disabled { cursor: default; }
+.tile__pick:focus-visible { outline-offset: -5px; }
+.tile__pick img { width: 100%; height: 100%; object-fit: cover; object-position: center 35%; }
 .tile__text { padding: 1rem 1.1rem 2.4rem; font-size: 0.98rem; line-height: 1.55; }
 .tile__key {
-  position: absolute; left: 0.5rem; bottom: 0.5rem;
+  position: absolute; left: 0.45rem; bottom: 0.45rem;
   font-family: var(--font-display); font-weight: 700; font-size: 0.85rem;
   background: var(--surface); border: 1px solid var(--line);
   border-radius: 4px; padding: 0.05rem 0.45rem;
 }
+/* Magnifying glass: open the photo full size */
+.tile__zoom {
+  position: absolute; right: 0.4rem; bottom: 0.4rem;
+  width: 2.25rem; height: 2.25rem; padding: 0;
+  display: grid; place-items: center;
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--line); border-radius: 50%; cursor: pointer;
+}
+.tile__zoom:hover { border-color: var(--ink); }
 .tile.is-correct { border-color: var(--right); box-shadow: 0 0 0 3px var(--right); }
 .tile.is-wrong   { border-color: var(--wrong); box-shadow: 0 0 0 3px var(--wrong); }
-.tile.is-answer  { border-color: var(--right); }
+.tile.is-answer  { border-color: var(--right); box-shadow: 0 0 0 3px var(--right); }
 
 .game__start-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .game__timebar[hidden], #game-timer[hidden] { display: none; }
+/* The Next button keeps its space while hidden, so the tiles don't jump */
 .game__next { margin-top: 0.5rem; }
+.game__next[hidden] { display: inline-block; visibility: hidden; }
 .game__ai-note { margin-top: 1.25rem; color: var(--muted); font-size: 0.95rem; max-width: var(--measure); }
-.game__feedback { min-height: 1.65em; margin-top: 1rem; font-family: var(--font-display); font-weight: 500; }
+.game__feedback {
+  min-height: 1.65em; margin: 0.75rem 0 0;
+  font-family: var(--font-display); font-weight: 500; font-size: 0.95rem; line-height: 1.5;
+}
+/* Short screens (e.g. a phone held sideways): tighter spacing so the
+   options still fit without scrolling, and the header scrolls away
+   instead of staying pinned and taking a third of the screen */
+@media (max-height: 520px) {
+  .site-header { position: relative; }
+  .game { padding: 0.75rem 1rem; }
+  .game__timebar { margin: 0.35rem 0 0.5rem; }
+  .game__prompt { font-size: 1.05rem; margin-bottom: 0.4rem; }
+  .game__feedback { font-size: 0.85rem; line-height: 1.35; margin-top: 0.4rem; }
+  .game__next { margin-top: 0.25rem; padding: 0.45rem 1rem; font-size: 0.9rem; }
+  .game .button--small { padding: 0.2rem 0.7rem; }
+}
+@media (max-width: 600px) {
+  .game { padding: 1rem; }
+  .game__timebar { margin: 0.5rem 0 0.75rem; }
+  .game__next { padding: 0.65rem 1.2rem; }
+}
+
+/* Full-size photo view */
+.zoom {
+  width: min(96vw, 70rem); max-width: none; max-height: 96dvh;
+  padding: 0.75rem; border: 0; border-radius: calc(var(--radius) * 2);
+  background: var(--surface); color: var(--ink);
+}
+.zoom::backdrop { background: rgb(0 0 0 / 0.75); }
+.zoom[open] { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+.zoom__bar { width: 100%; display: flex; align-items: center; justify-content: space-between; }
+.zoom__title { font-family: var(--font-display); font-weight: 700; }
+.zoom__close {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2.5rem; height: 2.5rem; padding: 0; cursor: pointer;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--radius);
+}
+.zoom__img {
+  max-width: 100%; max-height: calc(96dvh - 9rem);
+  width: auto; height: auto; object-fit: contain; border-radius: var(--radius);
+}
+.zoom__choose[hidden] { display: none; }
 
 /* Results */
 [tabindex="-1"]:focus { outline: none; }

@@ -106,14 +106,15 @@ To add a new topic, copy a full `<section class="section reveal" id="…">` bloc
 
 Open `js/game-data.js`:
 
-- **Rounds:** add objects to `GAME_ROUNDS` (the file shows the format for image and text rounds). Each round has 2 to 4 items and one AI-generated item, marked by `aiIndex` (counting from 0). While the list is empty, the game runs in demo mode with practice patterns.
+- **Rounds:** one round per photo pack from Google Drive › Real:AI (lake, sky, food, living room, dolls, portraits). Each pack has two real photos and one AI photo, marked by `aiIndex` (counting from 0). The game shuffles the order of the rounds and where the photos appear, so the AI one isn't always in the same spot. To add a pack, add an object to `GAME_ROUNDS` (the file shows the format). With `roundsPerGame: 'all'`, the number of rounds always matches the number of packs. If the list is empty, the game runs in demo mode with practice patterns.
+- **Photo files:** `assets/game/`, named by pack and number (`lake-1.jpg`…). Never put "ai" or "real" in a file name: anyone can see it in the browser. Resize photos to about 1000 px on the longest side and under 200 KB, and re-save them so hidden data such as location is removed. The Drive file "Gemini_Generated_Image…" (a second AI lake photo) isn't used, because each pack can only have one AI photo.
+- **Fits every screen:** before each round the game measures the screen and picks the tile size and layout (3 in a row, 2 + 1, or stacked) so all the photos, the explanation and the Next button are visible without scrolling. A magnifying-glass button on each photo opens it full size, and the player can choose it from there.
 - **Explanations:** give every round an `explain` sentence about the clue (for example "Look at the hands: the fingers merge together."). It is shown after the player answers, and they move on with the Next round button when they're ready, so nothing advances automatically.
 - **Practice mode:** the "Practice (no timer)" button starts a game with no time limit, no timer on screen and no speed result. The normal game has a time limit per round (`timeLimitSeconds`) and shows the player's average time.
 - **Results:** players see only their own score (correct answers, accuracy and, outside practice mode, average time). There is no comparison with other players, since we don't have real data for one.
 - **AI-use note:** the note under the game, and the AI-use line in About › Sources and credits, should name the AI tool used to make the game images.
-- **Images:** put them in `assets/game/`, around 600 × 600 px and under 150 KB each.
 - **Quitting:** players can leave a game at any time with the Quit button or the Esc key. This returns them to the start screen and nothing from the unfinished game is scored.
-- **Rounds per game:** if you add more rounds than `roundsPerGame`, players get a random selection each time.
+- **Rounds per game:** `roundsPerGame: 'all'` plays every pack. Set a number instead to play a random selection of that many.
 
 ## Security headers
 

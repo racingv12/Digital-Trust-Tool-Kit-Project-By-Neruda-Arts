@@ -5,6 +5,9 @@
      - Practice: no timer, no time limit and no speed result.
    After each answer the player reads the explanation and moves on with
    the "Next round" button (no automatic advance, WCAG 2.2.1).
+   The tiles are sized to fit the screen, so every option, the feedback
+   and the Next button are visible without scrolling. Each photo has a
+   zoom button that opens it full size.
    Content and settings live in game-data.js.
    ========================================================= */
 
@@ -14,9 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const config = GAME_CONFIG;
   const demoMode = GAME_ROUNDS.length === 0;
-  const roundsPerGame = demoMode
-    ? config.roundsPerGame
-    : Math.min(config.roundsPerGame, GAME_ROUNDS.length);
+  const wanted = config.roundsPerGame === 'all' ? GAME_ROUNDS.length : config.roundsPerGame;
+  const roundsPerGame = demoMode ? 6 : Math.min(wanted, GAME_ROUNDS.length);
   const limitMs = config.timeLimitSeconds * 1000;
 
   // Elements
@@ -43,7 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
     headline: document.getElementById('results-headline'),
     stats: document.getElementById('results-stats'),
     summary: document.getElementById('results-summary'),
-    note: document.getElementById('results-note')
+    note: document.getElementById('results-note'),
+    zoom: document.getElementById('game-zoom'),
+    zoomImg: document.getElementById('game-zoom-img'),
+    zoomTitle: document.getElementById('game-zoom-title'),
+    zoomChoose: document.getElementById('game-zoom-choose'),
+    zoomClose: document.getElementById('game-zoom-close')
   };
 
   el.roundCount.textContent = roundsPerGame;
@@ -66,6 +73,15 @@ document.addEventListener('DOMContentLoaded', () => {
   el.next.addEventListener('click', nextRound);
   el.quit.addEventListener('click', quitGame);
   document.addEventListener('keydown', onKey);
+  window.addEventListener('resize', fitTiles);
+  el.zoomClose.addEventListener('click', () => el.zoom.close());
+  el.zoomChoose.addEventListener('click', () => {
+    const choice = Number(el.zoomChoose.dataset.index);
+    el.zoom.close();
+    answer(choice);
+  });
+  // Tap on the dark area around the photo closes it
+  el.zoom.addEventListener('click', e => { if (e.target === el.zoom) el.zoom.close(); });
 
   /* ---------- Flow ---------- */
 
@@ -75,7 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
     practice = isPractice;
     el.timer.hidden = practice;
     el.timebarTrack.hidden = practice;
-    rounds = demoMode ? makeDemoRounds(roundsPerGame) : shuffle([...GAME_ROUNDS]).slice(0, roundsPerGame);
+    rounds = demoMode
+      ? makeDemoRounds(roundsPerGame)
+      : shuffle([...GAME_ROUNDS]).slice(0, roundsPerGame).map(shuffleItems);
     current = 0;
     results = [];
     show('play');
@@ -96,8 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
     el.timer.textContent = '0.0 s';
     el.timebar.style.transform = 'scaleX(0)';
 
-    const buttons = round.items.map((item, i) => makeTile(round, item, i));
-    el.tiles.replaceChildren(...buttons);
+    const tiles = round.items.map((item, i) => makeTile(round, item, i));
+    el.tiles.replaceChildren(...tiles);
+    fitTiles();
+    scrollToGame();   // after the tiles are placed and sized, so nothing shifts afterwards
 
     // Wait for images to load so slow connections don't count against the player.
     await Promise.all(
@@ -127,9 +147,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Show the answer
     const tiles = [...el.tiles.children];
-    tiles.forEach(t => (t.disabled = true));
+    tiles.forEach(t => {
+      t.classList.add('is-done');
+      const pick = t.querySelector('.tile__pick');
+      if (pick) pick.disabled = true;
+    });
     if (!timedOut) tiles[choice].classList.add(correct ? 'is-correct' : 'is-wrong');
     if (!correct) tiles[round.aiIndex].classList.add('is-answer');
+    if (el.zoom.open) el.zoom.close();
 
     const seconds = (timeMs / 1000).toFixed(1);
     let message = timedOut
@@ -143,7 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // The player moves on when ready, so there is time to read the explanation.
     el.next.textContent = current + 1 < rounds.length ? 'Next round' : 'See your results';
     el.next.hidden = false;
-    el.next.focus({ preventScroll: true });
+    fitTiles();   // a long explanation can need a little more room
+    // On very small screens a long explanation can push the Next button
+    // below the screen: focusing it scrolls just enough to show it.
+    el.next.focus();
   }
 
   function nextRound() {
@@ -157,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
      Stops the current game and returns to the start screen.
      Nothing from an unfinished game is scored. */
   function quitGame() {
+    if (el.zoom.open) el.zoom.close();
     stopTimers();
     gameId += 1;
     accepting = false;
@@ -180,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function onKey(e) {
-    if (screens.play.hidden) return;
+    if (screens.play.hidden || el.zoom.open) return;   // the zoom view handles its own keys
     if (e.key === 'Escape') { quitGame(); return; }
     if (!accepting) return;
     const n = parseInt(e.key, 10);
@@ -193,32 +222,89 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ---------- Tiles ---------- */
 
   function makeTile(round, item, index) {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'tile';
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+
+    // The main button: choosing this item as the AI one
+    const pick = document.createElement('button');
+    pick.type = 'button';
+    pick.className = 'tile__pick';
 
     if (round.type === 'text') {
+      tile.classList.add('tile--text');
       const p = document.createElement('p');
       p.className = 'tile__text';
       p.textContent = item;
-      btn.appendChild(p);
-      btn.setAttribute('aria-label', `Passage ${index + 1}`);
+      pick.appendChild(p);
+      pick.setAttribute('aria-label', `Passage ${index + 1}`);
     } else {
       const img = document.createElement('img');
       img.src = item.src;
-      img.alt = item.alt || `Image ${index + 1}`;
+      img.alt = '';
       img.draggable = false;
-      btn.appendChild(img);
+      pick.appendChild(img);
+      pick.setAttribute('aria-label', `Image ${index + 1}: ${item.alt || ''}`);
     }
 
     const key = document.createElement('span');
     key.className = 'tile__key';
     key.textContent = index + 1;
     key.setAttribute('aria-hidden', 'true');
-    btn.appendChild(key);
+    pick.appendChild(key);
+    pick.addEventListener('click', () => answer(index));
+    tile.appendChild(pick);
 
-    btn.addEventListener('click', () => answer(index));
-    return btn;
+    // Zoom button: see the photo full size before choosing
+    if (round.type !== 'text') {
+      const zoom = document.createElement('button');
+      zoom.type = 'button';
+      zoom.className = 'tile__zoom';
+      zoom.setAttribute('aria-label', `View image ${index + 1} larger`);
+      zoom.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21M10.5 7.5v6M7.5 10.5h6"/></svg>';
+      zoom.addEventListener('click', () => openZoom(item, index));
+      tile.appendChild(zoom);
+    }
+    return tile;
+  }
+
+  function openZoom(item, index) {
+    el.zoomImg.src = item.src;
+    el.zoomImg.alt = item.alt || `Image ${index + 1}`;
+    el.zoomTitle.textContent = `Image ${index + 1}`;
+    el.zoomChoose.dataset.index = index;
+    el.zoomChoose.textContent = `This one is AI`;
+    el.zoomChoose.hidden = !accepting;   // after answering, the photo can still be viewed
+    el.zoom.showModal();
+  }
+
+  /* ---------- Fit the tiles to the screen ----------
+     Picks the layout (e.g. 3 in a row, or 2 + 1) and the tile size that
+     let every option, the feedback and the Next button fit on screen. */
+  function fitTiles() {
+    if (screens.play.hidden) return;
+    const count = el.tiles.children.length;
+    if (!count) return;
+    const top = gameTopOffset();
+
+    const cs = getComputedStyle(root);
+    const pad = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+    const gap = parseFloat(getComputedStyle(el.tiles).columnGap) || 12;
+    const others = screens.play.offsetHeight - el.tiles.offsetHeight;   // status, prompt, feedback, Next
+    const avail = window.innerHeight - top - pad - others - 8;
+    const width = el.tiles.clientWidth;
+
+    // Try every layout (1 to `count` per row) and keep the biggest tiles,
+    // but prefer fewer rows when it costs less than ~12% of the size.
+    const options = [];
+    for (let cols = 1; cols <= count; cols++) {
+      const rows = Math.ceil(count / cols);
+      const size = Math.min(420, (width - (cols - 1) * gap) / cols, (avail - (rows - 1) * gap) / rows);
+      options.push({ rows, size });
+    }
+    const biggest = Math.max(...options.map(o => o.size));
+    const pick = options.filter(o => o.size >= biggest * 0.88).sort((a, b) => a.rows - b.rows)[0];
+    const size = Math.floor(Math.max(72, pick.size));
+    el.tiles.style.setProperty('--tile-size', `${size}px`);
   }
 
   /* ---------- Results ---------- */
@@ -263,9 +349,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function show(name) {
     Object.entries(screens).forEach(([key, screen]) => (screen.hidden = key !== name));
-    if (name !== 'start') {
-      root.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-    }
+    if (name === 'results') scrollToGame();
+  }
+
+  // Scroll so the game box sits just below the header: the same spot
+  // fitTiles() assumes when it sizes the tiles.
+  function scrollToGame() {
+    const y = root.getBoundingClientRect().top + window.scrollY - gameTopOffset();
+    if (Math.abs(y - window.scrollY) < 2) return;
+    window.scrollTo({ top: Math.max(0, y), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }
+
+  // Space above the game box when it's scrolled into view: just below the
+  // sticky header, or near the top on short screens where it isn't sticky.
+  function gameTopOffset() {
+    const header = document.querySelector('.site-header');
+    const sticky = header && getComputedStyle(header).position === 'sticky';
+    return sticky ? header.offsetHeight + 8 : 8;
+  }
+
+  // Shuffle the photos inside a round, keeping track of which one is AI
+  function shuffleItems(round) {
+    const ai = round.items[round.aiIndex];
+    const items = shuffle([...round.items]);
+    return { ...round, items, aiIndex: items.indexOf(ai) };
   }
 
   function shuffle(arr) {

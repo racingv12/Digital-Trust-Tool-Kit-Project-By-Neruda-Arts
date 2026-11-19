@@ -49,6 +49,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }, { passive: true });
   updateProgress();
 
+  /* ---- Keep section headings clear of the sticky header ----
+     The header's height changes with the screen size (one or two rows),
+     so the space left above a section when jumping to it follows it. */
+  const header = document.querySelector('.site-header');
+  function updateScrollPadding() {
+    if (!header) return;
+    const sticky = getComputedStyle(header).position === 'sticky';
+    document.documentElement.style.scrollPaddingTop = `${sticky ? header.offsetHeight + 8 : 8}px`;
+  }
+  updateScrollPadding();
+  window.addEventListener('resize', updateScrollPadding);
+  if (document.fonts) document.fonts.ready.then(updateScrollPadding);
+
   /* ---- 3. Active nav link ---- */
   const links = [...document.querySelectorAll('.nav__links a[href^="#"]')];
   const sections = links
