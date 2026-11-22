@@ -2,7 +2,8 @@
 # Docs: https://developers.cloudflare.com/pages/configuration/headers/
 #
 # The Content-Security-Policy below allows exactly what this site uses:
-# Google Fonts, YouTube (privacy mode) and Vimeo players, and YouTube thumbnails.
+# Google Fonts, YouTube (privacy mode) and Vimeo players, YouTube thumbnails,
+# and the Google Apps Script web app that receives subscription emails.
 # If you later add another service (analytics, a form provider, etc.),
 # add its domain to the matching line or it will be blocked.
 
@@ -10,7 +11,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://i.ytimg.com; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https://i.ytimg.com; frame-src https://www.youtube-nocookie.com https://player.vimeo.com; connect-src 'self' https://script.google.com https://script.googleusercontent.com; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
 
 /assets/*
   Cache-Control: public, max-age=604800

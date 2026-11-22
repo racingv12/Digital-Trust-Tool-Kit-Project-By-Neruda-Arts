@@ -1,6 +1,6 @@
 # Digital Trust website
 
-Static site (HTML, CSS, JavaScript, no build step) for https://digitaltrust.nerudaarts.ca, hosted on Cloudflare Pages.
+Static site (HTML, CSS, JavaScript, no build step) for https://digitaltrust.nerudaarts.ca, hosted on Cloudflare (Neruda Arts' account, Worker named `digitaltrust`). Subscription emails go to a Google Sheet through a small Google Apps Script (see "Email subscription").
 
 ## Files
 
@@ -14,17 +14,17 @@ js/video.js         YouTube / Vimeo embeds that load on click
 js/checklist.js     Print and clear buttons for the Before-you-post checklist
 js/game-data.js     Game rounds and settings  ← edit this for the game
 js/game.js          Game logic (normally no need to edit)
+js/subscribe.js     Sends the Subscription form to the Google Apps Script web app
+google-apps-script/ The script pasted into the "Subscribers" Google Sheet (a copy for reference)
 assets/images/      Images used on the page
 assets/game/        Images used in the game
 _headers            Cloudflare Pages security and caching headers
 favicon.svg         Browser tab icon
 ```
 
-## Deploying to Cloudflare Pages
+## Deploying to Cloudflare
 
-**Using Git (recommended):** put this folder in a GitHub repository, connect it in Cloudflare Pages, and set the framework preset to "None", the build command to empty, and the output directory to `/`. Every push publishes a new version.
-
-**Direct upload:** in Cloudflare Pages, create a project with "Upload assets" and drag in the contents of this folder (index.html must be at the top level, not inside a subfolder).
+The GitHub repository is connected to the `digitaltrust` Worker in Neruda Arts' Cloudflare account: every push publishes a new version of these files.
 
 To preview locally, run `python3 -m http.server` in this folder and open http://localhost:8000.
 
@@ -120,6 +120,27 @@ Open `js/game-data.js`:
 - **AI-use note:** the note under the game, and the AI-use line in About › Sources and credits, should name the AI tool used to make the game images.
 - **Quitting:** players can leave a game at any time with the Quit button or the Esc key. This returns them to the start screen and nothing from the unfinished game is scored.
 - **Rounds per game:** `roundsPerGame: 'all'` plays every pack. Set a number instead to play a random selection of that many.
+
+## Email subscription
+
+The **Subscription** section has an email box. When someone subscribes, `js/subscribe.js` sends the address to a **Google Apps Script** web app, which adds it to the **"Subscribers" Google Sheet** (Digital Trust folder in Google Drive, owned by the Digital Trust Team account). The sheet updates the moment someone subscribes.
+
+- **No duplicates:** the script checks the sheet first and only adds an address that isn't already there (upper/lower case doesn't matter). Two people subscribing at the same moment can't create a duplicate either.
+- **Privacy:** the form gives the same "You're on the list" answer whether or not the address was already there, so nobody can use it to check who is subscribed. Keep the sheet private: it holds personal information.
+- **Consent and spam:** visitors must tick the consent box (needed under Canada's anti-spam law, CASL), and a hidden spam-trap field catches simple bots.
+- **Excel:** in the sheet, *File › Download › Microsoft Excel (.xlsx)* gives an Excel copy of the current list at any time.
+- **Unsubscribes:** delete that person's row in the sheet.
+
+### One-time setup (signed in as the Digital Trust Team Google account)
+
+1. Open the **Subscribers** Google Sheet › *Extensions › Apps Script*.
+2. Delete what's in `Code.gs`, paste the whole of `google-apps-script/subscribe.gs`, and click **Save**.
+3. Click **Deploy › New deployment** › gear icon › **Web app**. Set *Execute as* **Me** and *Who has access* **Anyone**, then **Deploy**. Google asks you to allow access to your spreadsheets: choose the Digital Trust Team account › *Advanced* › *Go to … (unsafe)* › *Allow*. (The warning appears because the script is new and unreviewed; it only touches this spreadsheet.)
+4. Copy the **Web app URL** (it starts with `https://script.google.com/macros/s/` and ends with `/exec`).
+5. In `index.html`, paste the URL into `data-endpoint="…"` on the subscribe form (already done for the current deployment). Commit and push.
+6. Test: subscribe with your own address on the live site. A row should appear in the sheet (the first sign-up also adds the Email / Subscribed header row). Subscribe again with the same address: no second row.
+
+If you change the script later, use **Deploy › Manage deployments › Edit (pencil) › Version: New version › Deploy**, so the same URL keeps working.
 
 ## Security headers
 

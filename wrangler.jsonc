@@ -1,0 +1,32 @@
+// Cloudflare Worker settings for the Digital Trust Toolkit.
+// See README.md, "Email subscription", for the setup steps.
+{
+  // Must match the Worker's name in the Cloudflare dashboard.
+  "name": "digitaltrust",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-11-01",
+
+  // The website files. Requests to /api/... go to worker/index.js first;
+  // everything else is served straight from these files.
+  // .assetsignore keeps the worker code and settings from being published.
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // The database that stores the email addresses.
+  // Create it in the dashboard (Storage & Databases › D1 › Create, name it
+  // "digital-trust-subscribers") and paste its Database ID below.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "digital-trust-subscribers",
+      "database_id": "PASTE-THE-D1-DATABASE-ID-HERE"
+    }
+  ]
+
+  // The download password is a secret, so it is NOT written here:
+  // dashboard › Workers › beta-website › Settings › Variables and Secrets ›
+  // add a Secret named EXPORT_PASSWORD.
+}

@@ -91,6 +91,7 @@
         <li><a href="#watch">Videos and infographics</a></li>
         <li><a href="#environment">AI and the environment</a></li>
         <li><a href="#share">Download and share</a></li>
+        <li><a href="#subscribe">Subscription</a></li>
         <li><a href="#about">About the team</a></li>
       </ul>
     </nav>
@@ -617,6 +618,42 @@
       </details>
     </section>
 
+    <!-- SUBSCRIPTION: js/subscribe.js sends the address to the Google Apps Script
+         web app (google-apps-script/subscribe.gs), which adds it once to the
+         "Subscribers" Google Sheet. Paste the Web app URL into data-endpoint below.
+         See README › Email subscription. -->
+    <section class="section reveal" id="subscribe">
+      <h2>Subscription</h2>
+      <div class="section__summary">
+        <p>
+          Want to hear when there’s something new? Leave your email to get updates about the
+          toolkit and upcoming events, like the webinar for educators.
+        </p>
+      </div>
+      <form class="subscribe" id="subscribe-form" novalidate
+            data-endpoint="https://script.google.com/macros/s/AKfycbzh3V2rVtOockcbFmoG7vmv2p_uxNM_tuJUWUjW3ZBDI14NXqsgjrRPQZ7v7ArSpSE/exec">
+        <label class="subscribe__label" for="subscribe-email">Email address</label>
+        <div class="subscribe__row">
+          <input class="subscribe__input" id="subscribe-email" name="email" type="email"
+                 autocomplete="email" inputmode="email" maxlength="254" required
+                 placeholder="you@example.com" aria-describedby="subscribe-status">
+          <button class="button button--primary subscribe__button" type="submit">Subscribe</button>
+        </div>
+        <label class="subscribe__consent">
+          <input type="checkbox" name="consent" required>
+          <span>I agree to receive emails about the Digital Trust Toolkit from Neruda Arts. I can unsubscribe at any time.</span>
+        </label>
+        <!-- Spam trap: hidden from people, often filled in by bots -->
+        <div class="subscribe__trap" aria-hidden="true">
+          <label for="subscribe-website">Leave this empty</label>
+          <input id="subscribe-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <p class="subscribe__status" id="subscribe-status" role="status" aria-live="polite"></p>
+        <p class="subscribe__note">We only use your email to send toolkit updates. We never share or sell it.</p>
+        <noscript><p class="subscribe__note">The subscription form needs JavaScript turned on.</p></noscript>
+      </form>
+    </section>
+
     <section class="section reveal" id="about">
       <h2>About the team</h2>
       <div class="section__summary">
@@ -731,6 +768,7 @@
 
   <script src="js/menu.js" defer></script>
   <script src="js/carousel.js" defer></script>
+  <script src="js/subscribe.js" defer></script>
   <script src="js/video.js" defer></script>
   <script src="js/checklist.js" defer></script>
   <script src="js/game-data.js" defer></script>
