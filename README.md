@@ -9,6 +9,7 @@ index.html          Page content and structure
 css/style.css       All styling (colours and fonts are at the top, in :root)
 js/animations.js    Scroll reveal, reading progress bar, active nav link
 js/menu.js          Phone menu: the ☰ button opens a sidebar with every section
+js/carousel.js      "Meet the team" carousel in About (arrows, dots, arrow keys, swipe)
 js/video.js         YouTube / Vimeo embeds that load on click
 js/checklist.js     Print and clear buttons for the Before-you-post checklist
 js/game-data.js     Game rounds and settings  ← edit this for the game
@@ -68,6 +69,10 @@ Don't leave placeholder text on the page: until content is ready, hide or remove
 ## Brand colours and fonts
 
 Colours and fonts follow the team's brand palette ("Tech Tones", in Google Drive › Social Media › Brand Pallette) and are set at the top of `css/style.css`. All fonts load from Google Fonts. The body text uses the brand's Poppins. The brand's title and subtitle fonts, PHATT and Zing Rust Base, aren't on Google Fonts, so similar-looking free fonts stand in for them: Orbitron for titles and Barlow Condensed (bold italic) for subtitles.
+
+## Meet the team
+
+The About section has a "Meet the team" carousel of the team's "Meet our team" posts, saved in `assets/images/team/`. Each image's alt text repeats the words in the post, so screen-reader users get the same introduction. To add someone, add their image (square WebP or JPG, around 1200 px) to that folder and copy one `<figure class="carousel__slide">` block in `index.html`, updating the "1 of 5" numbers in every slide's `aria-label`. The carousel never moves on its own.
 
 ## Phone menu
 

@@ -625,6 +625,52 @@
           mentorship from Neruda Arts.
         </p>
       </div>
+
+      <!-- MEET THE TEAM carousel (js/carousel.js). Each slide is a "Meet our team" post
+           (Google Drive › Social Media › Team Introductions). The alt text repeats the
+           words in the image so screen-reader users get the same introduction.
+           To add someone, copy a <figure> block and add their image to assets/images/team/. -->
+      <h3 class="subhead" id="team-heading">Meet the team</h3>
+      <div class="carousel" data-carousel role="region" aria-roledescription="carousel" aria-labelledby="team-heading">
+        <div class="carousel__track" tabindex="0" aria-label="Team introductions, use the arrow keys to move between them">
+          <figure class="carousel__slide" role="group" aria-roledescription="slide" aria-label="1 of 5: Joan Mboya">
+            <img src="assets/images/team/joan-mboya.webp" width="1200" height="1200" loading="lazy"
+                 alt="Meet our team: Joan Mboya, Social Media. “Joan here, a creative blending digital marketing and UX to share brand stories and build communities around them. Creating what aligns with brands and audiences while fostering authenticity, as that builds connection, and connection builds community. Grounded in nature, present in mindfulness, and always on the lookout for new things to learn and try. A little whimsy never hurts :)”">
+            <figcaption><strong>Joan Mboya</strong> · Social Media</figcaption>
+          </figure>
+          <figure class="carousel__slide" role="group" aria-roledescription="slide" aria-label="2 of 5: Ali Bagheri">
+            <img src="assets/images/team/ali-bagheri.webp" width="1200" height="1200" loading="lazy"
+                 alt="Meet our team: Ali Bagheri, Web Developer. “Hey, my name is Ali Bagheri, and I’m studying Honours Computer Science at the University of Waterloo. I was drawn to the Digital Trust Toolkit because I wanted to raise awareness about AI, misinformation, and the importance of making informed decisions when using AI. I was particularly interested in exploring these topics through a unique, engaging, and interactive experience.”">
+            <figcaption><strong>Ali Bagheri</strong> · Web Developer</figcaption>
+          </figure>
+          <figure class="carousel__slide" role="group" aria-roledescription="slide" aria-label="3 of 5: Anum Iftikhar">
+            <img src="assets/images/team/anum-iftikhar.webp" width="1200" height="1200" loading="lazy"
+                 alt="Meet our team: Anum Iftikhar, UX Designer. “After taking part in the Digital Trust Project, I joined the student team selected to co-create the Digital Trust Toolkit as UX Designer, helping develop practical resources for students and educators to make informed choices as AI becomes increasingly embedded in how we work, create and communicate. My background in healthcare and teaching has taught me to understand people’s needs and explain complex ideas clearly. I’m excited to bring that perspective to shaping a toolkit that is accessible, intuitive and easy to use.”">
+            <figcaption><strong>Anum Iftikhar</strong> · UX Designer</figcaption>
+          </figure>
+          <figure class="carousel__slide" role="group" aria-roledescription="slide" aria-label="4 of 5: Chara Tan">
+            <img src="assets/images/team/chara-tan.webp" width="1200" height="1200" loading="lazy"
+                 alt="Meet our team: Chara Tan, Project Manager. Chara Tan is a Singaporean-Malaysian-Canadian indie electronic musician and creative technologist studying Interactive Media Management in Humber Polytechnic’s Creative Technology program. With a background in both the arts and a double major in Criminology and Sociology from the University of Toronto, Chara’s interest lies in examining shifting trends and patterns in society, and giving a platform to her observations through the intersection of art and technology. The artistic merit of Chara’s music (released under the stage name Chara Kai-Le) is supported by granting organizations such as FACTOR Canada and the Ontario Arts Council, and she has played headline shows across Ontario, BC, and in her hometown of Singapore. When not making music or developing skills in Creative Technology, Chara enjoys travelling the world, reading, meditating, and anything that helps to expand the mind.">
+            <figcaption><strong>Chara Tan</strong> · Project Manager</figcaption>
+          </figure>
+          <figure class="carousel__slide" role="group" aria-roledescription="slide" aria-label="5 of 5: Ashley Balbaa">
+            <img src="assets/images/team/ashley-balbaa.webp" width="1200" height="1200" loading="lazy"
+                 alt="Meet our team: Ashley Balbaa, Multi-Media Designer. “I am a Film and Television Production student passionate about storytelling across all facets of media. As a creator, I recognize the urgency of navigating emerging technologies, particularly given the risks they pose to artistic individuality, originality, and media oversaturation. Participating in the Digital Trust Workshops equipped me with practical strategies to strengthen my personal and creative security, protecting both my identity and my intellectual property. Moving forward, I am committed to sharing this awareness with fellow creatives, as understanding how Artificial Intelligence operates is essential to preventing unintentional exposure and safeguarding original work.”">
+            <figcaption><strong>Ashley Balbaa</strong> · Multi-Media Designer</figcaption>
+          </figure>
+        </div>
+        <!-- Shown once js/carousel.js runs; without it the slides can still be swiped or scrolled -->
+        <div class="carousel__controls" hidden>
+          <button class="carousel__arrow" type="button" data-carousel-prev aria-label="Previous team member">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <div class="carousel__dots" data-carousel-dots></div>
+          <button class="carousel__arrow" type="button" data-carousel-next aria-label="Next team member">
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
       <details class="deep-dive">
         <summary>Sources and credits</summary>
         <div class="deep-dive__body">
@@ -684,6 +730,7 @@
   </footer>
 
   <script src="js/menu.js" defer></script>
+  <script src="js/carousel.js" defer></script>
   <script src="js/video.js" defer></script>
   <script src="js/checklist.js" defer></script>
   <script src="js/game-data.js" defer></script>
