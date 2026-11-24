@@ -392,6 +392,8 @@ a:hover { text-decoration-thickness: 2px; }
   position: relative; isolation: isolate;
   justify-self: center; line-height: 0;
 }
+@media (max-width: 1110px) {
+  .hero__shield-wrap { display: none; }}
 
 .hero__shield { width: clamp(11rem, 22vw, 17rem); height: auto; }
 @media (min-width: 900px) {
