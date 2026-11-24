@@ -147,10 +147,8 @@ a:hover { text-decoration-thickness: 2px; }
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   font-family: var(--font-display);
 }
-.nav__brand {
-  font-family: var(--font-title); font-weight: 800; text-transform: uppercase;
-  text-decoration: none; font-size: 0.85rem; white-space: nowrap;
-}
+.nav__brand { flex: none; display: block; line-height: 0; text-decoration: none; }
+.nav__logo { height: 2.9rem; width: auto; }   /* text-only logo, three short lines */
 .nav__links {
   list-style: none; margin: 0; padding: 0;
   display: flex; gap: 1rem; align-items: center;
@@ -171,7 +169,7 @@ a:hover { text-decoration-thickness: 2px; }
 .nav__links .nav__cta:hover { color: var(--mark-ink); background: var(--mark-hover); text-decoration: none; }
 /* Narrow laptops: keep the menu on one row by tightening the gaps and showing
    Translate as its globe icon (screen readers still hear "Translate"). */
-@media (max-width: 1220px) and (min-width: 1121px) {
+@media (max-width: 1110px) and (min-width: 1001px) {
   .nav { gap: 0.75rem; }
   .nav__links { gap: 0.85rem; }
   .translate summary { padding: 0.35rem 0.5rem; }
@@ -182,7 +180,7 @@ a:hover { text-decoration-thickness: 2px; }
 }
 /* Smaller laptops and tablets: when the menu can't fit on one row, the links
    move to a second row and wrap, so they all stay visible. */
-@media (max-width: 1120px) and (min-width: 721px) {
+@media (max-width: 1000px) and (min-width: 721px) {
   html { scroll-padding-top: 7rem; }   /* the header is taller here */
   .nav { flex-wrap: wrap; row-gap: 0.6rem; }
   .nav__links {
@@ -195,9 +193,8 @@ a:hover { text-decoration-thickness: 2px; }
 @media (max-width: 720px) {
   .nav__links li:not(:last-child) { display: none; }
   /* Keep "Play the game" whole at every phone width: it never shrinks or
-     scrolls; the site name wraps onto more lines instead if space runs out */
+     scrolls (the logo on the left keeps its size) */
   .nav__links { flex: none; overflow: visible; }
-  .nav__brand { min-width: 0; white-space: normal; line-height: 1.2; }
 }
 
 /* Translate menu */
@@ -214,7 +211,7 @@ a:hover { text-decoration-thickness: 2px; }
 /* Narrow phones: globe icon only, so the brand, CTA and Translate fit on one line */
 @media (max-width: 480px) {
   .nav { gap: 0.6rem; }
-  .nav__brand { font-size: 0.8rem; }
+  .nav__logo { height: 2.6rem; }
   .nav__links .nav__cta { padding: 0.35rem 0.6rem; }
   .translate summary { padding: 0.35rem 0.5rem; }
   .translate__label {
@@ -343,13 +340,7 @@ a:hover { text-decoration-thickness: 2px; }
   font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
   margin-bottom: 1.5rem;
 }
-.hero__title {
-  font-size: clamp(2.3rem, 1.3rem + 4.8vw, 5.4rem);
-  font-weight: 900;
-  line-height: 1.05;
-  margin-bottom: 0.45em;
-  max-width: 12em;
-}
+.hero__title { margin: 0; }   /* the title is the shield logo: see "Hero logo" below */
 .hero__lede {
   max-width: 42rem; color: var(--muted);
   font-size: clamp(1.15rem, 1rem + 0.7vw, 1.5rem); line-height: 1.6;
@@ -361,10 +352,60 @@ a:hover { text-decoration-thickness: 2px; }
   .hero { min-height: auto; }
 }
 
+/* ---------- Decorative tools (from the brand's "tool variations") ----------
+   One tool per section, in the empty space to the right of the content.
+   Each tool's size follows the free space beside that section's content
+   (46rem for text-only sections, 60rem for wide ones, plus any page margin),
+   so it never covers text. Hidden when the phone menu (☰) appears. */
+.deco-tool {
+  --content: 60rem;
+  --margin: max(0px, calc((100vw - 100%) / 2 - 1.5rem));    /* page margin outside the section */
+  --room: calc(100% - 2 * var(--gutter) - var(--content) - 1.5rem + var(--margin));
+  position: absolute; z-index: 0; pointer-events: none;
+  right: calc(var(--gutter) - var(--margin));
+  top: var(--top, 4.5rem);
+  width: min(var(--room), var(--size));
+  height: auto;
+  transform: rotate(var(--turn, 0deg));
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.12));
+}
+.deco-tool--text { --content: 46rem; }
+.deco-tool--toolbox     { --size: 190px; --turn: -6deg;  --top: 3.5rem; }
+.deco-tool--wrench      { --size: 70px;  --turn: 18deg;  --top: 6rem; }
+.deco-tool--saw         { --size: 190px; --turn: -14deg; --top: 9rem; }
+.deco-tool--screwdriver { --size: 62px;  --turn: -20deg; --top: 4rem; }
+.deco-tool--drill       { --size: 140px; --turn: 8deg;   --top: 7rem; }
+.deco-tool--hammer      { --size: 160px; --turn: -10deg; --top: 3rem; }
+/* Not enough empty space next to the content: hide instead of squeezing */
+@media (max-width: 1179px) { .deco-tool--wide { display: none; } }
+@media (max-width: 959px)  { .deco-tool--text { display: none; } }
+@media print { .deco-tool { display: none !important; } }
+
 /* ---------- Content sections ---------- */
 /* All sections share the hero's left edge; text stays at reading width,
    while videos and the game use the full width. */
+/* Hero logos: the page title (h1) is the text logo, where the title text used to
+   be; the shield sits to the right of the text on wide screens, above it on phones. */
+.hero__title { margin: 0 0 1.75rem; line-height: 0; }
+.hero__wordmark { width: clamp(10rem, 19vw, 15rem); height: auto; }
+.hero__shield-wrap {
+  position: relative; isolation: isolate;
+  justify-self: center; line-height: 0;
+}
+
+.hero__shield { width: clamp(11rem, 22vw, 17rem); height: auto; }
+@media (min-width: 900px) {
+  .hero { grid-template-columns: 1.55fr 1fr; }
+  .hero__shield-wrap { grid-column: 2; grid-row: 1; }
+  .hero__inner { grid-column: 1; grid-row: 1; }
+}
+@media (max-width: 899px) {
+  .hero__shield-wrap { justify-self: start; margin-bottom: -1rem; }
+  .hero__shield { width: clamp(6.5rem, 24vw, 9rem); }
+}
+
 .section {
+  position: relative;   /* for the decorative tools */
   max-width: calc(var(--wide) + 2 * var(--gutter));
   margin: 0 auto;
   justify-content: center; 

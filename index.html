@@ -28,7 +28,13 @@
         <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         <span class="visually-hidden">Menu</span>
       </button>
-      <a class="nav__brand" href="#top">Digital Trust Toolkit</a>
+      <!-- Text-only logo ("The Digital Trust Project"); the "-dark" file is for the dark colours -->
+      <a class="nav__brand" href="#top">
+        <picture>
+          <source srcset="assets/images/brand/logo-wordmark-dark.png" media="screen and (prefers-color-scheme: light)">
+          <img class="nav__logo" src="assets/images/brand/logo-wordmark.png" width="184" height="132" alt="The Digital Trust Project, back to top">
+        </picture>
+      </a>
       <ul class="nav__links">
         <li><a href="#trust">Fact-checking</a></li>
         <li><a href="#creativity">Creativity and credit</a></li>
@@ -102,9 +108,26 @@
 
     <!-- HERO -->
     <section class="hero" id="top">
+      <!-- Logos from assets/images/brand/. The "-dark" files are the black-background
+           versions, used with the site's dark colours: they use the same media query as
+           the dark colours in css/style.css (currently "prefers-color-scheme: light").
+           Change both together. -->
+      <!-- Shield (decorative): right of the text on wide screens, above it on phones -->
+      <div class="hero__shield-wrap" aria-hidden="true">
+        <picture>
+          <source srcset="assets/images/brand/logo-shield-dark.png" media="screen and (prefers-color-scheme: light)">
+          <img class="hero__shield" src="assets/images/brand/logo-shield.png" width="216" height="233" alt="">
+        </picture>
+      </div>
       <div class="hero__inner">
         <p class="hero__by">Made by students, with Neruda Arts</p>
-        <h1 class="hero__title">Digital Trust Toolkit</h1>
+        <!-- The page title is the text logo; its alt text is the title for screen readers and search engines -->
+        <h1 class="hero__title">
+          <picture>
+            <source srcset="assets/images/brand/logo-wordmark-dark.png" media="screen and (prefers-color-scheme: light)">
+            <img class="hero__wordmark" src="assets/images/brand/logo-wordmark.png" width="184" height="132" alt="The Digital Trust Project: Digital Trust Toolkit">
+          </picture>
+        </h1>
         <p class="hero__lede">
           A free toolkit about AI, misleading content and creative work. For students,
           young creators and educators who want to make informed choices about what they
@@ -115,7 +138,6 @@
           <a class="button button--quiet" href="#test">Play the game</a>
         </div>
       </div>
-      <!-- Once the game images are ready, a few of them could go here as a game preview. -->
     </section>
 
     <!--
@@ -128,6 +150,7 @@
     -->
 
     <section class="section reveal" id="purpose">
+      <img class="deco-tool deco-tool--text deco-tool--toolbox" src="assets/images/brand/tool-toolbox.png" width="354" height="257" alt="" aria-hidden="true" loading="lazy">
       <h2>What this toolkit is for</h2>
       <div class="section__summary">
         <p>
@@ -224,6 +247,7 @@
     </section>
 
     <section class="section reveal" id="trust">
+      <img class="deco-tool deco-tool--wide deco-tool--wrench" src="assets/images/brand/tool-wrench.png" width="110" height="320" alt="" aria-hidden="true" loading="lazy">
       <h2>Trust and fact-checking</h2>
       <div class="section__summary">
         <p>
@@ -297,6 +321,7 @@
     </section>
 
     <section class="section reveal" id="creativity">
+      <img class="deco-tool deco-tool--wide deco-tool--saw" src="assets/images/brand/tool-saw.png" width="343" height="160" alt="" aria-hidden="true" loading="lazy">
       <h2>Creativity and ownership</h2>
       <div class="section__summary">
         <p>
@@ -430,6 +455,7 @@
 
     <!-- BEFORE YOU POST: the one-page checklist. "Print the checklist" prints only this section. -->
     <section class="section reveal" id="checklist">
+      <img class="deco-tool deco-tool--wide deco-tool--screwdriver" src="assets/images/brand/tool-screwdriver.png" width="102" height="276" alt="" aria-hidden="true" loading="lazy">
       <!-- Shown only on the printed checklist (hidden on screen) -->
       <div class="print-header" aria-hidden="true">
         <img src="assets/images/neruda-arts-logo.png" width="961" height="278" alt="">
@@ -475,6 +501,7 @@
     <!-- YOU'RE NOT ALONE. Before publishing, Karen and Kim check the quotes against the
          original recordings. Only include a name if the student has given permission. -->
     <section class="section reveal" id="voices">
+      <img class="deco-tool deco-tool--wide deco-tool--drill" src="assets/images/brand/tool-drill.png" width="222" height="308" alt="" aria-hidden="true" loading="lazy">
       <h2>Feeling overwhelmed? You’re not alone</h2>
       <div class="section__summary">
         <p>
@@ -583,6 +610,7 @@
 
     <!-- ENVIRONMENT. Before publishing, fact-check these tips against a current, reliable source. -->
     <section class="section reveal" id="environment">
+      <img class="deco-tool deco-tool--text deco-tool--hammer" src="assets/images/brand/tool-hammer.png" width="265" height="235" alt="" aria-hidden="true" loading="lazy">
       <h2>AI and the environment</h2>
       <div class="section__summary">
         <p>

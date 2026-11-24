@@ -70,6 +70,18 @@ Don't leave placeholder text on the page: until content is ready, hide or remove
 
 Colours and fonts follow the team's brand palette ("Tech Tones", in Google Drive › Social Media › Brand Pallette) and are set at the top of `css/style.css`. All fonts load from Google Fonts. The body text uses the brand's Poppins. The brand's title and subtitle fonts, PHATT and Zing Rust Base, aren't on Google Fonts, so similar-looking free fonts stand in for them: Orbitron for titles and Barlow Condensed (bold italic) for subtitles.
 
+## Logo and tools
+
+The page title in the hero is the text-only logo (wordmark), where the title text used to be; its alt text is the title for screen readers and search engines. The shield logo sits beside it (above it on phones), the header also shows the wordmark, and six tools from the brand's "tool variations" are placed down the right side of the page, one per section. All are in `assets/images/brand/`:
+
+- `logo-shield.png`, `logo-wordmark.png`: for the light colours. In the wordmark, the light blue "DIGITAL" was darkened to the brand blue `#0393bf` so it reads on the light background.
+- `logo-shield-dark.png`, `logo-wordmark-dark.png`: the black-background versions, for the dark colours.
+- `tool-toolbox.png`, `tool-wrench.png`, `tool-saw.png`, `tool-screwdriver.png`, `tool-drill.png`, `tool-hammer.png`.
+
+They were cut out of the brand sheets (the white/black backgrounds made transparent), so they are fairly small. For sharper images, export each one from the original design (e.g. Canva) as a PNG with a transparent background at 2–3× size and replace the file with the same name.
+
+Each tool only appears where there's empty space to the right of its section's content, so it never covers text: they're hidden when the phone menu (☰) appears and on narrow screens. To move one, change its `--top`, `--turn` (rotation) or `--size` in `css/style.css` (`.deco-tool--hammer` etc.), or move its `<img class="deco-tool …">` line to another section in `index.html`.
+
 ## Meet the team
 
 The About section has a "Meet the team" carousel of the team's "Meet our team" posts, saved in `assets/images/team/`. Each image's alt text repeats the words in the post, so screen-reader users get the same introduction. To add someone, add their image (square WebP or JPG, around 1200 px) to that folder and copy one `<figure class="carousel__slide">` block in `index.html`, updating the "1 of 5" numbers in every slide's `aria-label`. The carousel never moves on its own.
