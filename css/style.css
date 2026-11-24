@@ -762,6 +762,27 @@ a:hover { text-decoration-thickness: 2px; }
 .subscribe__status[data-kind="success"] { color: var(--right); }
 .subscribe__status[data-kind="error"] { color: var(--wrong); }
 .subscribe__note { margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.subscribe[hidden] { display: none; }
+
+/* Thanks message that replaces the form after subscribing */
+.subscribe-done { max-width: 34rem; margin-top: 1.25rem; }
+.subscribe-done[hidden] { display: none; }
+.subscribe-done:focus { outline: none; }
+.subscribe-done__message {
+  display: flex; align-items: center; gap: 0.6rem; margin: 0;
+  font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
+}
+.subscribe-done__check {
+  flex: none; display: grid; place-items: center;
+  width: 1.9rem; height: 1.9rem; border-radius: 50%;
+  background: var(--right); color: var(--surface); font-size: 1.05rem; line-height: 1;
+}
+.subscribe-done__again {
+  margin-top: 0.6rem; padding: 0; border: 0; background: none; cursor: pointer;
+  font: inherit; font-size: 0.9rem; color: var(--muted);
+  text-decoration: underline; text-underline-offset: 0.2em;
+}
+.subscribe-done__again:hover { color: var(--ink); }
 @media print { #subscribe { display: none !important; } }
 
 /* ---------- Footer ---------- */

@@ -13,11 +13,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const consent = form.querySelector('[name="consent"]');
   const button = form.querySelector('button[type="submit"]');
   const status = document.getElementById('subscribe-status');
+  const done = document.getElementById('subscribe-done');
+  const doneText = document.getElementById('subscribe-done-text');
+  const again = document.getElementById('subscribe-again');
 
   function show(message, kind) {
     status.textContent = message;
-    status.dataset.kind = kind;   // "error", "success" or "info", for styling
+    status.dataset.kind = kind;   // "error" or "info", for styling
   }
+
+  // After a successful sign-up the form is replaced by the ✓ thanks message.
+  // Focus moves to the message so screen readers announce it.
+  function showThanks(message) {
+    form.reset();
+    show('', 'info');
+    doneText.textContent = message;
+    form.hidden = true;
+    done.hidden = false;
+    done.focus();
+  }
+
+  // "Add another email" brings the empty form back
+  again.addEventListener('click', () => {
+    done.hidden = true;
+    form.hidden = false;
+    email.focus();
+  });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
@@ -57,8 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.ok) {
-        show(data.message || 'Thanks! You’re on the list.', 'success');
-        form.reset();
+        showThanks(data.message || 'Thanks! You’re on the list.');
       } else {
         show(data.message || 'Subscriptions aren’t available right now. Please try again later.', 'error');
       }

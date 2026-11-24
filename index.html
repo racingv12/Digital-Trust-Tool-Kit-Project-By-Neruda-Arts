@@ -653,6 +653,14 @@
         <p class="subscribe__note">We only use your email to send toolkit updates. We never share or sell it.</p>
         <noscript><p class="subscribe__note">The subscription form needs JavaScript turned on.</p></noscript>
       </form>
+      <!-- Shown instead of the form after a successful sign-up (js/subscribe.js) -->
+      <div class="subscribe-done" id="subscribe-done" tabindex="-1" hidden>
+        <p class="subscribe-done__message">
+          <span class="subscribe-done__check" aria-hidden="true">✓</span>
+          <span id="subscribe-done-text">Thanks! You’re on the list.</span>
+        </p>
+        <button class="subscribe-done__again" type="button" id="subscribe-again">Add another email</button>
+      </div>
     </section>
 
     <section class="section reveal" id="about">
