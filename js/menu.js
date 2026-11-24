@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const panel = drawer.querySelector('.drawer__panel');
   const background = [document.querySelector('.site-header'), document.getElementById('main'), document.querySelector('.site-footer')].filter(Boolean);
-  const phone = window.matchMedia('(max-width: 720px)');
+  const phone = window.matchMedia('(max-width: 880px)');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let closeTimer = null;
 

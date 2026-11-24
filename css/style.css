@@ -1,60 +1,103 @@
 /* =========================================================
    Digital Trust – stylesheet
+   Follows the team's style guide and full-page mockup (Nov 2026).
    Change colours and fonts in :root to restyle the whole site.
 
-   Colours: the team's brand palette "Tech Tones"
-   (Google Drive › Social Media › Brand Pallette › 1.png):
-     greys    #c8d1d9  #747474  #343236  #000000
-     blues    #b0f0ff  #7dc8f2  #0393bf  #0e6d8b
-     purples  #8c52ff  #9562ae  #551a74  #221b4b
-   --paper and the dark-theme --surface/--line are tints of these.
-   --wrong stays red, because "wrong answer" needs to read as red.
+   Colours: Ash's brand palette "Tech Tones"
+     navy        #221b4b  main text, primary buttons
+     purple-700  #551a74  section headings, primary button hover
+     purple-400  #9562ae  decorative (card edges)
+     blue-700    #0e6d8b  links, tag text
+     blue-500    #0393bf  focus ring, icons, step numbers (never body text)
+     blue-300    #7dc8f2  decorative (card edges), Play button hover
+     blue-100    #b0f0ff  soft fills: tags, step circles, Play button
+     grey-800    #343236  secondary text
+     grey-100    #c8d1d9  card borders, dividers, secondary button hover
+     page        #f3f5f8  page background
+     error       #b3261e  wrong answers only, always with an icon or word
    ========================================================= */
 
 :root {
-  --paper:      #F1F4F6;   /* page background (light tint of #c8d1d9) */
-  --surface:    #FFFFFF;   /* tiles, video cards */
-  --ink:        #221B4B;   /* main text: deep navy-purple */
-  --muted:      #343236;   /* secondary text: charcoal */
-  --line:       #C8D1D9;   /* borders: brand grey */
-  --accent:     #551A74;   /* headings: brand purple */
-  --mark:       #B0F0FF;   /* bright cyan: the one bold accent (Play the game, highlights) */
-  --mark-hover: #7DC8F2;   /* sky blue for hover */
-  --mark-ink:   #221B4B;   /* text on the accent */
-  --focus:      #8C52FF;   /* keyboard focus outline: violet */
-  --right:      #0E6D8B;   /* correct answer: deep teal */
-  --wrong:      #B4443C;
+  --paper:      #F3F5F8;   /* page background */
+  --surface:    #FFFFFF;   /* cards, header, footer */
+  --ink:        #221B4B;   /* main text: navy */
+  --muted:      #343236;   /* secondary text: grey-800 */
+  --line:       #C8D1D9;   /* borders and dividers: grey-100 */
+  --accent:     #551A74;   /* headings, hover colour: purple-700 */
+  --link:       #0E6D8B;   /* links and tag text: blue-700 */
+  --mark:       #B0F0FF;   /* soft fills, Play button: blue-100 */
+  --mark-hover: #7DC8F2;   /* Play button hover: blue-300 */
+  --mark-ink:   #221B4B;   /* text on the soft fills */
+  --focus:      #0393BF;   /* keyboard focus ring: blue-500 */
+  --right:      #0E6D8B;   /* correct answer */
+  --wrong:      #B3261E;   /* wrong answer (error) */
 
-  /* Brand fonts (Brand Pallette › 1.png), all from Google Fonts (index.html).
-     The brand's PHATT and Zing Rust Base aren't on Google Fonts, so these
-     free fonts with a similar look stand in for them:
-       titles    Orbitron                         for PHATT: wide, heavy, square, capitals
-       subtitles Barlow Condensed, bold italic    for Zing Rust Base: condensed, slanted, capitals
-       body      Poppins                          the brand's own body font */
-  --font-title:    "Orbitron", "Poppins", system-ui, sans-serif;
+  --edge-blue:   #7DC8F2;  /* coloured top edges of cards */
+  --edge-purple: #9562AE;
+  --edge-lead:   #0393BF;
+  --ex-a:        #E8F9FD;  /* example boxes: soft blue-to-purple shade */
+  --ex-b:        #F1E9F8;
+  --ex-line:     #D9E3EC;
+  --ic-bg:       #B0F0FF;  /* icon circles */
+  --ic-ink:      #0E6D8B;
+  --tag-bg:      #B0F0FF;
+  --tag-ink:     #0E6D8B;
+  --input-line:  #747474;
+
+  --btn-bg:         #221B4B;  /* primary button */
+  --btn-ink:        #FFFFFF;
+  --btn-hover-bg:   #551A74;
+  --btn-hover-ink:  #FFFFFF;
+
+  /* Fonts (style guide): PHATT for headings, Zing Rust Base for 1–3 word labels,
+     Poppins for everything else. PHATT and Zing Rust aren't on Google Fonts, so
+     Audiowide and Barlow Condensed stand in until Ash's font files are added. */
+  --font-title:    "Audiowide", "Poppins", system-ui, sans-serif;
   --font-subtitle: "Barlow Condensed", "Poppins", system-ui, sans-serif;
   --font-body:     "Poppins", "Segoe UI", system-ui, sans-serif;
-  --font-display:  var(--font-body);   /* menu, buttons, labels and captions */
+  --font-display:  var(--font-body);
 
-  --measure: 60rem;        /* reading column width */
+  --measure: 60rem;        /* content width */
   --wide: 68rem;
   --gutter: clamp(1.25rem, 4vw, 2.5rem);
-  --radius: 6px;
+  --radius: 6px;           /* tags, small controls */
+  --radius-md: 10px;       /* buttons and inputs */
+  --radius-lg: 16px;       /* cards and image frames */
+  --shadow-card: 0 1px 3px rgb(34 27 75 / 0.08);
 
   color-scheme: light;
 }
 
+/* Dark colours. The style guide has no dark-mode rules, so these keep the same roles
+   on the brand navy. (This block uses "prefers-color-scheme: light"; the logo and
+   footer images in index.html use the same query: change them together.) */
 @media (prefers-color-scheme: light) {
   :root {
-    --paper:   #221B4B;   /* brand navy-purple */
+    --paper:   #221B4B;
     --surface: #2D2560;
     --ink:     #F1F4F6;
-    --muted:   #C8D1D9;   /* brand grey */
+    --muted:   #C8D1D9;
     --line:    #4A4380;
-    --accent:  #B0F0FF;   /* headings: brand cyan */
+    --accent:  #B0F0FF;
+    --link:    #7DC8F2;
     --focus:   #B0F0FF;
     --right:   #7DC8F2;
-    --wrong:   #E07A72;
+    --wrong:   #F2867E;
+
+    --ex-a:     #2B3369;
+    --ex-b:     #3A2A6C;
+    --ex-line:  #4A4380;
+    --ic-bg:    rgb(176 240 255 / 0.16);
+    --ic-ink:   #B0F0FF;
+    --tag-bg:   rgb(176 240 255 / 0.16);
+    --tag-ink:  #B0F0FF;
+    --input-line: #8B85B8;
+
+    --btn-bg:        #F1F4F6;
+    --btn-ink:       #221B4B;
+    --btn-hover-bg:  #B0F0FF;
+    --btn-hover-ink: #221B4B;
+    --shadow-card: 0 1px 3px rgb(0 0 0 / 0.3);
     color-scheme: dark;
   }
 }
@@ -64,7 +107,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 4.5rem;   /* keeps headings clear of the sticky nav */
+  scroll-padding-top: 5rem;   /* keeps headings clear of the sticky header */
 }
 
 body {
@@ -72,39 +115,43 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
-  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1rem);   /* Poppins runs wide, so a little smaller */
-  line-height: 1.7;
+  font-size: 1rem;            /* 16px body text */
+  line-height: 1.625;         /* 26px */
   -webkit-font-smoothing: antialiased;
 }
 
 img { max-width: 100%; height: auto; display: block; }
 
-h1, h2, h3 {
-  line-height: 1.15;
-  margin: 0 0 0.6em;
-}
-/* Titles: wide capitals, like PHATT. Smaller sizes than before, since
-   Orbitron capitals take much more room. */
+h1, h2, h3, h4 { margin: 0 0 0.6em; line-height: 1.2; }
+/* Section headings and the hero: PHATT style, deep purple */
 h1, h2 {
-  font-family: var(--font-title);
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
+  font-family: var(--font-title); font-weight: 400;
+  color: var(--accent); text-transform: uppercase; line-height: 1.1;
 }
-h2 { font-size: clamp(1.45rem, 1.1rem + 1.6vw, 2.2rem); font-weight: 800; }
-/* Subtitles: condensed, slanted capitals, like Zing Rust Base */
-h3, .checklist__group legend, .terms dt, .game__prompt {
-  font-family: var(--font-subtitle);
-  font-style: italic;
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
+h2 { font-size: clamp(1.6rem, 1.15rem + 1.9vw, 2.5rem); margin-bottom: 1rem; }
+/* Questions and phrases: Poppins Semibold (audit A3) */
+h3, h4 { font-family: var(--font-body); font-weight: 600; font-size: 1.25rem; line-height: 1.4; }
+
+/* Short labels of 1–3 words only: Zing Rust style */
+.label {
+  font-family: var(--font-subtitle); font-style: italic; font-weight: 700;
+  font-size: 1.375rem; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.02em;
+  color: var(--ink); margin: 0 0 0.5rem;
 }
-h3 { font-size: 1.4rem; font-weight: 700; }
+.label--small { font-size: 1.125rem; margin-top: 1.25rem; }
+.label--small:first-of-type { margin-top: 0; }
+
+.subhead { font-size: 1.375rem; line-height: 1.35; margin: 3rem 0 1rem; }
+.subhead--first { margin-top: 0; }
+.kicker { font-weight: 600; color: var(--link); margin: 0 0 0.5rem; }
 
 p { margin: 0 0 1em; }
 
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
 a:hover { text-decoration-thickness: 2px; }
+/* Text links: blue-700, underlined; hover deep purple, thicker underline */
+main a:not(.button), .site-footer__credit a { color: var(--link); }
+main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); text-decoration-thickness: 2px; }
 
 :focus-visible {
   outline: 3px solid var(--focus);
@@ -116,9 +163,14 @@ a:hover { text-decoration-thickness: 2px; }
   position: absolute; left: 1rem; top: -3rem;
   background: var(--mark); color: var(--mark-ink);
   padding: 0.5rem 1rem; z-index: 100;
-  font-family: var(--font-display);
 }
 .skip-link:focus { top: 1rem; }
+
+/* Text for screen readers only */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
 
 /* ---------- Scroll progress bar ---------- */
 .progress {
@@ -127,52 +179,54 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .progress__bar {
   display: block; height: 100%; width: 100%;
-  background: var(--mark);
+  background: var(--focus);
   transform-origin: 0 50%;
   transform: scaleX(0);
 }
 
-/* ---------- Navigation ---------- */
+/* ---------- Header and navigation ---------- */
 .site-header {
   position: sticky; top: 0; z-index: 50;
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--surface);
   border-bottom: 1px solid var(--line);
 }
 .nav {
-  /* A little wider than the text column so the full menu fits at 16px */
   max-width: calc(var(--wide) + 6rem + 2 * var(--gutter)); margin: 0 auto;
-  padding: 0.8rem var(--gutter);
+  padding: 0.6rem var(--gutter);
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-  font-family: var(--font-display);
 }
-.nav__brand { flex: none; display: block; line-height: 0; text-decoration: none; }
-.nav__logo { height: 2.9rem; width: auto; }   /* text-only logo, three short lines */
+/* Logo: shield + "The Digital Trust Project" */
+.nav__brand { flex: none; display: flex; align-items: center; gap: 0.35rem; line-height: 0; text-decoration: none; }
+.nav__shield, .nav__logo { height: 3rem; width: auto; }
 .nav__links {
   list-style: none; margin: 0; padding: 0;
-  display: flex; gap: 1rem; align-items: center;
-  font-size: 0.85rem;
+  display: flex; gap: 1.25rem; align-items: center;
+  font-size: 0.9375rem;     /* 15px */
   overflow-x: auto; scrollbar-width: none;
 }
 .nav__links::-webkit-scrollbar { display: none; }
-.nav__links a { text-decoration: none; color: var(--muted); white-space: nowrap; }
-.nav__links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 0.3em; }
-.nav__links a.is-active { color: var(--ink); }
+.nav__links a { text-decoration: none; color: var(--ink); white-space: nowrap; }
+/* Hover: blue underline */
+.nav__links a:hover, .nav__links a.is-active {
+  text-decoration: underline; text-decoration-color: var(--focus);
+  text-decoration-thickness: 2px; text-underline-offset: 6px;
+}
+/* "Play the game": light blue, equal padding, centred; hover keeps the same size (audit A4) */
 .nav__links .nav__cta,
 .nav__links .nav__cta.is-active {
+  display: inline-block;
   color: var(--mark-ink); background: var(--mark);
-  padding: 0.35rem 0.8rem; border-radius: var(--radius); font-weight: 700;
+  padding: 0.5rem 1rem; line-height: 1.25; border-radius: var(--radius-md);
+  font-weight: 600; text-decoration: none;
   transition: background-color 0.15s ease;
 }
-/* Darker yellow on hover, no movement */
-.nav__links .nav__cta:hover { color: var(--mark-ink); background: var(--mark-hover); text-decoration: none; }
+.nav__links .nav__cta:hover { background: var(--mark-hover); text-decoration: none; }
 /* Narrow laptops: keep the menu on one row by tightening the gaps and showing
    Translate as its globe icon (screen readers still hear "Translate"). */
 @media (max-width: 1110px) and (min-width: 1001px) {
   .nav { gap: 0.75rem; }
-  .nav__links { gap: 0.85rem; }
-  .translate summary { padding: 0.35rem 0.5rem; }
+  .nav__links { gap: 0.9rem; }
+  .translate summary { padding: 0.5rem 0.6rem; }
   .translate__label {
     position: absolute; width: 1px; height: 1px; overflow: hidden;
     clip: rect(0 0 0 0); white-space: nowrap;
@@ -180,55 +234,59 @@ a:hover { text-decoration-thickness: 2px; }
 }
 /* Smaller laptops and tablets: when the menu can't fit on one row, the links
    move to a second row and wrap, so they all stay visible. */
-@media (max-width: 1000px) and (min-width: 721px) {
-  html { scroll-padding-top: 7rem; }   /* the header is taller here */
-  .nav { flex-wrap: wrap; row-gap: 0.6rem; }
+@media (max-width: 1000px) and (min-width: 881px) {
+  html { scroll-padding-top: 8rem; }   /* the header is taller here */
+  .nav { flex-wrap: wrap; row-gap: 0.5rem; }
   .nav__links {
     order: 3; width: 100%;
     flex-wrap: wrap; row-gap: 0.4rem; column-gap: 1.25rem;
     overflow: visible;
   }
 }
-/* Phones: only the site name, "Play the game" and Translate */
-@media (max-width: 720px) {
+/* Phones: the logo, "Play the game", Translate and the ☰ menu */
+@media (max-width: 880px) {
   .nav__links li:not(:last-child) { display: none; }
-  /* Keep "Play the game" whole at every phone width: it never shrinks or
-     scrolls (the logo on the left keeps its size) */
   .nav__links { flex: none; overflow: visible; }
 }
 
-/* Translate menu */
+/* Very narrow phones: wordmark only, so Play and Translate are never cut off */
+@media (max-width: 400px) {
+  .nav__brand picture:first-child { display: none; }
+}
+
+/* Translate menu (secondary button style) */
 .translate { position: relative; flex: none; }
 .translate summary {
   list-style: none; cursor: pointer;
-  font-size: 0.95rem; color: var(--muted);
-  padding: 0.35rem 0.7rem;
-  border: 1px solid var(--line); border-radius: var(--radius);
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.9375rem; font-weight: 500; color: var(--ink);
+  padding: 0.5rem 0.75rem; line-height: 1.25;
+  background: var(--surface);
+  border: 1px solid var(--line); border-radius: var(--radius-md);
 }
 .translate summary::-webkit-details-marker { display: none; }
-.translate summary { display: flex; align-items: center; gap: 0.4rem; }
 .translate__icon { flex: none; }
-/* Narrow phones: globe icon only, so the brand, CTA and Translate fit on one line */
+.translate summary:hover, .translate[open] summary { background: var(--line); border-color: var(--line); }
+/* Narrow phones: globe icon only, so the logo, Play and Translate fit on one line */
 @media (max-width: 480px) {
-  .nav { gap: 0.6rem; }
-  .nav__logo { height: 2.6rem; }
-  .nav__links .nav__cta { padding: 0.35rem 0.6rem; }
-  .translate summary { padding: 0.35rem 0.5rem; }
+  .nav { gap: 0.5rem; }
+  .nav__shield, .nav__logo { height: 2.5rem; }
+  .nav__links .nav__cta { padding: 0.5rem 0.7rem; }
+  .translate summary { padding: 0.5rem 0.55rem; }
   .translate__label {
     position: absolute; width: 1px; height: 1px; overflow: hidden;
     clip: rect(0 0 0 0); white-space: nowrap;
   }
 }
-.translate summary:hover, .translate[open] summary { color: var(--ink); border-color: var(--ink); }
 .translate__menu {
   position: absolute; right: 0; top: calc(100% + 0.5rem); z-index: 70;
   width: 15rem; padding: 0.5rem;
   background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--radius); box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+  border-radius: var(--radius-lg); box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
 }
 .translate__menu ul { list-style: none; margin: 0; padding: 0; }
 .translate__menu a {
-  display: block; padding: 0.45rem 0.6rem; border-radius: 4px;
+  display: block; padding: 0.45rem 0.6rem; border-radius: var(--radius);
   text-decoration: none; color: var(--ink);
 }
 .translate__menu a:hover { background: var(--paper); }
@@ -237,25 +295,19 @@ a:hover { text-decoration-thickness: 2px; }
   line-height: 1.4; color: var(--muted);
 }
 
-/* Text for screen readers only */
-.visually-hidden {
-  position: absolute; width: 1px; height: 1px; overflow: hidden;
-  clip: rect(0 0 0 0); white-space: nowrap;
-}
-
 /* ---------- Phone menu: button and sliding sidebar ---------- */
 .menu-toggle {
   display: none;   /* shown on phones only, and only when JavaScript works */
   flex: none; align-items: center; justify-content: center;
   width: 2.5rem; height: 2.5rem; padding: 0;
-  background: transparent; color: var(--ink);
-  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); color: var(--ink);
+  border: 1px solid var(--line); border-radius: var(--radius-md);
   cursor: pointer;
 }
-.menu-toggle:hover { border-color: var(--ink); }
-@media (max-width: 720px) {
+.menu-toggle:hover { background: var(--line); }
+@media (max-width: 880px) {
   .js .menu-toggle:not([hidden]) { display: inline-flex; }
-  html { scroll-padding-top: 5.5rem; }   /* the phone header is a bit taller */
+  html { scroll-padding-top: 5.5rem; }
 }
 
 .drawer { position: fixed; inset: 0; z-index: 80; }
@@ -269,87 +321,86 @@ a:hover { text-decoration-thickness: 2px; }
   position: absolute; top: 0; bottom: 0; left: 0;
   width: min(20rem, 85vw);
   display: flex; flex-direction: column;
-  background: var(--paper); color: var(--ink);
+  background: var(--surface); color: var(--ink);
   border-right: 1px solid var(--line);
   box-shadow: 8px 0 24px rgb(0 0 0 / 0.2);
-  font-family: var(--font-display);
   transform: translateX(-100%); transition: transform 0.25s ease;
   overflow-y: auto; overscroll-behavior: contain;
 }
 .drawer__panel:focus { outline: none; }
 .drawer.is-open .drawer__backdrop { opacity: 1; }
 .drawer.is-open .drawer__panel { transform: none; }
-
 .drawer__head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 0.8rem 1rem 0.8rem 1.25rem; border-bottom: 1px solid var(--line);
 }
 .drawer__title {
-  font-family: var(--font-title); font-weight: 800; text-transform: uppercase;
-  font-size: 0.9rem; color: var(--accent);
+  font-family: var(--font-title); text-transform: uppercase;
+  font-size: 0.95rem; color: var(--accent);
 }
 .drawer__close {
   display: inline-flex; align-items: center; justify-content: center;
   width: 2.5rem; height: 2.5rem; padding: 0;
   background: transparent; color: var(--ink);
-  border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer;
+  border: 1px solid var(--line); border-radius: var(--radius-md); cursor: pointer;
 }
-.drawer__close:hover { border-color: var(--ink); }
-
+.drawer__close:hover { background: var(--line); }
 .drawer__links { list-style: none; margin: 0; padding: 0.5rem 0 1.5rem; }
 .drawer__links a {
   display: block; padding: 0.7rem 1.25rem;   /* large tap targets */
   color: var(--ink); text-decoration: none; font-size: 1rem;
 }
-.drawer__links a:hover { background: var(--surface); text-decoration: underline; }
+.drawer__links a:hover { background: var(--paper); text-decoration: underline; text-decoration-color: var(--focus); }
 .drawer__links a.drawer__cta {
-  margin: 0.25rem 1.25rem; padding: 0.6rem 0.9rem; border-radius: var(--radius);
-  background: var(--mark); color: var(--mark-ink); font-weight: 700;
+  margin: 0.25rem 1.25rem; padding: 0.6rem 0.9rem; border-radius: var(--radius-md);
+  background: var(--mark); color: var(--mark-ink); font-weight: 600;
 }
 .drawer__links a.drawer__cta:hover { background: var(--mark-hover); text-decoration: none; }
-
 /* While the sidebar is open, the page behind it doesn't scroll */
 .menu-open, .menu-open body { overflow: hidden; }
-
 @media print { .menu-toggle, .drawer { display: none !important; } }
 
-/* ---------- Buttons ---------- */
+/* ---------- Buttons (style guide) ----------
+   Primary: navy, white text; hover deep purple.
+   Secondary (.button--quiet): white with a navy border; hover grey fill.
+   Text: underlined navy; hover deep purple with a thicker underline. */
 .button {
-  display: inline-block;
-  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
-  padding: 0.8rem 1.4rem; border-radius: var(--radius);
-  border: 2px solid var(--ink);
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  font-family: var(--font-body); font-weight: 600; font-size: 1rem; line-height: 1.25;
+  padding: 0.75rem 1.375rem; border-radius: var(--radius-md);
+  border: 2px solid var(--btn-bg);
   text-decoration: none; cursor: pointer;
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 }
-.button--primary { background: var(--ink); color: var(--paper); }
-.button--primary:hover { transform: translateY(-2px); }
-.button--quiet { background: transparent; color: var(--ink); }
-.button--quiet:hover { background: var(--surface); }
+.button--primary { background: var(--btn-bg); color: var(--btn-ink); }
+.button--primary:hover { background: var(--btn-hover-bg); border-color: var(--btn-hover-bg); color: var(--btn-hover-ink); }
+.button--quiet { background: var(--surface); color: var(--ink); border-color: var(--ink); }
+.button--quiet:hover { background: var(--line); }
+.button--text {
+  background: none; border-color: transparent; color: var(--ink);
+  padding-left: 0.25rem; padding-right: 0.25rem;
+  text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+}
+.button--text:hover { color: var(--accent); text-decoration-thickness: 2px; }
 
 /* ---------- Hero ---------- */
 .hero {
   max-width: calc(var(--wide) + 2 * var(--gutter)); margin: 0 auto;
-  padding: clamp(3rem, 10vh, 7rem) var(--gutter) clamp(3rem, 8vh, 5rem);
-  display: grid; grid-template-columns: 1fr; gap: clamp(2rem, 5vw, 4rem);
+  padding: clamp(3rem, 9vh, 4.5rem) var(--gutter);
+  display: grid; grid-template-columns: 1fr; gap: 3rem;
   align-items: center;
-  min-height: min(70vh, 40rem);
 }
-.hero__by {
-  color: var(--muted); font-family: var(--font-display);
-  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.3rem);
-  margin-bottom: 1.5rem;
+.hero__by { color: var(--muted); font-size: 0.9375rem; margin-bottom: 1rem; }
+.hero__title { font-size: clamp(2.4rem, 1.2rem + 4.4vw, 4.5rem); line-height: 1; margin: 0 0 1.25rem; }
+.hero__lede { max-width: 36rem; font-size: clamp(1.1rem, 1rem + 0.35vw, 1.25rem); line-height: 1.6; margin-bottom: 2rem; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.hero__art { justify-self: center; }
+.hero__art img { width: min(100%, 22rem); filter: drop-shadow(0 10px 18px rgb(34 27 75 / 0.15)); }
+@media (min-width: 900px) {
+  .hero { grid-template-columns: 1.1fr 1fr; }
 }
-.hero__title { margin: 0; }   /* the title is the shield logo: see "Hero logo" below */
-.hero__lede {
-  max-width: 42rem; color: var(--muted);
-  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.5rem); line-height: 1.6;
-}
-.hero__actions { display: flex; flex-wrap: wrap; gap: 0.9rem; margin-top: 2.25rem; }
-.hero__actions .button { font-size: clamp(1rem, 0.95rem + 0.3vw, 1.15rem); padding: 0.95rem 1.7rem; }
-
-@media (max-width: 800px) {
-  .hero { min-height: auto; }
+@media (max-width: 899px) {
+  .hero__art { display: none; }   /* the toolbox only shows beside the text on wide screens */
 }
 
 /* ---------- Decorative tools (from the brand's "tool variations") ----------
@@ -370,7 +421,6 @@ a:hover { text-decoration-thickness: 2px; }
   filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.12));
 }
 .deco-tool--text { --content: 46rem; }
-.deco-tool--toolbox     { --size: 190px; --turn: -6deg;  --top: 3.5rem; }
 .deco-tool--wrench      { --size: 70px;  --turn: 18deg;  --top: 6rem; }
 .deco-tool--saw         { --size: 190px; --turn: -14deg; --top: 9rem; }
 .deco-tool--screwdriver { --size: 62px;  --turn: -20deg; --top: 4rem; }
@@ -381,177 +431,167 @@ a:hover { text-decoration-thickness: 2px; }
 @media (max-width: 959px)  { .deco-tool--text { display: none; } }
 @media print { .deco-tool { display: none !important; } }
 
-/* ---------- Content sections ---------- */
-/* All sections share the hero's left edge; text stays at reading width,
-   while videos and the game use the full width. */
-/* Hero logos: the page title (h1) is the text logo, where the title text used to
-   be; the shield sits to the right of the text on wide screens, above it on phones. */
-.hero__title { margin: 0 0 1.75rem; line-height: 0; }
-.hero__wordmark { width: clamp(10rem, 19vw, 15rem); height: auto; }
-.hero__shield-wrap {
-  position: relative; isolation: isolate;
-  justify-self: center; line-height: 0;
-}
-@media (max-width: 1110px) {
-  .hero__shield-wrap { display: none; }}
-
-.hero__shield { width: clamp(11rem, 22vw, 17rem); height: auto; }
-@media (min-width: 900px) {
-  .hero { grid-template-columns: 1.55fr 1fr; }
-  .hero__shield-wrap { grid-column: 2; grid-row: 1; }
-  .hero__inner { grid-column: 1; grid-row: 1; }
-}
-@media (max-width: 899px) {
-  .hero__shield-wrap { justify-self: start; margin-bottom: -1rem; }
-  .hero__shield { width: clamp(6.5rem, 24vw, 9rem); }
-}
-
+/* ---------- Sections ---------- */
 .section {
   position: relative;   /* for the decorative tools */
   max-width: calc(var(--wide) + 2 * var(--gutter));
   margin: 0 auto;
-  justify-content: center; 
-  padding: clamp(3rem, 8vh, 5.5rem) var(--gutter);
+  padding: clamp(3rem, 7vh, 4rem) var(--gutter);
   border-top: 1px solid var(--line);
 }
 .section > *:not(.videos):not(.game) { max-width: var(--measure); }
-.section__summary p,
-.deep-dive__body p { max-width: 46rem; }
+.section__summary { margin-bottom: 2rem; }
+.section__summary p { max-width: 45rem; font-size: 1.125rem; line-height: 1.67; }
+.section__summary p:last-child { margin-bottom: 0; }
 
+/* ---------- Cards (style guide) ----------
+   White, grey border, coloured top edge, 16px corners, one soft shadow.
+   In rows the edges alternate blue and purple; in 2 × 2 grids they criss-cross. */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line); border-top: 4px solid var(--edge-blue);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 1.5rem;
+  min-width: 0;
+}
+.card > :last-child { margin-bottom: 0; }
+.card p { margin: 0 0 0.75rem; }
+.card ul { margin: 0; padding-left: 1.25rem; }
+.card li { margin-bottom: 0.5rem; }
+.card li:last-child { margin-bottom: 0; }
+.card li::marker { color: var(--muted); }
+.card__title { display: flex; gap: 0.625rem; align-items: center; margin: 0 0 0.75rem; }
+.card--lead { border-top: 6px solid var(--edge-lead); margin-bottom: 1.5rem; }
+.card--narrow { max-width: 51rem; }
+.card--spaced { margin-top: 2rem; }
 
-.signs      { grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
-.captions   { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
-.checklist  { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.grid { display: grid; gap: 1.5rem; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid--after { margin-top: 2rem; }
+.grid > .card:nth-child(even) { border-top-color: var(--edge-purple); }
+.g2 > .card:nth-child(4n+1), .g2 > .card:nth-child(4n) { border-top-color: var(--edge-blue); }
+.g2 > .card:nth-child(4n+2), .g2 > .card:nth-child(4n+3) { border-top-color: var(--edge-purple); }
+@media (max-width: 900px) {
+  .g2, .g3 { grid-template-columns: 1fr; }
+}
+/* A list in two columns inside a wide card */
+.list-2col { columns: 2; column-gap: 2.5rem; }
+.list-2col li { break-inside: avoid; }
+@media (max-width: 700px) { .list-2col { columns: 1; } }
 
+/* Example boxes: soft blue-to-purple shade, optional tag on top */
+.card--ex { background: linear-gradient(135deg, var(--ex-a), var(--ex-b)); border-color: var(--ex-line); }
+.grid > .card--ex:nth-child(even) { background: linear-gradient(135deg, var(--ex-b), var(--ex-a)); }
+.tag {
+  display: inline-block; margin-bottom: 0.75rem;
+  font-size: 0.8125rem; font-weight: 600; line-height: 1.25rem;
+  padding: 0.125rem 0.625rem; border-radius: var(--radius);
+  background: var(--tag-bg); color: var(--tag-ink);
+}
+/* Outlined cards: the checklist and "What helped students" (style guide) */
+.grid--outline > .card,
+.checklist > .card { border: 2px solid var(--edge-blue); border-top-width: 4px; }
+.grid--outline.g2 > .card:nth-child(4n+2), .grid--outline.g2 > .card:nth-child(4n+3),
+.checklist > .card:nth-child(even) { border-color: var(--edge-purple); }
 
-.deep-dive { margin-top: 1.5rem; }
-.deep-dive summary {
-  cursor: pointer; display: inline-block;
-  font-family: var(--font-display); font-weight: 700;
-  padding: 0.4rem 0; list-style: none;
+/* Blue icon in a soft circle */
+.ic {
+  width: 2.25rem; height: 2.25rem; flex: none; border-radius: 999px;
+  display: inline-grid; place-items: center;
+  background: var(--ic-bg); color: var(--ic-ink);
 }
-.deep-dive summary::-webkit-details-marker { display: none; }
-.deep-dive summary {
-  padding: 0.4rem 0.6rem 0.4rem 0.3rem; margin-left: -0.3rem;
-  border-radius: var(--radius);
-  transition: background-color 0.15s ease;
-}
-.deep-dive summary:hover {
-  text-decoration: underline; text-underline-offset: 0.25em;
-  background: color-mix(in srgb, var(--mark) 25%, transparent);
-}
-.deep-dive summary::before {
-  content: "+"; display: inline-block; width: 1.2em;
-  transition: transform 0.2s ease;
-}
-.deep-dive[open] summary::before { transform: rotate(45deg); }
-.deep-dive__body {
-  margin-top: 0.75rem; padding-left: 1.2em;
-  border-left: 3px solid var(--mark);
-}
-.placeholder-note { color: var(--muted); font-style: italic; }
-.deep-dive__body ul { padding-left: 1.1em; }
-.deep-dive__body li { margin-bottom: 0.5em; }
-.deep-dive__body h3 { margin-top: 1.5rem; font-size: 1.1rem; }
-.deep-dive__body .captions { margin-top: 0.5rem; }
+.ic svg { width: 1.125rem; height: 1.125rem; }
 
-/* Numbered decision guides: big numbers so each step stands out */
-.steps { list-style: none; counter-reset: step; padding: 0; margin: 0 0 1rem; }
+/* Numbered decision guides: each step on its own row, number in a light blue circle */
+.steps { list-style: none; counter-reset: step; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
 .steps li {
-  counter-increment: step; position: relative;
-  padding: 0.5rem 0 0.5rem 2.75rem; margin: 0;
-  border-bottom: 1px solid var(--line);
+  counter-increment: step;
+  display: flex; gap: 1rem; align-items: center;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg);
+  padding: 0.875rem 1.5rem;
 }
-.steps li:last-child { border-bottom: 0; }
 .steps li::before {
-  content: counter(step);
-  position: absolute; left: 0; top: 0.45rem;
-  width: 1.9rem; height: 1.9rem; border-radius: 50%;
+  content: counter(step); flex: none;
+  width: 2.25rem; height: 2.25rem; border-radius: 999px;
   display: grid; place-items: center;
-  background: var(--mark); color: var(--mark-ink);
-  font-family: var(--font-display); font-weight: 800; font-size: 0.95rem;
+  background: var(--mark); color: var(--mark-ink); font-weight: 700;
 }
 
-/* Short tip lists shown directly in a section */
-.tips { margin: 1.25rem 0 0; padding-left: 1.1em; }
-.tips li { margin-bottom: 0.5em; }
-.tips li::marker { color: var(--muted); }
-.closing { margin-top: 1.75rem; font-family: var(--font-display); font-weight: 500; }
+/* Sample captions */
+.caption-card { margin: 0; }
+.caption-card blockquote { margin: 0; font-weight: 500; }
+
+.sources { margin-bottom: 1rem !important; }
 .sources li { margin-bottom: 0.6em; }
 
-/* Signs: two columns */
-.signs { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1rem; }
-.signs ul { margin: 0; padding-left: 1.1em; }
-.signs li { margin-bottom: 0.5em; }
-.signs li::marker { color: var(--muted); }
-@media (max-width: 640px) { .signs { grid-template-columns: 1fr; } }
-
-/* Four media types in a 2 x 2 grid */
-.signs { row-gap: 1.5rem; }
-.subhead { margin-top: 2.5rem; }
-
-/* Inspiration / remixing / copying */
-.terms { margin: 1.5rem 0 0; display: grid; gap: 1.25rem; }
-.terms__item { padding-left: 1rem; border-left: 3px solid var(--line); }
-.terms__item:last-child { border-left-color: var(--wrong); }
-.terms dt { font-family: var(--font-subtitle); font-weight: 700; font-size: 1.35rem; }
-.terms dd { margin: 0.2rem 0 0; }
-
-/* Sample captions: styled like a post caption */
-.captions { display: grid; gap: 1rem; }
-.caption-card {
-  margin: 0; padding: 1rem 1.2rem;
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-}
-.caption-card blockquote {
-  margin: 0; font-family: var(--font-display); font-weight: 500; font-size: 1.05rem;
-}
-.caption-card figcaption { margin-top: 0.4rem; color: var(--muted); font-size: 0.9rem; }
-
-/* Checklist */
-.checklist { display: grid; gap: 1.5rem; margin-top: 1.5rem; }
-.checklist__group { border: 0; margin: 0; padding: 0; }
-.checklist__group legend {
-  font-family: var(--font-subtitle); font-weight: 800; font-size: 1.5rem;
-  margin-bottom: 0.5rem; padding: 0;
-}
+/* ---------- Checklist ---------- */
+.checklist { margin-top: 0; }
+.checklist__group { margin: 0; padding: 1.5rem; }
+/* Keep the legend inside the card instead of on its border */
+.checklist__group legend { float: left; width: 100%; padding: 0; }
+.checklist__group legend + * { clear: both; }
 .checklist label {
   display: flex; gap: 0.75rem; align-items: flex-start;
-  padding: 0.55rem 0; border-bottom: 1px solid var(--line); cursor: pointer;
+  padding: 0.75rem 0; border-bottom: 1px solid var(--line); cursor: pointer;
 }
+.checklist label:last-child { border-bottom: 0; padding-bottom: 0; }
 .checklist input[type="checkbox"] {
-  flex: none; width: 1.25rem; height: 1.25rem; margin-top: 0.25rem;
-  accent-color: var(--ink);
+  flex: none; width: 1.25rem; height: 1.25rem; margin-top: 0.2rem;
+  accent-color: var(--btn-bg);
 }
 .checklist label:has(input:checked) { color: var(--muted); }
-.checklist__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-top: 1.75rem; }
+.checklist__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-top: 1.5rem; }
 
-/* Student quotes */
-.quotes { display: grid; gap: 1.5rem; margin-top: 1rem; }
-.quote { margin: 0; padding-left: 1.2rem; border-left: 3px solid var(--mark); }
-.quote blockquote { margin: 0; font-size: 1.15em; font-style: italic; }
-.quote blockquote p { margin: 0; }
-.quote figcaption { margin-top: 0.4rem; color: var(--muted); font-family: var(--font-display); font-size: 0.95rem; }
+/* ---------- You're not alone ---------- */
+.quotes { margin: 0; }
+.quote { margin: 0; padding: 0.25rem 0 0.25rem 1rem; border-left: 4px solid var(--focus); }
+.quote blockquote { margin: 0; }
+.quote blockquote p { margin: 0 0 0.25rem; font-size: 1.25rem; line-height: 1.5; font-style: italic; }
+.quote figcaption { font-size: 0.875rem; color: var(--muted); }
+/* Support line: one line, heart icon, no box */
+.support { display: flex; gap: 0.75rem; align-items: center; margin: 2rem 0 0; }
+
+/* ---------- Team cards (audit M1) ---------- */
+.team {
+  list-style: none; margin: 0 auto; padding: 0;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
+}
+.team__card {
+  width: calc((100% - 3rem) / 3);   /* three on top, two below */
+  padding: 0; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.team > .team__card:nth-child(even) { border-top-color: var(--edge-purple); }
+.team__photo { width: 100%; aspect-ratio: 436 / 380; object-fit: cover; object-position: center 25%; }
+.team__body { padding: 1.5rem; }
+.team__name { font-size: 1.25rem; margin: 0 0 0.25rem; }
+.team__role {
+  margin: 0 0 0.75rem; color: var(--link);
+  font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.team__body p:last-child { margin: 0; font-size: 0.9375rem; line-height: 1.6; }
+@media (max-width: 900px) { .team__card { width: calc((100% - 1.5rem) / 2); } }
+@media (max-width: 600px) { .team__card { width: 100%; } }
 
 /* Infographic placeholder */
 .infographic-slot {
   aspect-ratio: 16 / 9; display: grid; place-items: center;
-  border: 2px dashed var(--line); border-radius: var(--radius);
-  color: var(--muted); font-family: var(--font-display);
+  border: 2px dashed var(--line); border-radius: var(--radius-lg);
+  color: var(--muted);
 }
 
 /* ---------- Videos ---------- */
 .videos {
-  display: grid; gap: 2rem;
+  display: grid; gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
-  margin-top: 1.5rem;
 }
 .video-card { margin: 0; }
-.video-card figcaption { margin-top: 0.6rem; font-family: var(--font-display); font-weight: 500; }
-
+.video-card figcaption { margin-top: 0.75rem; font-weight: 600; }
 .video {
   position: relative; aspect-ratio: 16 / 9; width: 100%;
-  background: var(--ink); border-radius: var(--radius); overflow: hidden;
+  background: #000000; border-radius: var(--radius-lg); overflow: hidden;
 }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .video__poster {
@@ -561,7 +601,7 @@ a:hover { text-decoration-thickness: 2px; }
 .video__play {
   position: absolute; inset: 0; width: 100%; height: 100%;
   display: grid; place-items: center;
-  background: transparent; border: 0; cursor: pointer; color: var(--paper);
+  background: transparent; border: 0; cursor: pointer; color: #C8D1D9;
 }
 .video__play-icon {
   width: 4.5rem; height: 4.5rem; border-radius: 50%;
@@ -572,51 +612,39 @@ a:hover { text-decoration-thickness: 2px; }
 .video__play:hover .video__play-icon { transform: scale(1.08); }
 .video__soon {
   position: absolute; inset: 0; display: grid; place-items: center;
-  color: var(--paper); font-family: var(--font-display); opacity: 0.8;
-}
-@media (prefers-color-scheme: dark) {
-  .video { background: #000000; }
-  .video__soon, .video__play { color: var(--ink); }
+  color: #C8D1D9;
 }
 
 /* ---------- Game ---------- */
 .game {
   scroll-margin-top: 0;   /* game.js scrolls the game to just below the header */
   overflow-anchor: none;  /* don't let the browser shift the page when the photos load */
-  margin-top: 2rem;
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: calc(var(--radius) * 2);
-  padding: clamp(1.25rem, 4vw, 2.5rem);
-  min-height: 22rem;
+  border: 1px solid var(--line); border-top: 4px solid var(--edge-blue);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: clamp(1.25rem, 3vw, 2rem);
 }
 .game__screen[hidden] { display: none; }
 .game__meta { color: var(--muted); }
 
 .game__status {
-  display: flex; justify-content: space-between;
-  font-family: var(--font-display); font-weight: 500;
+  display: flex; justify-content: space-between; align-items: center;
   font-variant-numeric: tabular-nums;
 }
-.game__status { align-items: center; }
-.game__status-right { display: flex; align-items: center; gap: 1rem; }
-.button--small {
-  font-size: 0.9rem; padding: 0.35rem 0.9rem; border-width: 1px;
-  background: transparent; color: var(--ink);
-}
-.button--small:hover { background: var(--paper); }
 .game__timebar {
-  height: 4px; background: var(--line); border-radius: 2px;
-  margin: 0.6rem 0 1.25rem; overflow: hidden;
+  height: 6px; background: var(--line); border-radius: 999px;
+  margin: 0.5rem 0 1.25rem; overflow: hidden;
 }
 .game__timebar span {
   display: block; height: 100%; width: 100%;
-  background: var(--ink); transform-origin: 0 50%; transform: scaleX(0);
+  background: var(--btn-bg); transform-origin: 0 50%; transform: scaleX(0);
 }
-.game__prompt {
-  font-family: var(--font-subtitle); font-weight: 700;
-  font-size: clamp(1.2rem, 1rem + 1vw, 1.5rem); margin-bottom: 0.75rem;
-}
+/* Practice mode hides the timer, but keeps its space so the photos are the same
+   size in both modes (audit C3) */
+.game__timebar[hidden] { display: block; visibility: hidden; }
+#game-timer[hidden] { display: inline; visibility: hidden; }
+.game__prompt { font-size: 1.375rem; margin-bottom: 0.75rem; }
 
 /* Tiles: game.js sets --tile-size so every option fits on screen
    (3 in a row on wide screens, 2 + 1 on narrow phones). */
@@ -628,7 +656,7 @@ a:hover { text-decoration-thickness: 2px; }
   position: relative; flex: none;
   width: var(--tile-size); height: var(--tile-size);
   background: var(--paper); color: var(--ink);
-  border: 2px solid var(--line); border-radius: var(--radius);
+  border: 2px solid var(--line); border-radius: var(--radius-lg);
   overflow: hidden;
   transition: border-color 0.15s ease;
 }
@@ -645,9 +673,9 @@ a:hover { text-decoration-thickness: 2px; }
 .tile__text { padding: 1rem 1.1rem 2.4rem; font-size: 0.98rem; line-height: 1.55; }
 .tile__key {
   position: absolute; left: 0.45rem; bottom: 0.45rem;
-  font-family: var(--font-display); font-weight: 700; font-size: 0.85rem;
+  font-weight: 700; font-size: 0.85rem;
   background: var(--surface); border: 1px solid var(--line);
-  border-radius: 4px; padding: 0.05rem 0.45rem;
+  border-radius: var(--radius); padding: 0.05rem 0.45rem;
 }
 /* Magnifying glass: open the photo full size */
 .tile__zoom {
@@ -658,20 +686,25 @@ a:hover { text-decoration-thickness: 2px; }
   border: 1px solid var(--line); border-radius: 50%; cursor: pointer;
 }
 .tile__zoom:hover { border-color: var(--ink); }
-.tile.is-correct { border-color: var(--right); box-shadow: 0 0 0 3px var(--right); }
-.tile.is-wrong   { border-color: var(--wrong); box-shadow: 0 0 0 3px var(--wrong); }
-.tile.is-answer  { border-color: var(--right); box-shadow: 0 0 0 3px var(--right); }
+/* Right and wrong: a coloured outline and a word label, not colour alone (audit C2) */
+.tile.is-correct, .tile.is-answer { border-color: var(--focus); box-shadow: inset 0 0 0 2px var(--focus); }
+.tile.is-wrong { border-color: var(--wrong); box-shadow: inset 0 0 0 2px var(--wrong); }
+.tile__badge {
+  position: absolute; top: 0.5rem; left: 0.5rem; z-index: 1;
+  padding: 0.2rem 0.6rem; border-radius: var(--radius);
+  font-size: 0.8125rem; font-weight: 600; line-height: 1.4;
+  background: #221B4B; color: #FFFFFF;
+}
+.tile__badge--wrong { background: #B3261E; }
 
 .game__start-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.game__timebar[hidden], #game-timer[hidden] { display: none; }
-/* The Next button keeps its space while hidden, so the tiles don't jump */
-.game__next { margin-top: 0.5rem; }
-.game__next[hidden] { display: inline-block; visibility: hidden; }
-.game__ai-note { margin-top: 1.25rem; color: var(--muted); font-size: 0.95rem; max-width: var(--measure); }
-.game__feedback {
-  min-height: 1.65em; margin: 0.75rem 0 0;
-  font-family: var(--font-display); font-weight: 500; font-size: 0.95rem; line-height: 1.5;
-}
+/* Quit on the left, Next on the right, on the same line (audit C1) */
+.game__controls { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 0.75rem; }
+/* The Next button keeps its space while hidden, so nothing jumps */
+.game__next[hidden] { display: inline-flex; visibility: hidden; }
+.game__ai-note { margin: 1rem 0 0; color: var(--muted); font-size: 0.875rem; max-width: var(--measure); }
+/* Room for the explanation is kept before and after answering, so the photos don't move (audit C5) */
+.game__feedback { min-height: 3em; margin: 0.75rem 0 0; line-height: 1.5; }
 /* Short screens (e.g. a phone held sideways): tighter spacing so the
    options still fit without scrolling, and the header scrolls away
    instead of staying pinned and taking a third of the screen */
@@ -681,181 +714,118 @@ a:hover { text-decoration-thickness: 2px; }
   .game__timebar { margin: 0.35rem 0 0.5rem; }
   .game__prompt { font-size: 1.05rem; margin-bottom: 0.4rem; }
   .game__feedback { font-size: 0.85rem; line-height: 1.35; margin-top: 0.4rem; }
-  .game__next { margin-top: 0.25rem; padding: 0.45rem 1rem; font-size: 0.9rem; }
-  .game .button--small { padding: 0.2rem 0.7rem; }
+  .game__controls { margin-top: 0.25rem; }
+  .game__controls .button { padding-top: 0.45rem; padding-bottom: 0.45rem; font-size: 0.9rem; }
 }
 @media (max-width: 600px) {
   .game { padding: 1rem; }
   .game__timebar { margin: 0.5rem 0 0.75rem; }
-  .game__next { padding: 0.65rem 1.2rem; }
+  .game__feedback { font-size: 0.95rem; }
 }
 
 /* Full-size photo view */
 .zoom {
   width: min(96vw, 70rem); max-width: none; max-height: 96dvh;
-  padding: 0.75rem; border: 0; border-radius: calc(var(--radius) * 2);
+  padding: 0.75rem; border: 0; border-radius: var(--radius-lg);
   background: var(--surface); color: var(--ink);
 }
 .zoom::backdrop { background: rgb(0 0 0 / 0.75); }
 .zoom[open] { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
 .zoom__bar { width: 100%; display: flex; align-items: center; justify-content: space-between; }
-.zoom__title { font-family: var(--font-display); font-weight: 700; }
+.zoom__title { font-weight: 600; }
 .zoom__close {
   display: inline-flex; align-items: center; justify-content: center;
   width: 2.5rem; height: 2.5rem; padding: 0; cursor: pointer;
   background: transparent; color: var(--ink);
-  border: 1px solid var(--line); border-radius: var(--radius);
+  border: 1px solid var(--line); border-radius: var(--radius-md);
 }
 .zoom__img {
   max-width: 100%; max-height: calc(96dvh - 9rem);
-  width: auto; height: auto; object-fit: contain; border-radius: var(--radius);
+  width: auto; height: auto; object-fit: contain; border-radius: var(--radius-lg);
 }
 .zoom__choose[hidden] { display: none; }
 
 /* Results */
 [tabindex="-1"]:focus { outline: none; }
-.game__results-title { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); font-weight: 800; }
+.game__results-title { font-size: clamp(1.6rem, 1.2rem + 1.5vw, 2.2rem); font-weight: 700; }
 .stats {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 1rem; margin: 1.5rem 0; max-width: 40rem;
+  gap: 1rem; margin: 1.5rem 0; max-width: 28rem;
 }
-.stats div { background: var(--paper); border-radius: var(--radius); padding: 0.9rem 1rem; }
-.stats dt { color: var(--muted); font-family: var(--font-display); font-size: 0.9rem; }
-.stats dd {
-  margin: 0.15rem 0 0; font-family: var(--font-display); font-weight: 800;
-  font-size: 1.8rem; font-variant-numeric: tabular-nums;
-}
-.game__summary { font-size: 1.15em; max-width: var(--measure); }
+.stats div { background: var(--paper); border-radius: var(--radius-lg); padding: 0.9rem 1rem; }
+.stats dt { color: var(--muted); font-size: 0.9rem; }
+.stats dd { margin: 0.15rem 0 0; font-weight: 700; font-size: 1.8rem; font-variant-numeric: tabular-nums; }
+.game__summary { font-size: 1.125rem; max-width: var(--measure); }
 .game__note { color: var(--muted); font-size: 0.9rem; max-width: var(--measure); }
 
-/* ---------- Meet the team carousel ----------
-   One card at a time. Swipe or scroll the track, or use the arrows/dots
-   (js/carousel.js). No auto-play, so people can read at their own pace. */
-.carousel { width: min(100%, 25rem); margin-top: 1rem; }
-.carousel__track {
-  display: flex; gap: 1rem;
-  overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
-  overscroll-behavior-x: contain; scrollbar-width: none;
-  border-radius: calc(var(--radius) * 2);
-}
-.carousel__track::-webkit-scrollbar { display: none; }
-.carousel__track:focus-visible { outline-offset: 4px; }
-.carousel__slide {
-  flex: 0 0 100%; margin: 0;
-  scroll-snap-align: center; scroll-snap-stop: always;
-}
-.carousel__slide img {
-  width: 100%; height: auto; aspect-ratio: 1;
-  border-radius: calc(var(--radius) * 2); background: var(--surface);
-}
-.carousel__slide figcaption {
-  margin-top: 0.6rem; text-align: center;
-  font-family: var(--font-display); color: var(--muted);
-}
-.carousel__slide figcaption strong { color: var(--ink); }
-.carousel__controls {
-  display: flex; align-items: center; justify-content: center; gap: 1rem;
-  margin-top: 0.75rem;
-}
-.carousel__controls[hidden] { display: none; }
-.carousel__arrow {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 2.75rem; height: 2.75rem; padding: 0; cursor: pointer;
-  background: var(--surface); color: var(--ink);
-  border: 1px solid var(--line); border-radius: 50%;
-}
-.carousel__arrow:hover:not(:disabled) { border-color: var(--ink); }
-.carousel__arrow:disabled { opacity: 0.35; cursor: default; }
-.carousel__dots { display: flex; gap: 0.25rem; }
-.carousel__dot {
-  width: 1.75rem; height: 1.75rem; padding: 0; cursor: pointer;   /* big tap target */
-  display: grid; place-items: center;
-  background: none; border: 0;
-}
-.carousel__dot::before {
-  content: ""; width: 0.6rem; height: 0.6rem; border-radius: 50%;
-  background: var(--line); transition: background-color 0.15s ease, transform 0.15s ease;
-}
-.carousel__dot[aria-current="true"]::before { background: var(--accent); transform: scale(1.3); }
-.carousel__dot:hover::before { background: var(--muted); }
-@media print { .carousel__controls { display: none !important; } }
-
-/* ---------- Subscription form ---------- */
-.subscribe { max-width: 34rem; margin-top: 1.25rem; }
-.subscribe__label { display: block; font-family: var(--font-display); font-weight: 700; margin-bottom: 0.4rem; }
-.subscribe__row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+/* ---------- Subscribe ---------- */
+.subscribe-card { max-width: 40rem; }
+.subscribe__label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
+.subscribe__row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .subscribe__input {
   flex: 1 1 14rem; min-width: 0;
-  font: inherit; font-size: 1rem; color: var(--ink);
-  padding: 0.8rem 0.9rem;
-  background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius);
+  font: inherit; color: var(--ink);
+  padding: 0.75rem 0.875rem;
+  background: var(--surface); border: 1px solid var(--input-line); border-radius: var(--radius-md);
 }
 .subscribe__input::placeholder { color: var(--muted); opacity: 0.8; }
 .subscribe__input:focus { border-color: var(--ink); }
 .subscribe__input[aria-invalid="true"] { border-color: var(--wrong); }
 .subscribe__button { flex: none; }
-.subscribe__button:disabled { opacity: 0.6; cursor: progress; transform: none; }
+.subscribe__button:disabled { opacity: 0.6; cursor: progress; }
 .subscribe__consent {
   display: flex; gap: 0.6rem; align-items: flex-start;
-  margin-top: 0.9rem; font-size: 0.95rem; cursor: pointer;
+  margin-top: 0.9rem; cursor: pointer;
 }
-.subscribe__consent input { flex: none; width: 1.2rem; height: 1.2rem; margin-top: 0.2rem; accent-color: var(--ink); }
+.subscribe__consent input { flex: none; width: 1.25rem; height: 1.25rem; margin-top: 0.2rem; accent-color: var(--btn-bg); }
 .subscribe__trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
-.subscribe__status { min-height: 1.5em; margin: 0.75rem 0 0; font-family: var(--font-display); font-weight: 500; }
+.subscribe__status { min-height: 1.5em; margin: 0.75rem 0 0; font-weight: 500; }
 .subscribe__status[data-kind="success"] { color: var(--right); }
 .subscribe__status[data-kind="error"] { color: var(--wrong); }
-.subscribe__note { margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--muted); }
+.subscribe__note { margin: 0.25rem 0 0; font-size: 0.875rem; color: var(--muted); }
 .subscribe[hidden] { display: none; }
-
 /* Thanks message that replaces the form after subscribing */
-.subscribe-done { max-width: 34rem; margin-top: 1.25rem; }
 .subscribe-done[hidden] { display: none; }
 .subscribe-done:focus { outline: none; }
-.subscribe-done__message {
-  display: flex; align-items: center; gap: 0.6rem; margin: 0;
-  font-family: var(--font-display); font-weight: 700; font-size: 1.15rem;
-}
-.subscribe-done__check {
-  flex: none; display: grid; place-items: center;
-  width: 1.9rem; height: 1.9rem; border-radius: 50%;
-  background: var(--right); color: var(--surface); font-size: 1.05rem; line-height: 1;
-}
-.subscribe-done__again {
-  margin-top: 0.6rem; padding: 0; border: 0; background: none; cursor: pointer;
-  font: inherit; font-size: 0.9rem; color: var(--muted);
-  text-decoration: underline; text-underline-offset: 0.2em;
-}
-.subscribe-done__again:hover { color: var(--ink); }
+.subscribe-done__message { display: flex; align-items: center; gap: 0.625rem; margin: 0; font-weight: 600; font-size: 1.25rem; }
+.subscribe-done__again { margin-top: 0.5rem; padding-left: 0; font-size: 0.9375rem; }
 @media print { #subscribe { display: none !important; } }
 
 /* ---------- Footer ---------- */
 .site-footer {
+  background: var(--surface);
   border-top: 1px solid var(--line);
-  padding: 2.5rem var(--gutter) 3rem; text-align: center;
-  color: var(--muted); font-size: 0.95rem;
-  display: grid; justify-items: center; gap: 1.75rem;
+  padding: 3rem var(--gutter); text-align: center;
+  color: var(--muted); font-size: 0.875rem;
+  display: grid; justify-items: center; gap: 1.5rem;
 }
-
 .site-footer p { margin: 0; }
+/* Social icons: navy circles, purple on hover */
+.social { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.75rem; justify-content: center; }
+.social a {
+  width: 2.75rem; height: 2.75rem; border-radius: 999px;
+  display: grid; place-items: center;
+  background: var(--btn-bg); color: var(--btn-ink);
+  transition: background-color 0.15s ease;
+}
+.social a:hover { background: var(--btn-hover-bg); color: var(--btn-hover-ink); }
+.social svg { width: 1.25rem; height: 1.25rem; fill: currentColor; }
 
 /* Footer logos: Neruda Arts and Government of Canada side by side, stacked on phones */
 .footer-logos {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-  gap: 1.5rem 2.5rem; width: 100%;
+  gap: 1.5rem 3rem; width: 100%;
 }
 .footer-logos__neruda { display: block; flex: none; }
 .footer-logos__neruda img { height: 3.5rem; width: auto; }
-
 /* Logo heading on the printed checklist only */
 .print-header { display: none; }
 @media (max-width: 44rem) {
   .footer-logos { flex-direction: column; }
 }
-
 /* Canada funding graphic: wide enough that its words stay easy to read */
-.funding { display: block; width: min(100%, 40rem); }
+.funding { display: block; width: min(100%, 36rem); }
 .funding__graphic { width: 100%; height: auto; }
-
 /* On phones the graphic shrinks, so the same statement also appears as text */
 .funding__text { display: none; color: var(--ink); line-height: 1.5; }
 .funding__text span { display: block; }
@@ -864,13 +834,14 @@ a:hover { text-decoration-thickness: 2px; }
 }
 
 /* ---------- Scroll reveal (light animation) ----------
-   Elements with .reveal start slightly lowered and transparent,
-   and animations.js adds .is-visible when they scroll into view.
+   Elements with .reveal start slightly lowered and transparent, and
+   animations.js adds .is-visible when they scroll into view. Kept subtle,
+   and turned off for people who set their device to reduce motion (audit A5).
    The .js class means content stays visible if JavaScript fails. */
 .js .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .js .reveal.is-visible { opacity: 1; transform: none; }
 
@@ -888,23 +859,27 @@ a:hover { text-decoration-thickness: 2px; }
    Normal print: the whole toolkit, without navigation or the game.
    "Print the checklist": only the checklist, on one page. */
 @media print {
-  .site-header, .progress, .skip-link, .game-section,
+  .site-header, .progress, .skip-link, .game-section, .hero__art, .social,
   .checklist__actions, #watch, .funding__text { display: none !important; }
-  .site-footer { border-top: 0; color: #000; }
+  .site-footer { border-top: 0; color: #000; background: #fff; }
   body { background: #fff; color: #000; font-size: 11pt; }
   .js .reveal { opacity: 1; transform: none; }
   .section { border-top: 0; padding: 1rem 0; }
-  details.deep-dive > *:not(summary) { display: block; }
+  .card, .steps li { box-shadow: none; background: #fff !important; }
 
   /* Paper is white, so use dark brand colours whatever the screen theme */
-  h1, h2, h3, legend, .terms dt { color: #221B4B !important; }
+  h1, h2 { color: #551A74 !important; }
+  h3, h4, legend, .label { color: #221B4B !important; }
   .footer-logos { gap: 1rem 2rem; }
   .footer-logos__neruda img { height: 2.75rem; }
   .funding { width: min(100%, 26rem); }
 
   body.print-checklist main > *:not(#checklist),
   body.print-checklist .site-footer__credit { display: none !important; }
+  body.print-checklist .think-first { margin-top: 1rem; }
   body.print-checklist #checklist { padding: 0; }
+  body.print-checklist .checklist { gap: 0.75rem; }
+  body.print-checklist .checklist__group { padding: 0.75rem 1rem; }
   body.print-checklist .checklist label { padding: 0.35rem 0; }
   body.print-checklist .site-footer { padding: 1rem 0 0; }
   body.print-checklist .print-header {
@@ -914,7 +889,7 @@ a:hover { text-decoration-thickness: 2px; }
   }
   .print-header img { height: 0.55in; width: auto; }
   .print-header span {
-    font-family: var(--font-title); font-weight: 800; text-transform: uppercase;
+    font-family: var(--font-title); text-transform: uppercase;
     font-size: 10pt; color: #221B4B;
   }
 }

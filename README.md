@@ -9,7 +9,6 @@ index.html          Page content and structure
 css/style.css       All styling (colours and fonts are at the top, in :root)
 js/animations.js    Scroll reveal, reading progress bar, active nav link
 js/menu.js          Phone menu: the ☰ button opens a sidebar with every section
-js/carousel.js      "Meet the team" carousel in About (arrows, dots, arrow keys, swipe)
 js/video.js         YouTube / Vimeo embeds that load on click
 js/checklist.js     Print and clear buttons for the Before-you-post checklist
 js/game-data.js     Game rounds and settings  ← edit this for the game
@@ -46,7 +45,7 @@ The player only loads after a visitor presses play, which keeps the page fast an
 
 ## Page sections
 
-One page, in this order (from Anum's website audit, November 2026):
+One page, in this order (from Anum's website audit and the redesign mockup and style guide, November 2026):
 
 1. Intro (hero)
 2. What this toolkit is for (`#purpose`)
@@ -56,23 +55,26 @@ One page, in this order (from Anum's website audit, November 2026):
 6. Credit, permission and honesty (`#credit`)
 7. Before you post or upload, with the checklist (`#checklist`)
 8. Feeling overwhelmed? You're not alone (`#voices`)
-9. Learning activities (`#activities`)
-10. Videos and infographics (`#watch`)
+9. Videos and infographics (`#watch`)
+10. For educators: discussion questions and exercises (`#activities`)
 11. AI and the environment, kept short (`#environment`)
-12. Download and share (`#share`)
-13. About the team (`#about`)
+12. Share the toolkit (`#share`)
+13. Subscribe (`#subscribe`)
+14. About the team (`#about`)
 
-The menu links only to the main topics: Fact-checking, Creativity and credit, Before you post, You're not alone, Activities, and the yellow Play the game button. The other sections are reached by scrolling.
+The menu links only to five main topics: Fact-checking, Creativity & credit, Before you post, You're not alone and About, plus the light blue Play the game button. The other sections are reached by scrolling or from the phone sidebar.
+
+Most content sits in cards (`.card`) with a coloured top edge that alternates blue and purple; `.grid.g2` / `.grid.g3` lay them out two or three across, and one across on narrow screens. Example cards use `.card--ex`, short labels use `.label`, and small icons use `.ic`.
 
 Don't leave placeholder text on the page: until content is ready, hide or remove an empty section rather than showing "will be added here".
 
 ## Brand colours and fonts
 
-Colours and fonts follow the team's brand palette ("Tech Tones", in Google Drive › Social Media › Brand Pallette) and are set at the top of `css/style.css`. All fonts load from Google Fonts. The body text uses the brand's Poppins. The brand's title and subtitle fonts, PHATT and Zing Rust Base, aren't on Google Fonts, so similar-looking free fonts stand in for them: Orbitron for titles and Barlow Condensed (bold italic) for subtitles.
+Colours and fonts follow the team's brand palette ("Tech Tones", in Google Drive › Social Media › Brand Pallette) and are set at the top of `css/style.css`. All fonts load from Google Fonts. The body text uses the brand's Poppins. The brand's title and subtitle fonts, PHATT and Zing Rust Base, aren't on Google Fonts, so similar-looking free fonts stand in for them until the real font files are added: Audiowide for titles and Barlow Condensed (bold italic) for short labels. Colours, sizes, spacing and corner radius follow the team's style guide.
 
 ## Logo and tools
 
-The page title in the hero is the text-only logo (wordmark), where the title text used to be; its alt text is the title for screen readers and search engines. The shield logo sits beside it (above it on phones), the header also shows the wordmark, and six tools from the brand's "tool variations" are placed down the right side of the page, one per section. All are in `assets/images/brand/`:
+The header shows the shield logo and the text-only logo (wordmark) together (the wordmark alone on very narrow phones). The hero title is text, as in the mockup, with the toolbox illustration beside it on wide screens, and the other five tools from the brand's "tool variations" are placed down the right side of the page, one per section. All are in `assets/images/brand/`:
 
 - `logo-shield.png`, `logo-wordmark.png`: for the light colours. In the wordmark, the light blue "DIGITAL" was darkened to the brand blue `#0393bf` so it reads on the light background.
 - `logo-shield-dark.png`, `logo-wordmark-dark.png`: the black-background versions, for the dark colours.
@@ -84,11 +86,13 @@ Each tool only appears where there's empty space to the right of its section's c
 
 ## Meet the team
 
-The About section has a "Meet the team" carousel of the team's "Meet our team" posts, saved in `assets/images/team/`. Each image's alt text repeats the words in the post, so screen-reader users get the same introduction. To add someone, add their image (square WebP or JPG, around 1200 px) to that folder and copy one `<figure class="carousel__slide">` block in `index.html`, updating the "1 of 5" numbers in every slide's `aria-label`. The carousel never moves on its own.
+The About section shows one card per team member: photo, name, role and bio as real text. The photos are in `assets/images/team/` (JPG, about 440 × 410 px, cropped from the team's "Meet our team" posts). To add someone, add their photo there and copy one `<li class="card team__card">` block in `index.html`.
+
+The footer links to the project's Instagram, TikTok and Facebook (`ul.social`). LinkedIn and a contact email are left as comments in `index.html`, ready to fill in.
 
 ## Phone menu
 
-On phones (720px wide or less) the top menu only has room for "Play the game", so a ☰ button opens a sidebar with links to every section. The list is in the `<div class="drawer" id="site-menu">` block near the top of `index.html`: when you add, remove or rename a section, update it there too. The sidebar closes when a link is tapped, with the ✕ button, by tapping outside it or with Esc.
+On phones and small tablets (880px wide or less) the top menu only has room for "Play the game", so a ☰ button opens a sidebar with links to every section. The list is in the `<div class="drawer" id="site-menu">` block near the top of `index.html`: when you add, remove or rename a section, update it there too. The sidebar closes when a link is tapped, with the ✕ button, by tapping outside it or with Esc.
 
 ## Translate menu
 

@@ -154,6 +154,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     if (!timedOut) tiles[choice].classList.add(correct ? 'is-correct' : 'is-wrong');
     if (!correct) tiles[round.aiIndex].classList.add('is-answer');
+    // Show right and wrong with words, not colour alone (WCAG 1.4.1)
+    addBadge(tiles[round.aiIndex], '✓ AI image');
+    if (!timedOut && !correct) addBadge(tiles[choice], '✗ Your pick', true);
     if (el.zoom.open) el.zoom.close();
 
     const seconds = (timeMs / 1000).toFixed(1);
@@ -166,9 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
     el.feedback.textContent = message;
 
     // The player moves on when ready, so there is time to read the explanation.
-    el.next.textContent = current + 1 < rounds.length ? 'Next round' : 'See your results';
+    el.next.textContent = current + 1 < rounds.length ? 'Next round →' : 'See your results →';
     el.next.hidden = false;
-    fitTiles();   // a long explanation can need a little more room
     // On very small screens a long explanation can push the Next button
     // below the screen: focusing it scrolls just enough to show it.
     el.next.focus();
@@ -291,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gap = parseFloat(getComputedStyle(el.tiles).columnGap) || 12;
     const others = screens.play.offsetHeight - el.tiles.offsetHeight;   // status, prompt, feedback, Next
     const avail = window.innerHeight - top - pad - others - 8;
-    const width = el.tiles.clientWidth;
+    const width = el.tiles.getBoundingClientRect().width - 1;   // 1px spare so rounding never wraps a tile
 
     // Try every layout (1 to `count` per row) and keep the biggest tiles,
     // but prefer fewer rows when it costs less than ~12% of the size.
@@ -318,7 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Only the player's own score. Practice mode has no speed result.
     const stats = [
-      ['Correct answers', `${correctCount} of ${results.length}`],
       ['Accuracy', `${Math.round(accuracy * 100)}%`]
     ];
     if (!practice) stats.push(['Average time per round', `${avgTime.toFixed(1)} s`]);
@@ -366,6 +367,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const header = document.querySelector('.site-header');
     const sticky = header && getComputedStyle(header).position === 'sticky';
     return sticky ? header.offsetHeight + 8 : 8;
+  }
+
+  function addBadge(tile, text, wrong = false) {
+    const badge = document.createElement('span');
+    badge.className = 'tile__badge' + (wrong ? ' tile__badge--wrong' : '');
+    badge.textContent = text;
+    tile.appendChild(badge);
   }
 
   // Shuffle the photos inside a round, keeping track of which one is AI
