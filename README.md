@@ -100,7 +100,7 @@ The Translate menu links to Google Translate's copy of the **live** site at http
 
 ## Footer
 
-The footer shows the Neruda Arts credit, the Neruda Arts logo and the Government of Canada funding acknowledgement, each with a version for the dark theme. The Neruda Arts logo is in colour in both themes: `assets/images/neruda-arts-logo.png` (colour emblem, black lettering, empty margins trimmed) and `neruda-arts-logo-colour-on-dark.png` (the same with white lettering, for the dark theme). It is sized to the same height as the Canada graphic.
+The footer shows the Neruda Arts credit, the Neruda Arts logo and the Government of Canada funding acknowledgement, each with a version for the dark theme. The Neruda Arts logo is in colour in both themes: `assets/images/neruda-arts-logo-colour.png` (colour emblem, black lettering, empty margins trimmed) and `neruda-arts-logo-colour-on-dark.png` (the same with white lettering, for the dark theme). It is sized to the same height as the Canada graphic. Browsers keep files in `assets/` for a week (see `_headers`), so when you replace an image, save it under a new filename and update the HTML, or visitors may keep seeing the old one.
 
 The printed checklist ("Print the checklist") has the Neruda Arts logo and the toolkit name at the top, and the footer logos at the bottom.
 
