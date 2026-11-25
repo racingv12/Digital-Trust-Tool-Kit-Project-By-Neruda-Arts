@@ -817,7 +817,8 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
   gap: 1.5rem 3rem; width: 100%;
 }
 .footer-logos__neruda { display: block; flex: none; }
-.footer-logos__neruda img { height: 3.5rem; width: auto; }
+/* Same height as the Canada funding graphic beside it (1470 × 150 at up to 36rem wide) */
+.footer-logos__neruda img { height: calc(min(100vw - 2 * var(--gutter), 36rem) * 150 / 1470); min-height: 2.5rem; width: auto; }
 /* Logo heading on the printed checklist only */
 .print-header { display: none; }
 @media (max-width: 44rem) {
@@ -870,15 +871,26 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
   /* Paper is white, so use dark brand colours whatever the screen theme */
   h1, h2 { color: #551A74 !important; }
   h3, h4, legend, .label { color: #221B4B !important; }
-  .footer-logos { gap: 1rem 2rem; }
-  .footer-logos__neruda img { height: 2.75rem; }
+  .footer-logos { gap: 1rem 2rem; flex-direction: row; }   /* side by side even on narrow paper */
+  .footer-logos__neruda img { height: calc(26rem * 150 / 1470); min-height: 0; }   /* matches .funding below */
   .funding { width: min(100%, 26rem); }
+
+  /* Never split a card, a step or a quote across two pages: move it whole to
+     the next page instead, and keep each heading with what follows it. */
+  .card, .steps li, .quote, .checklist__group, .team__card, figure, .support,
+  .footer-logos, .print-header { break-inside: avoid; page-break-inside: avoid; }
+  h2, h3, h4, .subhead, .kicker, legend { break-after: avoid; page-break-after: avoid; }
+  p, li { orphans: 3; widows: 3; }
 
   body.print-checklist main > *:not(#checklist),
   body.print-checklist .site-footer__credit { display: none !important; }
   body.print-checklist .think-first { margin-top: 1rem; }
+  body.print-checklist #checklist .section__summary { display: none; }   /* the print header already says what it is */
+  body.print-checklist #checklist h2 { margin-bottom: 0.75rem; }
   body.print-checklist #checklist { padding: 0; }
-  body.print-checklist .checklist { gap: 0.75rem; }
+  /* Paper is narrower than the 900px where cards stack, so keep the three
+     groups side by side: the checklist and "Think first" then fit on one page. */
+  body.print-checklist .checklist { gap: 0.75rem; grid-template-columns: repeat(3, 1fr); }
   body.print-checklist .checklist__group { padding: 0.75rem 1rem; }
   body.print-checklist .checklist label { padding: 0.35rem 0; }
   body.print-checklist .site-footer { padding: 1rem 0 0; }
