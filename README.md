@@ -88,7 +88,7 @@ Each tool only appears where there's empty space to the right of its section's c
 
 The About section shows one card per team member: photo, name, role and bio as real text. The photos are in `assets/images/team/` (JPG, about 440 × 410 px, cropped from the team's "Meet our team" posts). To add someone, add their photo there and copy one `<li class="card team__card">` block in `index.html`.
 
-The footer links to the project's Instagram, TikTok and Facebook (`ul.social`). LinkedIn and a contact email are left as comments in `index.html`, ready to fill in.
+The footer links to the project's Instagram, TikTok, Facebook and LinkedIn (`ul.social`). A contact email is left as a comment in `index.html`, ready to fill in. Links to other websites open in a new tab (`target="_blank" rel="noopener"`); give any new outside link the same two attributes. The Translate links are the exception: they open the translated page in the same tab.
 
 ## Phone menu
 
