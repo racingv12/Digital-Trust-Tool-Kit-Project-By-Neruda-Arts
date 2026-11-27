@@ -153,6 +153,11 @@ function sendPack(email) {
       'To unsubscribe, reply to this email with “unsubscribe”.</p>' +
       '<p>The Digital Trust Toolkit team, with Neruda Arts</p>'
   });
+  // Shows under Executions, so you can confirm it went out (Apps Script emails
+  // are not saved in the Sent folder).
+  console.log('Pack sent to ' + email + ' from ' + Session.getEffectiveUser().getEmail() +
+    ' with ' + titles.length + ' file(s): ' + titles.join(', ') +
+    '. Emails left today: ' + MailApp.getRemainingDailyQuota());
 }
 
 // One pack file as an email attachment, from Drive or from the website.
