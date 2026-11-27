@@ -54,6 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   el.roundCount.textContent = roundsPerGame;
+  const timeLimitText = document.getElementById('game-time-limit');
+  if (timeLimitText) timeLimitText.textContent = config.timeLimitSeconds;
 
   // State
   let rounds = [];
@@ -159,14 +161,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!timedOut && !correct) addBadge(tiles[choice], '✗ Your pick', true);
     if (el.zoom.open) el.zoom.close();
 
-    const seconds = (timeMs / 1000).toFixed(1);
-    let message = timedOut
-      ? `Time’s up. The AI one was number ${round.aiIndex + 1}.`
-      : correct
-        ? (practice ? 'Correct.' : `Correct, in ${seconds} s.`)
-        : `Not this one. The AI one was number ${round.aiIndex + 1}.`;
+    // No seconds here: the timer already shows the time (audit Nov 26, change 4).
+    const lead = timedOut ? 'Time’s up.' : correct ? 'Correct.' : 'Not this one.';
+    let message = correct ? '' : ` The AI one was number ${round.aiIndex + 1}.`;
     if (round.explain) message += ' ' + round.explain;
-    el.feedback.textContent = message;
+    const strong = document.createElement('strong');
+    strong.textContent = lead;
+    el.feedback.replaceChildren(strong, message);
 
     // The player moves on when ready, so there is time to read the explanation.
     el.next.textContent = current + 1 < rounds.length ? 'Next round →' : 'See your results →';

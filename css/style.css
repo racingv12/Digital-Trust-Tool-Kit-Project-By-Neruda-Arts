@@ -49,6 +49,10 @@
   --btn-hover-bg:   #551A74;
   --btn-hover-ink:  #FFFFFF;
 
+  --banner-bg:   #221B4B;  /* webinar banner under the menu */
+  --banner-ink:  #FFFFFF;
+  --banner-link: #B0F0FF;
+
   /* Fonts (style guide): PHATT for headings, Zing Rust Base for 1–3 word labels,
      Poppins for everything else. PHATT and Zing Rust aren't on Google Fonts, so
      Audiowide and Barlow Condensed stand in until Ash's font files are added. */
@@ -97,6 +101,9 @@
     --btn-ink:       #221B4B;
     --btn-hover-bg:  #B0F0FF;
     --btn-hover-ink: #221B4B;
+    --banner-bg:   #B0F0FF;
+    --banner-ink:  #221B4B;
+    --banner-link: #221B4B;
     --shadow-card: 0 1px 3px rgb(0 0 0 / 0.3);
     color-scheme: dark;
   }
@@ -138,6 +145,7 @@ h3, h4 { font-family: var(--font-body); font-weight: 600; font-size: 1.25rem; li
   font-size: 1.375rem; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.02em;
   color: var(--ink); margin: 0 0 0.5rem;
 }
+.card .label { margin-bottom: 0.875rem; line-height: 1.625rem; }   /* ~14px below, so text doesn't sit against it */
 .label--small { font-size: 1.125rem; margin-top: 1.25rem; }
 .label--small:first-of-type { margin-top: 0; }
 
@@ -151,7 +159,7 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em
 a:hover { text-decoration-thickness: 2px; }
 /* Text links: blue-700, underlined; hover deep purple, thicker underline */
 main a:not(.button), .site-footer__credit a { color: var(--link); }
-main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); text-decoration-thickness: 2px; }
+main a:not(.button):hover, .site-footer__credit a:hover, .site-footer__contact a:hover { color: var(--accent); text-decoration-thickness: 2px; }
 
 :focus-visible {
   outline: 3px solid var(--focus);
@@ -394,46 +402,69 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
 .hero__title { font-size: clamp(2.4rem, 1.2rem + 4.4vw, 4.5rem); line-height: 1; margin: 0 0 1.25rem; }
 .hero__lede { max-width: 36rem; font-size: clamp(1.1rem, 1rem + 0.35vw, 1.25rem); line-height: 1.6; margin-bottom: 2rem; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
-.hero__art { justify-self: center; }
-.hero__art img { width: min(100%, 22rem); filter: drop-shadow(0 10px 18px rgb(34 27 75 / 0.15)); }
+.hero__art { justify-self: center; width: min(100%, 26rem); }
 @media (min-width: 900px) {
   .hero { grid-template-columns: 1.1fr 1fr; }
 }
 @media (max-width: 899px) {
-  .hero__art { display: none; }   /* the toolbox only shows beside the text on wide screens */
+  .hero { gap: 2rem; }
+  .hero__art { width: min(100%, 18rem); }
 }
 
-/* ---------- Decorative tools (from the brand's "tool variations") ----------
-   One tool per section, in the empty space to the right of the content.
-   Each tool's size follows the free space beside that section's content
-   (46rem for text-only sections, 60rem for wide ones, plus any page margin),
-   so it never covers text. Hidden when the phone menu (☰) appears. */
-.deco-tool {
-  --content: 60rem;
-  --margin: max(0px, calc((100vw - 100%) / 2 - 1.5rem));    /* page margin outside the section */
-  --room: calc(100% - 2 * var(--gutter) - var(--content) - 1.5rem + var(--margin));
-  position: absolute; z-index: 0; pointer-events: none;
-  right: calc(var(--gutter) - var(--margin));
-  top: var(--top, 4.5rem);
-  width: min(var(--room), var(--size));
-  height: auto;
-  transform: rotate(var(--turn, 0deg));
-  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.12));
+/* Clickable toolbox (js/toolbox.js): the closed and open pictures share one canvas
+   and fade into each other; aria-expanded says which one shows. */
+.toolbox {
+  position: relative; display: block; width: 100%; aspect-ratio: 800 / 838;
+  padding: 0; border: 0; background: none; cursor: pointer;
+  border-radius: var(--radius-lg);
 }
-.deco-tool--text { --content: 46rem; }
-.deco-tool--wrench      { --size: 70px;  --turn: 18deg;  --top: 6rem; }
-.deco-tool--saw         { --size: 190px; --turn: -14deg; --top: 9rem; }
-.deco-tool--screwdriver { --size: 62px;  --turn: -20deg; --top: 4rem; }
-.deco-tool--drill       { --size: 140px; --turn: 8deg;   --top: 7rem; }
-.deco-tool--hammer      { --size: 160px; --turn: -10deg; --top: 3rem; }
-/* Not enough empty space next to the content: hide instead of squeezing */
-@media (max-width: 1179px) { .deco-tool--wide { display: none; } }
-@media (max-width: 959px)  { .deco-tool--text { display: none; } }
-@media print { .deco-tool { display: none !important; } }
+.toolbox__img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  filter: drop-shadow(0 10px 18px rgb(34 27 75 / 0.15));
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+.toolbox__img--open { opacity: 0; transform: translateY(12px) scale(0.96); }
+.toolbox:hover .toolbox__img--closed { transform: translateY(-4px); }
+.toolbox[aria-expanded="true"] .toolbox__img--closed { opacity: 0; transform: scale(0.96); }
+.toolbox[aria-expanded="true"] .toolbox__img--open { opacity: 1; transform: none; }
+.toolbox:focus-visible { outline: 3px solid var(--focus); outline-offset: 6px; }
+.toolbox__hint { margin: 0.75rem 0 0; text-align: center; font-size: 0.875rem; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { .toolbox__img { transition: none; } }
+
+/* ---------- Webinar banner ---------- */
+.banner {
+  margin: 0; padding: 0.625rem var(--gutter); text-align: center;
+  background: var(--banner-bg); color: var(--banner-ink); font-size: 0.9375rem;
+}
+.banner a { color: var(--banner-link); font-weight: 600; text-underline-offset: 3px; }
+.banner a:hover { text-decoration-thickness: 2px; }
+
+/* ---------- Section tools and taglines (audit Nov 26, changes 5–6) ----------
+   Only Fact-checking (drill), Creativity (hammer) and Credit (wrench) have a tool, each
+   matching Ash's tagline under the heading. The tool sits top right inside the content,
+   resting on the first box. Hidden on phones and when printing. */
+.headrow { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; }
+.headrow > div { flex: 1; min-width: 0; }
+.tagline {
+  font-family: var(--font-subtitle); font-style: italic; font-weight: 700;
+  font-size: 1.625rem; line-height: 1.875rem; color: var(--link);
+  margin: -0.25rem 0 1rem;
+}
+.section-tool {
+  flex: none; position: relative; z-index: 2; height: auto;
+  margin: 0 1.5rem -3rem 0;   /* overlaps the top of the first box */
+  filter: drop-shadow(0 6px 8px rgb(34 27 75 / 0.18));
+  pointer-events: none;
+}
+.section-tool--drill  { width: 120px; }
+.section-tool--hammer { width: 140px; }
+.section-tool--wrench { width: 80px; margin-bottom: -0.875rem; transform: rotate(-35deg); transform-origin: bottom center; }
+@media (max-width: 900px) { .section-tool { display: none; } }
+@media print { .section-tool { display: none !important; } }
 
 /* ---------- Sections ---------- */
 .section {
-  position: relative;   /* for the decorative tools */
+  position: relative;
   max-width: calc(var(--wide) + 2 * var(--gutter));
   margin: 0 auto;
   padding: clamp(3rem, 7vh, 4rem) var(--gutter);
@@ -490,11 +521,31 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
   padding: 0.125rem 0.625rem; border-radius: var(--radius);
   background: var(--tag-bg); color: var(--tag-ink);
 }
-/* Outlined cards: the checklist and "What helped students" (style guide) */
-.grid--outline > .card,
+/* Outlined cards: every example box, the checklist, "What helped students" and the
+   workshop results. Rows of 3 alternate blue and purple; 2 × 2 grids criss-cross. */
+.grid > .card--ex, .grid--outline > .card, .results > .card,
 .checklist > .card { border: 2px solid var(--edge-blue); border-top-width: 4px; }
+.g3 > .card--ex:nth-child(even), .results > .card:nth-child(even),
+.g2 > .card--ex:nth-child(4n+2), .g2 > .card--ex:nth-child(4n+3),
 .grid--outline.g2 > .card:nth-child(4n+2), .grid--outline.g2 > .card:nth-child(4n+3),
 .checklist > .card:nth-child(even) { border-color: var(--edge-purple); }
+
+/* Workshop results: big number, what students did, then "up from" lined up at the bottom */
+.stats-intro { max-width: 45rem; }
+.result { display: flex; flex-direction: column; }
+.result .tag { align-self: flex-start; }
+.result p { margin: 0; }
+.result__big {
+  font-family: var(--font-title); font-size: 3rem; line-height: 3.5rem; color: var(--accent);
+  margin: 0.25rem 0 0.25rem !important;
+}
+.result__big small { font-family: var(--font-body); font-size: 1.25rem; font-weight: 600; }
+.result__up { margin-top: auto !important; padding-top: 0.625rem; font-size: 0.875rem; font-weight: 600; color: var(--link); }
+.source-note { margin: 1rem 0 0; font-size: 0.875rem; color: var(--muted); }
+
+/* Subscribe line under the print buttons */
+.pack-note { margin: 0.625rem 0 0; font-size: 0.875rem; color: var(--muted); }
+.section-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
 
 /* Blue icon in a soft circle */
 .ic {
@@ -524,6 +575,10 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
 .caption-card blockquote { margin: 0; font-weight: 500; }
 
 .sources { margin-bottom: 1rem !important; }
+.credits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 2rem; margin: 0; }
+.credits dt { font-weight: 600; }
+.credits dd { margin: 0; }
+@media (max-width: 700px) { .credits { grid-template-columns: 1fr; } }
 .sources li { margin-bottom: 0.6em; }
 
 /* ---------- Checklist ---------- */
@@ -564,7 +619,7 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
   display: flex; flex-direction: column;
 }
 .team > .team__card:nth-child(even) { border-top-color: var(--edge-purple); }
-.team__photo { width: 100%; aspect-ratio: 436 / 380; object-fit: cover; object-position: center 25%; }
+.team__photo { width: 100%; aspect-ratio: 436 / 380; object-fit: cover; object-position: center top; }   /* heads never cut off */
 .team__body { padding: 1.5rem; }
 .team__name { font-size: 1.25rem; margin: 0 0 0.25rem; }
 .team__role {
@@ -575,12 +630,14 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
 @media (max-width: 900px) { .team__card { width: calc((100% - 1.5rem) / 2); } }
 @media (max-width: 600px) { .team__card { width: 100%; } }
 
-/* Infographic placeholder */
-.infographic-slot {
-  aspect-ratio: 16 / 9; display: grid; place-items: center;
-  border: 2px dashed var(--line); border-radius: var(--radius-lg);
+/* Infographics: portrait boxes with a solid border, blue then purple */
+.infographic {
+  aspect-ratio: 4 / 5; display: grid; place-items: center; padding: 1rem;
+  background: var(--surface); border: 2px solid var(--edge-blue); border-radius: var(--radius-lg);
   color: var(--muted);
 }
+.infographic img { width: 100%; height: 100%; object-fit: contain; border-radius: var(--radius); }
+.video-card:nth-child(4) .infographic { border-color: var(--edge-purple); }
 
 /* ---------- Videos ---------- */
 .videos {
@@ -626,7 +683,9 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
   padding: clamp(1.25rem, 3vw, 2rem);
 }
 .game__screen[hidden] { display: none; }
-.game__meta { color: var(--muted); }
+.game__meta { color: var(--muted); font-size: 0.875rem; }
+.game__how { margin: 0 0 1rem; padding-left: 1.375rem; }
+.game__how li { margin-bottom: 0.375rem; }
 
 .game__status {
   display: flex; justify-content: space-between; align-items: center;
@@ -759,9 +818,9 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
 .game__note { color: var(--muted); font-size: 0.9rem; max-width: var(--measure); }
 
 /* ---------- Subscribe ---------- */
-.subscribe-card { max-width: 40rem; }
+.subscribe-card { max-width: 51.25rem; }   /* 820px, like How we made it */
 .subscribe__label { display: block; font-weight: 600; margin-bottom: 0.5rem; }
-.subscribe__row { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.subscribe__row { display: flex; flex-wrap: wrap; gap: 0.75rem; max-width: 35rem; }   /* ~560px */
 .subscribe__input {
   flex: 1 1 14rem; min-width: 0;
   font: inherit; color: var(--ink);
@@ -788,6 +847,7 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
 .subscribe-done[hidden] { display: none; }
 .subscribe-done:focus { outline: none; }
 .subscribe-done__message { display: flex; align-items: center; gap: 0.625rem; margin: 0; font-weight: 600; font-size: 1.25rem; }
+.subscribe-done__more { margin: 0.5rem 0 0 2.875rem; }
 .subscribe-done__again { margin-top: 0.5rem; padding-left: 0; font-size: 0.9375rem; }
 @media print { #subscribe { display: none !important; } }
 
@@ -800,6 +860,8 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
   display: grid; justify-items: center; gap: 1.5rem;
 }
 .site-footer p { margin: 0; }
+.site-footer__credit + .site-footer__contact { margin-top: -1.25rem; }   /* sits just under the credit line */
+.site-footer__contact a { color: var(--link); }
 /* Social icons: navy circles, purple on hover */
 .social { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.75rem; justify-content: center; }
 .social a {
@@ -827,12 +889,6 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
 /* Canada funding graphic: wide enough that its words stay easy to read */
 .funding { display: block; width: min(100%, 36rem); }
 .funding__graphic { width: 100%; height: auto; }
-/* On phones the graphic shrinks, so the same statement also appears as text */
-.funding__text { display: none; color: var(--ink); line-height: 1.5; }
-.funding__text span { display: block; }
-@media (max-width: 44rem) {
-  .funding__text { display: block; }
-}
 
 /* ---------- Scroll reveal (light animation) ----------
    Elements with .reveal start slightly lowered and transparent, and
@@ -858,11 +914,15 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
 
 /* ---------- Print ----------
    Normal print: the whole toolkit, without navigation or the game.
-   "Print the checklist": only the checklist, on one page. */
+   "Print the checklist": only the checklist, on one page.
+   "Print the activities": only the For educators section. */
 @media print {
   .site-header, .progress, .skip-link, .game-section, .hero__art, .social,
-  .checklist__actions, #watch, .funding__text { display: none !important; }
+  .checklist__actions, #watch, .banner, .pack-note, .section-actions { display: none !important; }
   .site-footer { border-top: 0; color: #000; background: #fff; }
+  /* Paper is always white, even when the screen uses the dark colours */
+  :root { color-scheme: light; }
+  html { background: #fff; }
   body { background: #fff; color: #000; font-size: 11pt; }
   .js .reveal { opacity: 1; transform: none; }
   .section { border-top: 0; padding: 1rem 0; }
@@ -883,7 +943,16 @@ main a:not(.button):hover, .site-footer__credit a:hover { color: var(--accent); 
   p, li { orphans: 3; widows: 3; }
 
   body.print-checklist main > *:not(#checklist),
-  body.print-checklist .site-footer__credit { display: none !important; }
+  body.print-checklist .site-footer__credit,
+  body.print-checklist .site-footer__contact,
+  body.print-checklist #checklist .tagline { display: none !important; }
+
+  body.print-activities main > *:not(#activities),
+  body.print-activities .site-footer__credit,
+  body.print-activities .site-footer__contact { display: none !important; }
+  body.print-activities #activities { padding: 0; }
+  body.print-activities #activities .grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+  body.print-activities .site-footer { padding: 1rem 0 0; }
   body.print-checklist .think-first { margin-top: 1rem; }
   body.print-checklist #checklist .section__summary { display: none; }   /* the print header already says what it is */
   body.print-checklist #checklist h2 { margin-bottom: 0.75rem; }

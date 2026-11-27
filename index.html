@@ -77,6 +77,10 @@
     </nav>
   </header>
 
+  <!-- Webinar banner (audit Nov 26, change 1). Says "January" without a day so it stays
+       right if the date moves: add the exact date here, in Share and in Subscribe once it's final. -->
+  <p class="banner"><strong>Coming soon:</strong> a free webinar on AI and digital trust in January. <a href="#subscribe">Subscribe for updates</a></p>
+
   <!-- Phone sidebar: links to every section. Opened by the menu button (js/menu.js).
        When you add, remove or rename a section, update this list too. -->
   <div class="drawer" id="site-menu" hidden>
@@ -125,9 +129,14 @@
           <a class="button button--quiet" href="#test">Play the game</a>
         </div>
       </div>
-      <!-- Ash's toolbox graphic (audit B3). Swap for the final infographic version when it's ready. -->
-      <div class="hero__art" aria-hidden="true">
-        <img src="assets/images/brand/tool-toolbox.png" width="354" height="257" alt="">
+      <!-- Ash's toolbox: opens and closes on click or Space/Enter (js/toolbox.js; audit Nov 26, change 2).
+           Both pictures share one canvas so they line up. If Ash sends an animation, it can replace this. -->
+      <div class="hero__art">
+        <button class="toolbox" type="button" id="toolbox" aria-expanded="false" aria-label="Open the toolbox">
+          <img class="toolbox__img toolbox__img--closed" src="assets/images/brand/toolbox-closed.png" width="800" height="838" alt="The Digital Trust toolbox, closed">
+          <img class="toolbox__img toolbox__img--open" src="assets/images/brand/toolbox-open.png" width="800" height="838" alt="The Digital Trust toolbox, open, with a wrench, hammer, drill, saw and screwdriver inside">
+        </button>
+        <p class="toolbox__hint">Click the toolbox to open or close it.</p>
       </div>
     </section>
 
@@ -163,12 +172,38 @@
           High school students in Kitchener-Waterloo and Humber Polytechnic students in Toronto participated in workshops and focus groups to share their perspectives on AI-generated images, video, music, voice and writing.
         </p>
         <p>
-          Facilitators included Trish Hooktwith, Ruchika Batra, Addie Batra and Tammie Deubry in Kitchener-Waterloo, and Vivian Lee (ODLAN) and Rejane Claasen in Toronto.
+          Facilitators included Trish Hooktwith, Ruchika Batra, Addie Batra and Tammie Deubry in Kitchener-Waterloo, and Vivian Lee (ODLAN) and Rejané Claasen in Toronto.
           Drawing on insights from both cohorts, four Humber students and one University of Waterloo student developed this toolkit with mentorship from Digital Insites and Neruda Arts.
           Created by students, for students, the toolkit encourages critical thinking, digital awareness and responsible AI use.
-          This project was funded by the Government of Canada through the Department of Canadian Heritage's Digital Citizen Contribution Program (DCCP).
+          This project was funded by the Government of Canada through the Department of Canadian Heritage’s Digital Citizen Contribution Program (DCCP).
         </p>
       </div>
+
+      <!-- Workshop results (audit Nov 26, change 3), from the Digital Trust Project: Toronto
+           Cohort Report (October 2026). Counts, not percentages: each workshop had 11–13 students. -->
+      <h3 class="subhead">How the workshops helped</h3>
+      <p class="stats-intro"><strong>Every survey question improved across all three workshops.</strong> Results from the Toronto workshops, with 15 students, 3 workshops, 2 focus groups and 10 follow-up interviews.</p>
+      <div class="grid g3 results">
+        <div class="card result">
+          <span class="tag">Images and video</span>
+          <p class="result__big">13<small> of 13 students</small></p>
+          <p>felt confident they knew two ways to check if an image or video can be trusted</p>
+          <p class="result__up">up from 5 before the workshop</p>
+        </div>
+        <div class="card result">
+          <span class="tag">Music and voices</span>
+          <p class="result__big">8<small> of 11 students</small></p>
+          <p>felt confident they knew two ways to check if audio is real</p>
+          <p class="result__up">up from 3 before the workshop</p>
+        </div>
+        <div class="card result">
+          <span class="tag">Writing</span>
+          <p class="result__big">12<small> of 12 students</small></p>
+          <p>chose all the right steps when an AI tool gave them a fact and a source that hadn’t been checked</p>
+          <p class="result__up">up from 9 before the workshop</p>
+        </div>
+      </div>
+      <p class="source-note">Students answered before and right after each workshop. Source: Digital Trust Project: Toronto Cohort Report (October 2026).</p>
     </section>
 
     <!-- GAME -->
@@ -181,7 +216,14 @@
       <div class="game" id="game">
         <!-- Start screen -->
         <div class="game__screen" data-screen="start">
-          <p class="game__meta"><span id="game-round-count">6</span> rounds, each with a few photos of the same kind of thing. Tap the one made by AI, or press its number key. Use the magnifying glass to see a photo larger. Press Esc to quit. Practice mode has no timer.</p>
+          <h3 class="card__title">How to play</h3>
+          <ol class="game__how">
+            <li>There are <span id="game-round-count">6</span> rounds. Each one shows a few photos.</li>
+            <li>Tap or click the photo you think was made by AI. (On a keyboard, press its number.)</li>
+            <li>Tap the magnifying glass to zoom in on the details.</li>
+            <li>You have <span id="game-time-limit">15</span> seconds a round. Practice mode has no timer.</li>
+          </ol>
+          <p class="game__meta">Press Esc to quit at any time.</p>
           <div class="game__start-actions">
             <button class="button button--primary" type="button" id="game-start">Start playing</button>
             <button class="button button--quiet" type="button" id="game-practice">Practice (no timer)</button>
@@ -233,20 +275,27 @@
 
       <!-- AI-use note (D2). Add the name of the AI tool once the team confirms it. -->
       <p class="game__ai-note">
-        Some images in this game were made with AI on purpose, to help you practice spotting it.
-        The other images were made by our team.
+        Some images in this game were made with AI on purpose, to help you practise spotting it.
+        The other photos were taken by our team.
       </p>
     </section>
 
     <section class="section reveal" id="trust">
-      <img class="deco-tool deco-tool--wide deco-tool--wrench" src="assets/images/brand/tool-wrench.png" width="110" height="320" alt="" aria-hidden="true" loading="lazy">
-      <h2>Trust and fact-checking</h2>
-      <div class="section__summary">
-        <p>
-          How can we check whether an image, voice, piece of writing or video was made by AI,
-          or is misleading in some other way? No single clue proves it, and the tools improve
-          every year, so the goal is to build good checking habits.
-        </p>
+      <!-- Section tools (audit Nov 26, changes 5–6): only these three sections have a tool, each
+           matching Ash's tagline. The tool sits on the first box, top right; hidden on phones and in print. -->
+      <div class="headrow">
+        <div>
+          <h2>Trust and fact-checking</h2>
+          <p class="tagline">Know the drill: verify before you trust.</p>
+          <div class="section__summary">
+            <p>
+              How can we check whether an image, voice, piece of writing or video was made by AI,
+              or is misleading in some other way? No single clue proves it, and the tools improve
+              every year, so the goal is to build good checking habits.
+            </p>
+          </div>
+        </div>
+        <img class="section-tool section-tool--drill" src="assets/images/brand/tool-drill.png" width="222" height="308" alt="" aria-hidden="true" loading="lazy">
       </div>
       <!-- Lead card first (it applies to everything), then the four types in a 2 × 2 grid: audit D1 -->
       <div class="card card--lead">
@@ -265,6 +314,7 @@
             <li>Zoom in on text, hands and backgrounds.</li>
             <li>Check shadows and reflections against the light.</li>
             <li>Use a reverse image search to find where it first appeared.</li>
+            <li>Look for an “AI-generated” label or watermark, but don’t rely on it alone.</li>
           </ul>
         </div>
         <div class="card">
@@ -273,7 +323,7 @@
             <li>Listen for flat emotion, odd pauses or missing breaths.</li>
             <li>Ask whether the person would really say this.</li>
             <li>Look for the original recording from a trusted source.</li>
-            <li>Urgent call from someone you know asking for money or help? Hang up and contact them yourself, on a number you already have.</li>
+            <li>Urgent call asking for money? Hang up and call back on a number you know.</li>
           </ul>
         </div>
         <div class="card">
@@ -296,10 +346,10 @@
 
       <h3 class="subhead">Decision guide</h3>
       <ol class="steps">
-        <li><strong>Pause.</strong> Does it make you angry, shocked, or want to buy something?</li>
+        <li><strong>Pause.</strong> Does it make you angry or shocked, or push you to buy something?</li>
         <li><strong>Who posted it?</strong> Check the account’s age, posts and followers.</li>
-        <li><strong>Where did it come from first?</strong> Use a reverse image search; look for the original creator.</li>
-        <li><strong>Do trusted sources say the same?</strong> Check a news outlet or an official website.</li>
+        <li><strong>Where did it come from first?</strong> Use a reverse image search to find the original creator.</li>
+        <li><strong>Do trusted sources say the same?</strong> Check a trusted news outlet or an official website.</li>
         <li><strong>Still not sure?</strong> Don’t share it.</li>
       </ol>
 
@@ -312,13 +362,18 @@
     </section>
 
     <section class="section reveal" id="creativity">
-      <img class="deco-tool deco-tool--wide deco-tool--saw" src="assets/images/brand/tool-saw.png" width="343" height="160" alt="" aria-hidden="true" loading="lazy">
-      <h2>Creativity and ownership</h2>
-      <div class="section__summary">
-        <p>
-          Every creator learns from others. The question is where learning from someone’s work
-          turns into taking it. These three ideas help draw the line.
-        </p>
+      <div class="headrow">
+        <div>
+          <h2>Creativity and ownership</h2>
+          <p class="tagline">Hammer down your ownership.</p>
+          <div class="section__summary">
+            <p>
+              Every creator learns from others. The question is where learning from someone’s work
+              turns into taking it. These three ideas help draw the line.
+            </p>
+          </div>
+        </div>
+        <img class="section-tool section-tool--hammer" src="assets/images/brand/tool-hammer.png" width="265" height="235" alt="" aria-hidden="true" loading="lazy">
       </div>
       <!-- Three ideas as cards, each with a blue icon (audit E1). Copying uses a circle with a slash. -->
       <div class="grid g3">
@@ -345,24 +400,24 @@
       </div>
     </section>
 
-    <!-- CREDIT: order from audit F1: decision guide, three cards, how much AI, all six captions, portfolio -->
+    <!-- CREDIT (audit Nov 26, change 10): the three "when" cards first (the wrench sits on them),
+         then How much AI is okay?, then the decision guide, then the example captions. -->
     <section class="section reveal" id="credit">
-      <h2>Credit, permission and honesty</h2>
-      <div class="section__summary">
-        <p>
-          When should you credit someone, ask permission first, or say that AI was used?
-          Being open about how something was made helps people trust you and your work.
-        </p>
+      <div class="headrow">
+        <div>
+          <h2>Credit, permission and honesty</h2>
+          <p class="tagline">Tighten up your ethics.</p>
+          <div class="section__summary">
+            <p>
+              When should you credit someone, ask permission first, or say that AI was used?
+              Being open about how something was made helps people trust you and your work.
+            </p>
+          </div>
+        </div>
+        <img class="section-tool section-tool--wrench" src="assets/images/brand/tool-wrench.png" width="110" height="320" alt="" aria-hidden="true" loading="lazy">
       </div>
 
-      <h3 class="subhead subhead--first">Decision guide</h3>
-      <ol class="steps">
-        <li><strong>Did someone else make any part of it?</strong> Credit them.</li>
-        <li><strong>Is a real person shown or heard?</strong> Ask permission.</li>
-        <li><strong>Did AI make or change any part?</strong> Say so.</li>
-      </ol>
-
-      <div class="grid g3 grid--after">
+      <div class="grid g3">
         <div class="card">
           <h3 class="label">Credit people when</h3>
           <ul>
@@ -389,8 +444,8 @@
       <div class="card card--spaced">
         <h3 class="card__title">How much AI is okay?</h3>
         <p>
-          <strong>“Human first, human last”:</strong> start with your own ideas, let AI help only in
-          the middle, and make the final decisions yourself.
+          <strong>“Human first, human last”</strong>, an idea from Vivian Lee’s workshops: start with
+          your own ideas, let AI help only in the middle, and make the final decisions yourself.
         </p>
         <p>
           Ask yourself: Did I start with my own ideas? Is AI helping my work or replacing it?
@@ -402,6 +457,13 @@
         </p>
       </div>
 
+      <h3 class="subhead">Decision guide</h3>
+      <ol class="steps">
+        <li><strong>Did someone else make any part of it?</strong> Credit them.</li>
+        <li><strong>Is a real person shown or heard?</strong> Ask permission.</li>
+        <li><strong>Did AI make or change any part?</strong> Say so.</li>
+      </ol>
+
       <h3 class="subhead">Example captions you can use</h3>
       <div class="grid g3">
         <figure class="card card--ex caption-card"><span class="tag">Photo</span><blockquote>Photo and edit by me. Background generated with an AI image tool.</blockquote></figure>
@@ -411,27 +473,19 @@
         <figure class="card card--ex caption-card"><span class="tag">Video</span><blockquote>Filmed and edited by me. Captions made with an AI tool.</blockquote></figure>
         <figure class="card card--ex caption-card"><span class="tag">Portfolio</span><blockquote>Research, sketches and final design by me. AI used to summarize interview notes.</blockquote></figure>
       </div>
-
-      <div class="card card--spaced">
-        <h3 class="card__title">AI in your portfolio</h3>
-        <p>
-          Say where you used AI, and show your own process (research, sketches, decisions),
-          not just the final result.
-        </p>
-      </div>
     </section>
 
     <!-- BEFORE YOU POST: the one-page checklist. "Print the checklist" prints only this section. -->
     <section class="section reveal" id="checklist">
-      <img class="deco-tool deco-tool--wide deco-tool--screwdriver" src="assets/images/brand/tool-screwdriver.png" width="102" height="276" alt="" aria-hidden="true" loading="lazy">
       <!-- Shown only on the printed checklist (hidden on screen) -->
       <div class="print-header" aria-hidden="true">
         <img src="assets/images/neruda-arts-logo-colour.png" width="955" height="273" alt="">
         <span>Digital Trust Toolkit</span>
       </div>
       <h2>Before you post or upload</h2>
+      <p class="tagline">Reflect on what you saw.</p>
       <div class="section__summary">
-        <p>A one-page checklist for checking, crediting and sharing responsibly. Use this checklist before you post or upload.</p>
+        <p>A one-page checklist for checking, crediting and sharing responsibly. Tick each point before you post or upload.</p>
       </div>
       <!-- Three equal outlined cards (audit G3) -->
       <div class="checklist grid g3">
@@ -447,6 +501,7 @@
           <label><input type="checkbox"> I credited the people whose work I used or built on.</label>
           <label><input type="checkbox"> I have permission to share other people’s work or images.</label>
           <label><input type="checkbox"> I said clearly if and how AI was used.</label>
+          <label><input type="checkbox"> I credited the original creator, not a repost or copy account.</label>
         </fieldset>
         <fieldset class="card checklist__group">
           <legend class="label">Share</legend>
@@ -460,13 +515,14 @@
         <button class="button button--primary" type="button" id="checklist-print">Print the checklist</button>
         <button class="button button--quiet" type="button" id="checklist-clear">Clear all</button>
       </div>
+      <p class="pack-note">Want everything in one go? <a href="#subscribe">Subscribe</a> to get all the PDFs by email.</p>
       <!-- Privacy tips: their own heading, below the checklist (audit G1, G2) -->
       <div class="card card--plain card--spaced think-first">
         <h3 class="card__title">Think first</h3>
         <ul>
           <li>Think twice before uploading your face or voice to an AI tool: once it’s used for training, it may not be possible to take it back.</li>
           <li>Photos can show where you are, through location data and background details.</li>
-          <li>Never share your address, SIN or card numbers with AI, or anyone else’s private information.</li>
+          <li>Never share your address, SIN or card numbers with AI tools, or anyone else’s private information.</li>
         </ul>
       </div>
     </section>
@@ -474,7 +530,6 @@
     <!-- YOU'RE NOT ALONE. Before publishing, Karen and Kim check the quotes against the
          original recordings. Only include a name if the student has given permission. -->
     <section class="section reveal" id="voices">
-      <img class="deco-tool deco-tool--wide deco-tool--drill" src="assets/images/brand/tool-drill.png" width="222" height="308" alt="" aria-hidden="true" loading="lazy">
       <p class="kicker">Feeling overwhelmed?</p>
       <h2>You’re not alone</h2>
       <div class="section__summary">
@@ -541,7 +596,7 @@
     <section class="section section--wide reveal" id="watch">
       <h2>Videos and infographics</h2>
       <div class="section__summary">
-        <p>Two short videos and two infographics from the toolkit.</p>
+        <p>Two videos and two infographics from the toolkit. Want printable copies? <a href="#subscribe">Subscribe</a> and we’ll email you the PDFs.</p>
       </div>
       <div class="videos">
         <figure class="video-card">
@@ -552,13 +607,18 @@
           <div class="video" data-provider="vimeo" data-id="" data-title="Video two"></div>
           <figcaption>Video two title</figcaption>
         </figure>
+        <!-- Infographics: portrait boxes with a solid border (audit Nov 26, change 12) -->
         <figure class="video-card">
-          <div class="infographic-slot">Infographic coming soon</div>
-          <figcaption>Before you post: the checklist as an infographic</figcaption>
+          <div class="infographic">
+            <img src="assets/images/infographics/checklist.jpg" width="900" height="1125" loading="lazy"
+                 alt="Printable checklist: Before you post or upload. Think first: think twice before uploading your face or voice to an AI tool; photos can show where you are; never share your address or other people’s private information. Then the same Check, Credit and Share points as the checklist on this page.">
+          </div>
+          <figcaption>Before you post or upload: printable checklist</figcaption>
         </figure>
         <figure class="video-card">
-          <div class="infographic-slot">Infographic coming soon</div>
-          <figcaption>Infographic two title</figcaption>
+          <!-- Replace with Ash's toolbox infographic when it's ready (same <img> pattern as above). -->
+          <div class="infographic infographic--empty">Infographic coming soon</div>
+          <figcaption>The digital trust toolbox</figcaption>
         </figure>
       </div>
     </section>
@@ -580,6 +640,8 @@
             <li>If someone cloned your voice, what could they do with it?</li>
             <li>Should creators be paid or asked before their work is used to train AI?</li>
             <li>Where is the line between AI helping your work and replacing it?</li>
+            <li>If AI does entry-level tasks, how will new graduates gain experience?</li>
+            <li>Who does the hidden work behind AI, like labelling data, and should users know about it?</li>
           </ul>
         </div>
         <div class="card">
@@ -587,20 +649,21 @@
           <ul>
             <li><strong>Bias test:</strong> ask an image tool for “a doctor”, “a lawyer” and “a chief executive officer”, then discuss what you get.</li>
             <li><strong>Break the AI:</strong> try to make an AI tool give a wrong answer.</li>
-            <li><strong>Real or AI?:</strong> look at a few images and explain why you think each one is real or AI.</li>
-            <!-- Audit I1: add one line of instructions here (which songs, and how to rate them). -->
+            <li><strong>Real or AI:</strong> look at a few images and explain why you think each one is real or AI.</li>
             <li><strong>Music spectrum:</strong> play a few short songs (AI-made, human-made and mixed). Students rate each from 1 (all AI) to 10 (all human), then explain their choice.</li>
             <li><strong>My AI rules:</strong> write your own rules for consent, credit and saying when you used AI.</li>
           </ul>
         </div>
       </div>
-      <!-- When the printable activity sheet is ready, add:
-           <a class="button button--primary" href="assets/activity-sheet.pdf" download>Download the activity sheet (PDF)</a> -->
+      <!-- "Print the activities" prints only this section (js/checklist.js) -->
+      <div class="section-actions">
+        <button class="button button--primary" type="button" id="activities-print">Print the activities</button>
+      </div>
+      <p class="pack-note">Want everything in one go? <a href="#subscribe">Subscribe</a> to get all the PDFs by email.</p>
     </section>
 
     <!-- ENVIRONMENT. Before publishing, fact-check these tips against a current, reliable source. -->
     <section class="section reveal" id="environment">
-      <img class="deco-tool deco-tool--text deco-tool--hammer" src="assets/images/brand/tool-hammer.png" width="265" height="235" alt="" aria-hidden="true" loading="lazy">
       <h2>AI and the environment</h2>
       <div class="section__summary">
         <p>
@@ -642,7 +705,9 @@
                <li>Put the <a href="…">poster</a> up in your classroom or student space.</li> -->
           <li>Teachers: use the <a href="#activities">activities for educators</a> in class.</li>
           <li>Send the <a href="#test">game</a> to a friend and compare what you each spotted.</li>
-          <li>Follow the project on <a href="https://www.instagram.com/digitaltrustproject" target="_blank" rel="noopener">Instagram</a>, and join the webinar for educators in January (details to come).</li>
+          <!-- "Share the toolkit" opens the phone's share menu, or copies the link on computers (js/share.js) -->
+          <li>Found this useful? <a href="https://digitaltrust.nerudaarts.ca/" class="share-link" id="share-link">Share the toolkit</a> with a friend, classmate or teacher. Tag us or use <strong>#KnowThyAI</strong> when you post. <span class="share-status" id="share-status" role="status" aria-live="polite"></span></li>
+          <li>Join our free webinar for students and educators in January (details to come).</li>
         </ul>
       </div>
     </section>
@@ -655,8 +720,9 @@
       <h2>Subscribe</h2>
       <div class="section__summary">
         <p>
-          Want to hear when there’s something new? Leave your email to get updates about the
-          toolkit and upcoming events, like the webinar for educators.
+          Subscribe to get the printable toolkit pack by email: both infographics, the checklist and
+          the classroom activities as PDFs. You’ll also get updates about the toolkit and our webinar
+          for students and educators in January.
         </p>
       </div>
       <div class="card card--narrow card--plain subscribe-card">
@@ -688,6 +754,7 @@
             <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span>
             <span id="subscribe-done-text">Thanks! You’re on the list.</span>
           </p>
+          <p class="subscribe-done__more">Check your email for the PDF pack: both infographics, the checklist and the classroom activities.</p>
           <button class="button button--text subscribe-done__again" type="button" id="subscribe-again">Add another email</button>
         </div>
       </div>
@@ -697,12 +764,13 @@
       <h2>About the team</h2>
       <div class="section__summary">
         <p>
-          The Digital Trust Toolkit was created by five student creators, with guidance and mentorship from Digital Insites and Neruda Arts
+          The Digital Trust Toolkit was created by five student creators, with guidance and mentorship from Digital Insites and Neruda Arts.
         </p>
       </div>
 
-      <!-- MEET THE TEAM (audit M1): headshot, then name, role and bio as real text, so they can
-           be read aloud, translated and resized. Three on top, two below; one per row on phones.
+      <!-- MEET THE TEAM: headshot, then name, role and a short bio as real text. Bios are the
+           final versions from the Nov 26 mockup; each starts with the person's first name.
+           Three on top, two below; one per row on phones.
            Photos: assets/images/team/ (cropped from the "Meet our team" posts in Google Drive). -->
       <h3 class="visually-hidden">Meet the team</h3>
       <ul class="team">
@@ -711,7 +779,7 @@
           <div class="team__body">
             <h4 class="team__name">Chara Tan</h4>
             <p class="team__role">Project Manager</p>
-            <p>Chara Tan is a Singaporean-Malaysian-Canadian indie electronic musician and creative technologist studying Interactive Media Management in Humber Polytechnic’s Creative Technology program. With a background in both the arts and a double major in Criminology and Sociology from the University of Toronto, Chara’s interest lies in examining shifting trends and patterns in society, and giving a platform to her observations through the intersection of art and technology. The artistic merit of Chara’s music (released under the stage name Chara Kai-Le) is supported by granting organizations such as FACTOR Canada and the Ontario Arts Council, and she has played headline shows across Ontario, BC, and in her hometown of Singapore. When not making music or developing skills in Creative Technology, Chara enjoys travelling the world, reading, meditating, and anything that helps to expand the mind.</p>
+            <p>Chara keeps our timelines, tasks and people aligned. She brings planning, coordination and a creative technologist’s eye, so our team can deliver a free toolkit on AI and creative work.</p>
           </div>
         </li>
         <li class="card team__card">
@@ -719,7 +787,7 @@
           <div class="team__body">
             <h4 class="team__name">Ali Bagheri</h4>
             <p class="team__role">Web Developer</p>
-            <p>“Hey, my name is Ali Bagheri, and I’m studying Honours Computer Science at the University of Waterloo. I was drawn to the Digital Trust Toolkit because I wanted to raise awareness about AI, misinformation, and the importance of making informed decisions when using AI. I was particularly interested in exploring these topics through a unique, engaging, and interactive experience.”</p>
+            <p>Ali uses his Computer Science skills to turn our designs and content into a working website that students and educators can explore and navigate with ease.</p>
           </div>
         </li>
 
@@ -728,7 +796,7 @@
           <div class="team__body">
             <h4 class="team__name">Anum Iftikhar</h4>
             <p class="team__role">UX Designer</p>
-            <p>“After taking part in the Digital Trust Project, I joined the student team selected to co-create the Digital Trust Toolkit as UX Designer, helping develop practical resources for students and educators to make informed choices as AI becomes increasingly embedded in how we work, create and communicate. My background in healthcare and teaching has taught me to understand people’s needs and explain complex ideas clearly. I’m excited to bring that perspective to shaping a toolkit that is accessible, intuitive and easy to use.”</p>
+            <p>Anum designed the website’s layout and style guide, and used research with students to help write its content. She also ran UX audits to guide each round of revisions.</p>
           </div>
         </li>
 
@@ -736,8 +804,8 @@
           <img class="team__photo" src="assets/images/team/ashley-balbaa.jpg" width="436" height="406" loading="lazy" alt="Ashley Balbaa">
           <div class="team__body">
             <h4 class="team__name">Ashley Balbaa</h4>
-            <p class="team__role">Multi-Media Designer</p>
-            <p>“I am a Film and Television Production student passionate about storytelling across all facets of media. As a creator, I recognize the urgency of navigating emerging technologies, particularly given the risks they pose to artistic individuality, originality, and media oversaturation. Participating in the Digital Trust Workshops equipped me with practical strategies to strengthen my personal and creative security, protecting both my identity and my intellectual property. Moving forward, I am committed to sharing this awareness with fellow creatives, as understanding how Artificial Intelligence operates is essential to preventing unintentional exposure and safeguarding original work.”</p>
+            <p class="team__role">Multimedia Designer</p>
+            <p>Ashley brings visual storytelling skills from Film and Television Production, turning our ideas into posters, graphics and videos that are clear, engaging and original.</p>
           </div>
         </li>
         
@@ -745,8 +813,8 @@
           <img class="team__photo" src="assets/images/team/joan-mboya.jpg" width="440" height="410" loading="lazy" alt="Joan Mboya">
           <div class="team__body">
             <h4 class="team__name">Joan Mboya</h4>
-            <p class="team__role">Social Media</p>
-            <p>“Joan here, a creative blending digital marketing &amp; UX to share brand stories and build communities around them. Creating what aligns with brands and audiences while fostering authenticity, as that builds connection, and connection builds community. Grounded in nature, present in mindfulness, and always on the lookout for new things to learn and try. A little whimsy never hurts :)”</p>
+            <p class="team__role">Social Media Manager</p>
+            <p>Joan uses her digital marketing and UX skills to plan our content and build a community across Instagram, Facebook, TikTok and LinkedIn, sharing the project’s story authentically.</p>
           </div>
         </li>
         
@@ -761,13 +829,15 @@
           <li>Lee, V. (2026c). <cite>Workshop 3: AI writing, publishing, &amp; content creation.</cite> Open Digital Literacy and Access Network.</li>
         </ul>
         <h4 class="label label--small">Credits</h4>
-        <p>
-          Focus groups facilitated by Rejane Claasen. Project lead: Neruda Arts;
-          Toronto delivery: Digital Insites.
-        </p>
-        <h4 class="label label--small">AI use</h4>
-        <!-- Add the name of the AI tool once the team confirms it. -->
-        <p>The AI images in the game were made with an AI image tool, for teaching.</p>
+        <!-- Add the name of the AI tool under "AI use" once the team confirms it. -->
+        <dl class="credits">
+          <div><dt>Program created and led by</dt><dd>Kim Le and Karen Four, Digital Insites, in collaboration with Neruda Arts</dd></div>
+          <div><dt>Facilitators, Kitchener-Waterloo</dt><dd>Trish Hooktwith, Ruchika Batra, Addie Batra and Tammie Deubry</dd></div>
+          <div><dt>Facilitators, Toronto</dt><dd>Vivian Lee (ODLAN), workshops; Rejané Claasen, focus groups</dd></div>
+          <div><dt>Student team</dt><dd>Chara Tan, Ali Bagheri, Anum Iftikhar, Ashley Balbaa and Joan Mboya</dd></div>
+          <div><dt>Funding</dt><dd>Government of Canada, Department of Canadian Heritage, Digital Citizen Contribution Program</dd></div>
+          <div><dt>AI use</dt><dd>The AI images in the game were made with an AI image tool, for teaching.</dd></div>
+        </dl>
       </div>
     </section>
 
@@ -782,7 +852,7 @@
       <li><a href="https://www.linkedin.com/company/digital-trust-project/posts/?feedView=all" aria-label="LinkedIn (opens in a new tab)" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.5h4V21H3V9.5zm6.5 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4V9.5z"/></svg></a></li>
     </ul>
     <p class="site-footer__credit">The Digital Trust Toolkit, created by students with <a href="https://nerudaarts.ca" target="_blank" rel="noopener">Neruda Arts</a>.</p>
-    <!-- Contact (audit N1): add the project email here once the team confirms it. -->
+    <p class="site-footer__contact">Contact: <a href="mailto:digitaltrustteam@nerudaarts.ca">digitaltrustteam@nerudaarts.ca</a></p>
 
     <div class="footer-logos">
       <!-- Neruda Arts colour logo (empty margins trimmed). On the dark colours it switches
@@ -808,17 +878,14 @@
         </picture>
       </a>
     </div>
-    <!-- Text version, shown only on phones where the graphic's words get too small -->
-    <p class="funding__text" aria-hidden="true">
-      <span>This project is funded in part by the Government of Canada.</span>
-      <span lang="fr">Ce projet est financé en partie par le gouvernement du Canada.</span>
-    </p>
   </footer>
 
   <script src="js/menu.js" defer></script>
   <script src="js/subscribe.js" defer></script>
   <script src="js/video.js" defer></script>
   <script src="js/checklist.js" defer></script>
+  <script src="js/toolbox.js" defer></script>
+  <script src="js/share.js" defer></script>
   <script src="js/game-data.js" defer></script>
   <script src="js/game.js" defer></script>
 </body>

@@ -10,7 +10,9 @@ css/style.css       All styling (colours and fonts are at the top, in :root)
 js/animations.js    Scroll reveal, reading progress bar, active nav link
 js/menu.js          Phone menu: the ☰ button opens a sidebar with every section
 js/video.js         YouTube / Vimeo embeds that load on click
-js/checklist.js     Print and clear buttons for the Before-you-post checklist
+js/checklist.js     "Print the checklist" and "Print the activities" buttons, and Clear all
+js/toolbox.js       Opens and closes the toolbox in the hero
+js/share.js         "Share the toolkit" link: phone share menu, or copies the link on computers
 js/game-data.js     Game rounds and settings  ← edit this for the game
 js/game.js          Game logic (normally no need to edit)
 js/subscribe.js     Sends the Subscription form to the Google Apps Script web app
@@ -45,10 +47,10 @@ The player only loads after a visitor presses play, which keeps the page fast an
 
 ## Page sections
 
-One page, in this order (from Anum's website audit and the redesign mockup and style guide, November 2026):
+One page, in this order (from Anum's final website audit and mockup, November 26, 2026). A thin webinar banner sits under the menu: add the exact webinar date there, in Share and in Subscribe once it's final.
 
 1. Intro (hero)
-2. What this toolkit is for (`#purpose`)
+2. What this toolkit is for (`#purpose`), with How we made it and "How the workshops helped" (results from the Toronto Cohort Report, October 2026)
 3. Game: Spot the AI image! (`#test`)
 4. Trust and fact-checking (`#trust`)
 5. Creativity and ownership (`#creativity`)
@@ -72,23 +74,30 @@ Don't leave placeholder text on the page: until content is ready, hide or remove
 
 Colours and fonts follow the team's brand palette ("Tech Tones", in Google Drive › Social Media › Brand Pallette) and are set at the top of `css/style.css`. All fonts load from Google Fonts. The body text uses the brand's Poppins. The brand's title and subtitle fonts, PHATT and Zing Rust Base, aren't on Google Fonts, so similar-looking free fonts stand in for them until the real font files are added: Audiowide for titles and Barlow Condensed (bold italic) for short labels. Colours, sizes, spacing and corner radius follow the team's style guide.
 
-## Logo and tools
+## Logo, toolbox and tools
 
-The header shows the shield logo and the text-only logo (wordmark) together (the wordmark alone on very narrow phones). The hero title is text, as in the mockup, with the toolbox illustration beside it on wide screens, and the other five tools from the brand's "tool variations" are placed down the right side of the page, one per section. All are in `assets/images/brand/`:
+The header shows the shield logo and the text-only logo (wordmark) together (the wordmark alone on very narrow phones). The hero title is text, as in the mockup.
+
+**Toolbox (hero):** Ash's toolbox opens when clicked (or with Tab, then Space) and closes on a second click (`js/toolbox.js`). It uses two pictures, `toolbox-closed.png` and `toolbox-open.png`, made from Ash's images with the navy background made transparent and both cropped to the same size so they line up. It fades between them, with no animation for people who turn on reduced motion. If Ash sends a full animation, it can replace the two pictures.
+
+**Section tools:** only three sections have a tool, each matching Ash's tagline under the heading: Fact-checking (drill, "Know the drill"), Creativity and ownership (hammer, "Hammer down your ownership") and Credit, permission and honesty (wrench, "Tighten up your ethics"). Before you post has the tagline "Reflect on what you saw" with no tool. Please don't add tools to other sections: only these puns fit. Each tool sits top right on the section's first box (`.headrow` and `.section-tool` in `css/style.css`), and is hidden on phones and when printing.
+
+All are in `assets/images/brand/`:
 
 - `logo-shield.png`, `logo-wordmark.png`: for the light colours. In the wordmark, the light blue "DIGITAL" was darkened to the brand blue `#0393bf` so it reads on the light background.
 - `logo-shield-dark.png`, `logo-wordmark-dark.png`: the black-background versions, for the dark colours.
-- `tool-toolbox.png`, `tool-wrench.png`, `tool-saw.png`, `tool-screwdriver.png`, `tool-drill.png`, `tool-hammer.png`.
+- `toolbox-closed.png`, `toolbox-open.png`: the hero toolbox.
+- `tool-drill.png`, `tool-hammer.png`, `tool-wrench.png`: the section tools. (`tool-toolbox.png`, `tool-saw.png` and `tool-screwdriver.png` are no longer used on the page.)
 
 They were cut out of the brand sheets (the white/black backgrounds made transparent), so they are fairly small. For sharper images, export each one from the original design (e.g. Canva) as a PNG with a transparent background at 2–3× size and replace the file with the same name.
 
-Each tool only appears where there's empty space to the right of its section's content, so it never covers text: they're hidden when the phone menu (☰) appears and on narrow screens. To move one, change its `--top`, `--turn` (rotation) or `--size` in `css/style.css` (`.deco-tool--hammer` etc.), or move its `<img class="deco-tool …">` line to another section in `index.html`.
+To change a tool's size or angle, edit `.section-tool--drill`, `--hammer` or `--wrench` in `css/style.css`.
 
 ## Meet the team
 
-The About section shows one card per team member: photo, name, role and bio as real text. The photos are in `assets/images/team/` (JPG, about 440 × 410 px, cropped from the team's "Meet our team" posts). To add someone, add their photo there and copy one `<li class="card team__card">` block in `index.html`.
+The About section shows one card per team member: photo, name, role and a short bio as real text (final bios from the Nov 26 mockup, each starting with the person's first name). The photos are framed from the top, so heads are never cut off. The photos are in `assets/images/team/` (JPG, about 440 × 410 px, cropped from the team's "Meet our team" posts). To add someone, add their photo there and copy one `<li class="card team__card">` block in `index.html`.
 
-The footer links to the project's Instagram, TikTok, Facebook and LinkedIn (`ul.social`). A contact email is left as a comment in `index.html`, ready to fill in. Links to other websites open in a new tab (`target="_blank" rel="noopener"`); give any new outside link the same two attributes. The Translate links are the exception: they open the translated page in the same tab.
+The footer links to the project's Instagram, TikTok, Facebook and LinkedIn (`ul.social`). Under the credit line is the contact email, digitaltrustteam@nerudaarts.ca. Links to other websites open in a new tab (`target="_blank" rel="noopener"`); give any new outside link the same two attributes. The Translate links are the exception: they open the translated page in the same tab.
 
 ## Phone menu
 
@@ -104,7 +113,15 @@ The footer shows the Neruda Arts credit, the Neruda Arts logo and the Government
 
 The printed checklist ("Print the checklist") has the Neruda Arts logo and the toolkit name at the top, and the footer logos at the bottom.
 
-"Print the checklist" prints only the checklist, on one page. Printing the page normally prints the whole toolkit without the navigation, videos or game.
+"Print the checklist" prints only the checklist, on one page, and "Print the activities" prints only the For educators section. Printing the page normally prints the whole toolkit without the navigation, videos or game. The section tools and the webinar banner never print.
+
+## Share link
+
+In Share the toolkit, the "Share the toolkit" link opens the phone's share menu (WhatsApp, Instagram, messages…) on phones. On computers it copies a short message with the link and shows "Link copied". The message is in `js/share.js`.
+
+## Infographics
+
+The Videos and infographics section has two portrait boxes. The first shows Joan's printable checklist (`assets/images/infographics/checklist.jpg`, made from "_INFOGRAPHICS (1).pdf" in Google Drive). The second waits for Ash's toolbox infographic: replace its "Infographic coming soon" box with an `<img>` like the first one.
 
 ## Adding in-depth content
 
@@ -146,6 +163,25 @@ The **Subscription** section has an email box. When someone subscribes, `js/subs
 - **Consent and spam:** visitors must tick the consent box (needed under Canada's anti-spam law, CASL), and a hidden spam-trap field catches simple bots.
 - **Excel:** in the sheet, *File › Download › Microsoft Excel (.xlsx)* gives an Excel copy of the current list at any time.
 - **Unsubscribes:** delete that person's row in the sheet.
+
+### The printable pack email
+
+Each **new** subscriber is emailed the printable pack straight away (someone already on the list gets nothing, so the form can't be used to flood an inbox). Right now the pack has two PDFs:
+
+- **Joan's printable checklist**: `_INFOGRAPHICS (1).pdf` in Google Drive, attached by its Drive ID.
+- **The educator activities**: `assets/pdfs/educator-activities.pdf` on the website, the same as what "Print the activities" prints.
+
+The list is `PACK_FILES` near the top of `google-apps-script/subscribe.gs`. Every place to change when more files are ready is marked **✏️ EDIT HERE**: add the file (its Drive ID or website address, and the title to show in the email), then redeploy (below). If a file can't be loaded, or isn't a PDF, the email still goes out with the other files, and the reason shows under *Executions*. Ash's toolbox infographic already has a line waiting there.
+
+**When the activities change**, make the PDF again so the email matches the site: open the live site, press **Print the activities**, choose **Save as PDF**, untick **Headers and footers** under *More settings*, save it as `assets/pdfs/educator-activities.pdf` (replacing the old one), then commit and push.
+
+**When Joan updates the checklist** (for example with the 4th Credit point): if she replaces the file in Drive (*Manage versions* › *Upload new version*), nothing needs to change. If she uploads it as a new file, put the new file's ID in `PACK_FILES`.
+
+**Limits and unsubscribing:** Google limits how many emails a script can send a day (about 1,500 for a Google Workspace account, 100 for a free Gmail account). If the limit is reached, the address is still saved and the error shows under *Executions* in the Apps Script editor. The email tells people to reply "unsubscribe": remove their row from the sheet when they do.
+
+**If the pack email doesn't arrive:** in the Apps Script editor, open *Executions* (the ☰ list icon on the left) and click the `doPost` run at the time of the sign-up. "Pack email … failed" or "Pack file skipped" lines say why. A missing permission means the script needs authorizing again (run `testPackEmail` once and allow it). If there's no such line at all, the website is still using an old version of the script: deploy a new version (below).
+
+**After changing the script:** paste the new `subscribe.gs` into the Apps Script editor, **Save**, then *Deploy › Manage deployments* › pencil icon › *Version: New version* › **Deploy**. The Web app URL stays the same. Google asks for permission again (to send email, read the Drive file and download the activities PDF): allow it. To check the email first, put your address in `testPackEmail` at the bottom of the script, select it in the toolbar and press **Run**.
 
 ### One-time setup (signed in as the Digital Trust Team Google account)
 
