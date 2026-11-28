@@ -619,7 +619,8 @@ main a:not(.button):hover, .site-footer__credit a:hover, .site-footer__contact a
   display: flex; flex-direction: column;
 }
 .team > .team__card:nth-child(even) { border-top-color: var(--edge-purple); }
-.team__photo { width: 100%; aspect-ratio: 436 / 380; object-fit: cover; object-position: center top; }   /* heads never cut off */
+/* The whole photo from each "Meet our team" post, so the space above the head matches the post */
+.team__photo { width: 100%; aspect-ratio: 465 / 434; object-fit: cover; object-position: center top; }
 .team__body { padding: 1.5rem; }
 .team__name { font-size: 1.25rem; margin: 0 0 0.25rem; }
 .team__role {

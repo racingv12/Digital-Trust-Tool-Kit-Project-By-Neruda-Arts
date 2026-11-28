@@ -95,7 +95,7 @@ To change a tool's size or angle, edit `.section-tool--drill`, `--hammer` or `--
 
 ## Meet the team
 
-The About section shows one card per team member: photo, name, role and a short bio as real text (final bios from the Nov 26 mockup, each starting with the person's first name). The photos are framed from the top, so heads are never cut off. The photos are in `assets/images/team/` (JPG, about 440 × 410 px, cropped from the team's "Meet our team" posts). To add someone, add their photo there and copy one `<li class="card team__card">` block in `index.html`.
+The About section shows one card per team member: photo, name, role and a short bio as real text (final bios from the Nov 26 mockup, each starting with the person's first name). The photos are in `assets/images/team/` (`*-photo.jpg`, about 465 × 434 px): the whole photo from each "Meet our team" post, so the space above each head matches the post. To add someone, add their photo there and copy one `<li class="card team__card">` block in `index.html`.
 
 The footer links to the project's Instagram, TikTok, Facebook and LinkedIn (`ul.social`). Under the credit line is the contact email, digitaltrustteam@nerudaarts.ca. Links to other websites open in a new tab (`target="_blank" rel="noopener"`); give any new outside link the same two attributes. The Translate links are the exception: they open the translated page in the same tab.
 
