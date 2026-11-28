@@ -135,7 +135,7 @@ function sendPack(email) {
       'Your printable pack is attached:',
       listText,
       '',
-      'More resources, including Ash’s toolbox infographic, are on the way: we’ll email you when they’re ready, along with details of our free webinar for students and educators in January.',
+      'More resources, including our second infographic, “The digital trust toolbox”, are on the way: we’ll email you when they’re ready, along with details of our free webinar for students and educators in January.',
       '',
       'The toolkit is always free online: ' + SITE_URL,
       '',
@@ -146,7 +146,7 @@ function sendPack(email) {
     htmlBody:
       '<p>Thanks for subscribing to the Digital Trust Toolkit!</p>' +
       '<p>Your printable pack is attached:</p><ul>' + listHtml + '</ul>' +
-      '<p>More resources, including Ash’s toolbox infographic, are on the way: we’ll email you when they’re ready, ' +
+      '<p>More resources, including our second infographic, “The digital trust toolbox”, are on the way: we’ll email you when they’re ready, ' +
       'along with details of our free webinar for students and educators in January.</p>' +
       '<p>The toolkit is always free online: <a href="' + SITE_URL + '">digitaltrust.nerudaarts.ca</a></p>' +
       '<p style="color:#555;font-size:13px">You’re receiving this because you subscribed at digitaltrust.nerudaarts.ca. ' +
