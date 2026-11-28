@@ -166,14 +166,15 @@ The **Subscription** section has an email box. When someone subscribes, `js/subs
 
 ### The printable pack email
 
-Each **new** subscriber is emailed the printable pack straight away (someone already on the list gets nothing, so the form can't be used to flood an inbox). Right now the pack has two PDFs:
+Each **new** subscriber is emailed the printable pack straight away (someone already on the list gets nothing, so the form can't be used to flood an inbox). Right now the pack has three PDFs:
 
-- **Joan's printable checklist**: `_INFOGRAPHICS (1).pdf` in Google Drive, attached by its Drive ID.
+- **Joan's checklist infographic**: `_INFOGRAPHICS (1).pdf` in Google Drive, attached by its Drive ID.
+- **The one-page checklist**: `assets/pdfs/checklist.pdf` on the website, the same as what "Print the checklist" prints.
 - **The educator activities**: `assets/pdfs/educator-activities.pdf` on the website, the same as what "Print the activities" prints.
 
 The list is `PACK_FILES` near the top of `google-apps-script/subscribe.gs`. Every place to change when more files are ready is marked **✏️ EDIT HERE**: add the file (its Drive ID or website address, and the title to show in the email), then redeploy (below). If a file can't be loaded, or isn't a PDF, the email still goes out with the other files, and the reason shows under *Executions*. Ash's toolbox infographic already has a line waiting there.
 
-**When the activities change**, make the PDF again so the email matches the site: open the live site, press **Print the activities**, choose **Save as PDF**, untick **Headers and footers** under *More settings*, save it as `assets/pdfs/educator-activities.pdf` (replacing the old one), then commit and push.
+**When the checklist or the activities change**, make that PDF again so the email matches the site: open the live site, press **Print the checklist** (or **Print the activities**), choose **Save as PDF**, untick **Headers and footers** under *More settings*, save it as `assets/pdfs/checklist.pdf` (or `assets/pdfs/educator-activities.pdf`) to replace the old one, then commit and push.
 
 **When Joan updates the checklist** (for example with the 4th Credit point): if she replaces the file in Drive (*Manage versions* › *Upload new version*), nothing needs to change. If she uploads it as a new file, put the new file's ID in `PACK_FILES`.
 

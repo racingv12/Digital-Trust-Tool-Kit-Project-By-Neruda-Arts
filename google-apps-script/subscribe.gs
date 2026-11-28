@@ -37,7 +37,11 @@ var THANKS = 'Thanks! You’re on the list.';
 var PACK_FILES = [
   // Joan's printable checklist infographic: "_INFOGRAPHICS (1).pdf" in Google Drive.
   // ✏️ When Joan uploads the version with the 4th Credit point as a new file, put its ID here.
-  { title: 'Before you post or upload: printable checklist', name: 'Before you post or upload - printable checklist.pdf', driveId: '16d3W7fc-PMTiAq9sHJE3_evwjhuwkPwW' },
+  { title: 'Before you post or upload: checklist infographic', name: 'Before you post or upload - checklist infographic.pdf', driveId: '16d3W7fc-PMTiAq9sHJE3_evwjhuwkPwW' },
+
+  // The one-page checklist: the same PDF as "Print the checklist" on the website
+  // (assets/pdfs/checklist.pdf). Make it again when the checklist changes (see README).
+  { title: 'Before you post or upload: one-page checklist', name: 'Before you post or upload - one-page checklist.pdf', url: 'https://digitaltrust.nerudaarts.ca/assets/pdfs/checklist.pdf' },
 
   // The educator activities: the same PDF as "Print the activities" on the website
   // (assets/pdfs/educator-activities.pdf). Make it again when the activities change (see README).
